@@ -74,7 +74,7 @@ public class Customer extends BaseEntity {
 		this.discount = discount;
 	}
 
-	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	public Set<Feedback> getFeedbacks() {
 		return feedbacks;
 	}
@@ -83,7 +83,7 @@ public class Customer extends BaseEntity {
 		this.feedbacks = feedbacks;
 	}
 
-	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	public Set<Order> getOrders() {
 		return orders;
 	}
