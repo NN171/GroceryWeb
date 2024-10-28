@@ -21,7 +21,7 @@ public class Product extends BaseEntity {
 	public Product() {
 	}
 
-	public Product(String name, double price, int amount, LocalDateTime prodDate, LocalDateTime expiryDate, double avgRating, Set<Feedback> feedbacks) {
+	public Product(String name, double price, int amount, LocalDateTime prodDate, LocalDateTime expiryDate, double avgRating, Set<Feedback> feedbacks, Set<ProductOrder> productOrders) {
 		this.name = name;
 		this.price = price;
 		this.amount = amount;
@@ -29,6 +29,7 @@ public class Product extends BaseEntity {
 		this.expiryDate = expiryDate;
 		this.avgRating = avgRating;
 		this.feedbacks = feedbacks;
+		this.productOrders = productOrders;
 	}
 
 	@Column(name = "name")

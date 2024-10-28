@@ -17,11 +17,12 @@ public class Employee extends BaseEntity {
 	public Employee() {
 	}
 
-	public Employee(String firstName, String lastName, String phoneNumber, Store store) {
+	public Employee(String firstName, String lastName, String phoneNumber, Store store, Set<Order> orders) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phoneNumber = phoneNumber;
 		this.store = store;
+		this.orders = orders;
 	}
 
 	@Column(name = "first_name")

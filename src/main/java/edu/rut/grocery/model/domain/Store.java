@@ -16,10 +16,11 @@ public class Store extends BaseEntity {
 	public Store() {
 	}
 
-	public Store(String address, int employeesNum, double soldAmount) {
+	public Store(String address, int employeesNum, double soldAmount, Set<Employee> employees) {
 		this.address = address;
 		this.employeesNum = employeesNum;
 		this.soldAmount = soldAmount;
+		this.employees = employees;
 	}
 
 	@Column(name = "address")

@@ -19,12 +19,14 @@ public class Customer extends BaseEntity {
 	public Customer() {
 	}
 
-	public Customer(String firstName, String lastName, String phoneNumber, double ordersAmount, int discount) {
+	public Customer(String firstName, String lastName, String phoneNumber, double ordersAmount, int discount, Set<Feedback> feedbacks, Set<Order> orders) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phoneNumber = phoneNumber;
 		this.ordersAmount = ordersAmount;
 		this.discount = discount;
+		this.feedbacks = feedbacks;
+		this.orders = orders;
 	}
 
 	@Column(name = "first_name")

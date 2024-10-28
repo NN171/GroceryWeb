@@ -16,10 +16,11 @@ public class Order extends BaseEntity {
 	public Order() {
 	}
 
-	public Order(double price, Customer customer, Employee employee) {
+	public Order(double price, Customer customer, Employee employee, Set<ProductOrder> productOrders) {
 		this.price = price;
 		this.customer = customer;
 		this.employee = employee;
+		this.productOrders = productOrders;
 	}
 
 	@Column(name = "price")
