@@ -5,4 +5,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FeedbackRepository extends BaseRepository<Feedback, Long> {
+
+	boolean deleteById(Long id);
 }

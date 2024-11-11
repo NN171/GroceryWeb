@@ -4,13 +4,14 @@ import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @NoRepositoryBean
 public interface BaseRepository<T, ID> extends Repository<T, ID> {
 
-    T findById();
+    Optional<T> findById(Long id);
 
-    List<T> findAll();
+    Optional<List<T>> findAll();
 
     long count();
 

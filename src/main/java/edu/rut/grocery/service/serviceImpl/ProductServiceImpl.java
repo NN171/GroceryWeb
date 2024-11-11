@@ -1,16 +1,62 @@
 package edu.rut.grocery.service.serviceImpl;
 
+import edu.rut.grocery.model.domain.Product;
+import edu.rut.grocery.model.dto.ProductDto;
 import edu.rut.grocery.repository.ProductRepository;
 import edu.rut.grocery.service.ProductService;
+import jakarta.persistence.EntityNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
+	private final ModelMapper modelMapper;
 	private final ProductRepository productRepository;
 
-	public ProductServiceImpl(ProductRepository productRepository) {
+	public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper) {
 		this.productRepository = productRepository;
+		this.modelMapper = modelMapper;
 	}
 
+	public List<ProductDto> getProducts() {
+		List<Product> products = productRepository.findAll()
+				.orElseThrow(() -> new EntityNotFoundException("Products not found"));
+
+		return products.stream()
+				.map(product -> modelMapper.map(product, ProductDto.class))
+				.collect(Collectors.toList());
+	}
+
+	public ProductDto getProduct(Long id) {
+		Product product = productRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Product not found"));
+
+		return modelMapper.map(product, ProductDto.class);
+	}
+
+	public String saveProduct(ProductDto productDto) {
+		Product product = modelMapper.map(productDto, Product.class);
+		productRepository.save(product);
+
+		return "Product saved";
+	}
+
+	public String deleteProduct(Long id) {
+		boolean removed = productRepository.deleteById(id);
+		if (!removed) throw new EntityNotFoundException("Product not found");
+
+		return "Success";
+	}
+
+	public String updateProduct(ProductDto productDto, Long id) {
+		Product product = productRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Product not found"));
+		modelMapper.map(productDto, product);
+		productRepository.save(product);
+		return "Product updated";
+	}
 }

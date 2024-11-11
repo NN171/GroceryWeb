@@ -5,4 +5,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StoreRepository extends BaseRepository<Store, Long> {
+
+	boolean deleteById(Long id);
 }
