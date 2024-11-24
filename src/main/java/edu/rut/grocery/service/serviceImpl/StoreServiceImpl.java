@@ -22,6 +22,7 @@ public class StoreServiceImpl implements StoreService {
 		this.modelMapper = modelMapper;
 	}
 
+	@Override
 	public List<StoreDto> getStores() {
 		List<Store> stores = storeRepository.findAll()
 				.orElseThrow(() -> new EntityNotFoundException("Stores not found"));
@@ -31,6 +32,7 @@ public class StoreServiceImpl implements StoreService {
 				.collect(Collectors.toList());
 	}
 
+	@Override
 	public StoreDto getStore(Long id) {
 		Store store = storeRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Store not found"));
@@ -38,6 +40,7 @@ public class StoreServiceImpl implements StoreService {
 		return modelMapper.map(store, StoreDto.class);
 	}
 
+	@Override
 	public String saveStore(StoreDto storeDto) {
 		Store store = modelMapper.map(storeDto, Store.class);
 		storeRepository.save(store);
@@ -45,6 +48,7 @@ public class StoreServiceImpl implements StoreService {
 		return "Store saved";
 	}
 
+	@Override
 	public String deleteStore(Long id) {
 		boolean removed = storeRepository.deleteById(id);
 		if (!removed) throw new EntityNotFoundException("Store not found");
@@ -52,6 +56,7 @@ public class StoreServiceImpl implements StoreService {
 		return "Success";
 	}
 
+	@Override
 	public String updateStore(StoreDto StoreDto, Long id) {
 		Store store = storeRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Store not found"));
