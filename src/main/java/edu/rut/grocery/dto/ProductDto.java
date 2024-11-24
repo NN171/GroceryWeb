@@ -1,7 +1,7 @@
-package edu.rut.grocery.model.dto;
+package edu.rut.grocery.dto;
 
-import edu.rut.grocery.model.domain.Feedback;
-import edu.rut.grocery.model.domain.ProductOrder;
+import edu.rut.grocery.domain.Feedback;
+import edu.rut.grocery.domain.ProductOrder;
 
 import java.time.LocalDateTime;
 import java.util.Set;

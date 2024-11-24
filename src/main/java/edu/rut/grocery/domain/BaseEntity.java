@@ -1,4 +1,4 @@
-package edu.rut.grocery.model.domain;
+package edu.rut.grocery.domain;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

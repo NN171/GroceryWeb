@@ -1,6 +1,6 @@
 package edu.rut.grocery.repository;
 
-import edu.rut.grocery.model.domain.Store;
+import edu.rut.grocery.domain.Store;
 import org.springframework.stereotype.Repository;
 
 @Repository

@@ -1,6 +1,6 @@
-package edu.rut.grocery.model.dto;
+package edu.rut.grocery.dto;
 
-import edu.rut.grocery.model.domain.ProductOrder;
+import edu.rut.grocery.domain.ProductOrder;
 
 import java.util.Set;
 

@@ -1,7 +1,7 @@
 package edu.rut.grocery.service.serviceImpl;
 
-import edu.rut.grocery.model.domain.Customer;
-import edu.rut.grocery.model.dto.CustomerDto;
+import edu.rut.grocery.domain.Customer;
+import edu.rut.grocery.dto.CustomerDto;
 import edu.rut.grocery.repository.CustomerRepository;
 import edu.rut.grocery.service.CustomerService;
 import jakarta.persistence.EntityNotFoundException;

@@ -1,4 +1,4 @@
-package edu.rut.grocery.model.dto;
+package edu.rut.grocery.dto;
 
 public record CustomerDto(
 		String firstName,
