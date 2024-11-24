@@ -1,7 +1,6 @@
 package edu.rut.grocery.service.serviceImpl;
 
 import edu.rut.grocery.model.domain.Feedback;
-import edu.rut.grocery.model.dto.FeedbackDto;
 import edu.rut.grocery.repository.FeedbackRepository;
 import edu.rut.grocery.service.FeedbackService;
 import jakarta.persistence.EntityNotFoundException;
