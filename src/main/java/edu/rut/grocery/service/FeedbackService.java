@@ -1,7 +1,18 @@
 package edu.rut.grocery.service;
 
-import org.springframework.stereotype.Service;
+import edu.rut.grocery.dto.FeedbackDto;
 
-@Service
+import java.util.List;
+
 public interface FeedbackService {
+
+	List<FeedbackDto> getFeedbacks();
+
+	FeedbackDto getFeedback(Long id);
+
+	String saveFeedback(FeedbackDto feedbackDto);
+
+	String deleteFeedback(Long id);
+
+	String updateFeedback(FeedbackDto FeedbackDto, Long id);
 }

@@ -22,6 +22,7 @@ public class CustomerServiceImpl implements CustomerService {
 		this.modelMapper = modelMapper;
 	}
 
+	@Override
 	public List<CustomerDto> getCustomers() {
 		List<Customer> customers = customerRepository.findAll()
 				.orElseThrow(() -> new EntityNotFoundException("Customers not found"));
@@ -31,6 +32,7 @@ public class CustomerServiceImpl implements CustomerService {
 				.collect(Collectors.toList());
 	}
 
+	@Override
 	public CustomerDto getCustomer(Long id) {
 		Customer customer = customerRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Customer not found"));
@@ -38,6 +40,7 @@ public class CustomerServiceImpl implements CustomerService {
 		return modelMapper.map(customer, CustomerDto.class);
 	}
 
+	@Override
 	public String saveCustomer(CustomerDto customerDto) {
 		Customer customer = modelMapper.map(customerDto, Customer.class);
 		customerRepository.save(customer);
@@ -45,6 +48,7 @@ public class CustomerServiceImpl implements CustomerService {
 		return "Customer saved";
 	}
 
+	@Override
 	public String deleteCustomer(Long id) {
 		boolean removed = customerRepository.deleteById(id);
 		if (!removed) throw new EntityNotFoundException("Customer not found");
@@ -52,6 +56,7 @@ public class CustomerServiceImpl implements CustomerService {
 		return "Success";
 	}
 
+	@Override
 	public String updateCustomer(CustomerDto customerDto, Long id) {
 		Customer customer = customerRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Customer not found"));

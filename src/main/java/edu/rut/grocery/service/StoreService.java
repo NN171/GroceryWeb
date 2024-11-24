@@ -1,7 +1,18 @@
 package edu.rut.grocery.service;
 
-import org.springframework.stereotype.Service;
+import edu.rut.grocery.dto.StoreDto;
 
-@Service
+import java.util.List;
+
 public interface StoreService {
+
+	List<StoreDto> getStores();
+
+	StoreDto getStore(Long id);
+
+	String saveStore(StoreDto storeDto);
+
+	String deleteStore(Long id);
+
+	String updateStore(StoreDto StoreDto, Long id);
 }

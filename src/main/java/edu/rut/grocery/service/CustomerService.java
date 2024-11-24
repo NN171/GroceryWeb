@@ -1,7 +1,18 @@
 package edu.rut.grocery.service;
 
-import org.springframework.stereotype.Service;
+import edu.rut.grocery.dto.CustomerDto;
 
-@Service
+import java.util.List;
+
 public interface CustomerService {
+
+	List<CustomerDto> getCustomers();
+
+	CustomerDto getCustomer(Long id);
+
+	String saveCustomer(CustomerDto customerDto);
+
+	String deleteCustomer(Long id);
+
+	String updateCustomer(CustomerDto customerDto, Long id);
 }

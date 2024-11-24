@@ -22,6 +22,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		this.modelMapper = modelMapper;
 	}
 
+	@Override
 	public List<EmployeeDto> getEmployees() {
 		List<Employee> employees = employeeRepository.findAll()
 				.orElseThrow(() -> new EntityNotFoundException("employees not found"));
@@ -31,6 +32,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 				.collect(Collectors.toList());
 	}
 
+	@Override
 	public EmployeeDto getEmployee(Long id) {
 		Employee employee = employeeRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("employee not found"));
@@ -38,6 +40,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return modelMapper.map(employee, EmployeeDto.class);
 	}
 
+	@Override
 	public String saveEmployee(EmployeeDto employeeDto) {
 		Employee employee = modelMapper.map(employeeDto, Employee.class);
 		employeeRepository.save(employee);
@@ -45,6 +48,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return "employee saved";
 	}
 
+	@Override
 	public String deleteEmployee(Long id) {
 		boolean removed = employeeRepository.deleteById(id);
 		if (!removed) throw new EntityNotFoundException("employee not found");
@@ -52,6 +56,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return "Success";
 	}
 
+	@Override
 	public String updateEmployee(EmployeeDto employeeDto, Long id) {
 		Employee employee = employeeRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("employee not found"));

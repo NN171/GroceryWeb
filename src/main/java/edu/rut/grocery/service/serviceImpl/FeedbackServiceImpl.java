@@ -1,6 +1,7 @@
 package edu.rut.grocery.service.serviceImpl;
 
 import edu.rut.grocery.domain.Feedback;
+import edu.rut.grocery.dto.FeedbackDto;
 import edu.rut.grocery.repository.FeedbackRepository;
 import edu.rut.grocery.service.FeedbackService;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,6 +22,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 		this.modelMapper = modelMapper;
 	}
 
+	@Override
 	public List<FeedbackDto> getFeedbacks() {
 		List<Feedback> feedbacks = feedbackRepository.findAll()
 				.orElseThrow(() -> new EntityNotFoundException("Feedbacks not found"));
@@ -30,6 +32,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 				.collect(Collectors.toList());
 	}
 
+	@Override
 	public FeedbackDto getFeedback(Long id) {
 		Feedback Feedback = feedbackRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Feedback not found"));
@@ -37,6 +40,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 		return modelMapper.map(Feedback, FeedbackDto.class);
 	}
 
+	@Override
 	public String saveFeedback(FeedbackDto feedbackDto) {
 		Feedback feedback = modelMapper.map(feedbackDto, Feedback.class);
 		feedbackRepository.save(feedback);
@@ -44,6 +48,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 		return "Feedback saved";
 	}
 
+	@Override
 	public String deleteFeedback(Long id) {
 		boolean removed = feedbackRepository.deleteById(id);
 		if (!removed) throw new EntityNotFoundException("Feedback not found");
@@ -51,6 +56,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 		return "Success";
 	}
 
+	@Override
 	public String updateFeedback(FeedbackDto FeedbackDto, Long id) {
 		Feedback Feedback = feedbackRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Feedback not found"));

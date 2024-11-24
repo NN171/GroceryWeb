@@ -22,6 +22,7 @@ public class OrderServiceImpl implements OrderService {
 		this.modelMapper = modelMapper;
 	}
 
+	@Override
 	public List<OrderDto> getOrders() {
 		List<Order> orders = orderRepository.findAll()
 				.orElseThrow(() -> new EntityNotFoundException("Orders not found"));
@@ -31,6 +32,7 @@ public class OrderServiceImpl implements OrderService {
 				.collect(Collectors.toList());
 	}
 
+	@Override
 	public OrderDto getOrder(Long id) {
 		Order order = orderRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Order not found"));
@@ -38,6 +40,7 @@ public class OrderServiceImpl implements OrderService {
 		return modelMapper.map(order, OrderDto.class);
 	}
 
+	@Override
 	public String saveOrder(OrderDto orderDto) {
 		Order order = modelMapper.map(orderDto, Order.class);
 		orderRepository.save(order);
@@ -45,6 +48,7 @@ public class OrderServiceImpl implements OrderService {
 		return "Order saved";
 	}
 
+	@Override
 	public String updateOrder(OrderDto orderDto, Long id) {
 		Order order = orderRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Order not found"));

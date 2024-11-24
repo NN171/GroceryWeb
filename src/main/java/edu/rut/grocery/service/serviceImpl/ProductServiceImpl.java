@@ -22,6 +22,7 @@ public class ProductServiceImpl implements ProductService {
 		this.modelMapper = modelMapper;
 	}
 
+	@Override
 	public List<ProductDto> getProducts() {
 		List<Product> products = productRepository.findAll()
 				.orElseThrow(() -> new EntityNotFoundException("Products not found"));
@@ -31,6 +32,7 @@ public class ProductServiceImpl implements ProductService {
 				.collect(Collectors.toList());
 	}
 
+	@Override
 	public ProductDto getProduct(Long id) {
 		Product product = productRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Product not found"));
@@ -38,6 +40,7 @@ public class ProductServiceImpl implements ProductService {
 		return modelMapper.map(product, ProductDto.class);
 	}
 
+	@Override
 	public String saveProduct(ProductDto productDto) {
 		Product product = modelMapper.map(productDto, Product.class);
 		productRepository.save(product);
@@ -45,6 +48,7 @@ public class ProductServiceImpl implements ProductService {
 		return "Product saved";
 	}
 
+	@Override
 	public String deleteProduct(Long id) {
 		boolean removed = productRepository.deleteById(id);
 		if (!removed) throw new EntityNotFoundException("Product not found");
@@ -52,6 +56,7 @@ public class ProductServiceImpl implements ProductService {
 		return "Success";
 	}
 
+	@Override
 	public String updateProduct(ProductDto productDto, Long id) {
 		Product product = productRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Product not found"));
