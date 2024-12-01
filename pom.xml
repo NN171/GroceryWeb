@@ -8,7 +8,7 @@
         <version>3.3.5</version>
     </parent>
     <groupId>edu.rut</groupId>
-    <artifactId>grocery</artifactId>
+    <artifactId>grocery-app</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Grocery</name>
     <description>Grocery</description>
