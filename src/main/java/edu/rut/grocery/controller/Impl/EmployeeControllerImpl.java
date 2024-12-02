@@ -4,6 +4,7 @@ import edu.rut.grocery.service.EmployeeService;
 import edu.rut.web.controllers.EmployeeController;
 import edu.rut.web.dto.base.BaseViewModel;
 import edu.rut.web.dto.employee.EmployeeViewModel;
+import jakarta.validation.Valid;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ public class EmployeeControllerImpl implements EmployeeController {
 
 	@Override
 	@GetMapping("/")
-	public String getEmployees(@ModelAttribute EmployeeViewModel viewModel,
+	public String getEmployees(@ModelAttribute("form") EmployeeViewModel viewModel,
 						Model model) {
 		return "";
 	}
@@ -46,7 +47,7 @@ public class EmployeeControllerImpl implements EmployeeController {
 	@Override
 	@PostMapping("/create")
 	public String saveEmployee
-			(@ModelAttribute EmployeeViewModel viewModel,
+			(@Valid @ModelAttribute("form") EmployeeViewModel viewModel,
 			 Model model) {
 		return "";
 	}
@@ -61,7 +62,7 @@ public class EmployeeControllerImpl implements EmployeeController {
 	@Override
 	public String updateEmployee
 			(@PathVariable Long id,
-			 @ModelAttribute EmployeeViewModel viewModel,
+			 @Valid @ModelAttribute("form") EmployeeViewModel viewModel,
 			 Model model) {
 		return "";
 	}

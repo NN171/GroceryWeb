@@ -2,8 +2,9 @@ package edu.rut.grocery.controller.Impl;
 
 import edu.rut.grocery.service.CustomerService;
 import edu.rut.web.controllers.CustomerController;
-import edu.rut.web.dto.customer.CustomerViewModel;
 import edu.rut.web.dto.base.BaseViewModel;
+import edu.rut.web.dto.customer.CustomerViewModel;
+import jakarta.validation.Valid;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,15 +34,15 @@ public class CustomerControllerImpl implements CustomerController {
 
 	@Override
 	@GetMapping("/")
-	public String getCustomers(@ModelAttribute CustomerViewModel viewModel,
-						Model model) {
+	public String getCustomers(@ModelAttribute("form") CustomerViewModel viewModel,
+							   Model model) {
 		return "";
 	}
 
 	@Override
 	@GetMapping("/{id}")
 	public String getCustomer(@PathVariable Long id,
-					   Model model) {
+							  Model model) {
 		return "";
 	}
 
@@ -52,8 +53,8 @@ public class CustomerControllerImpl implements CustomerController {
 	}
 
 	@PostMapping("/create")
-	public String saveCustomer(@ModelAttribute CustomerViewModel viewModel,
-						Model model) {
+	public String saveCustomer(@Valid @ModelAttribute("form") CustomerViewModel viewModel,
+							   Model model) {
 		return "";
 	}
 
@@ -66,8 +67,8 @@ public class CustomerControllerImpl implements CustomerController {
 	@Override
 	@PutMapping("/update/{id}")
 	public String updateCustomer(@PathVariable Long id,
-						  @ModelAttribute CustomerViewModel viewModel,
-						  Model model) {
+								 @Valid @ModelAttribute("form") CustomerViewModel viewModel,
+								 Model model) {
 		return "";
 	}
 }

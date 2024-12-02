@@ -4,7 +4,9 @@ import edu.rut.grocery.service.FeedbackService;
 import edu.rut.web.controllers.FeedbackController;
 import edu.rut.web.dto.base.BaseViewModel;
 import edu.rut.web.dto.feedback.FeedbackViewModel;
+import jakarta.validation.Valid;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +26,8 @@ public class FeedbackControllerImpl implements FeedbackController {
 	}
 
 	@Override
-	public String getFeedbacks(FeedbackViewModel viewModel, Model model) {
+	public String getFeedbacks(@ModelAttribute("form") FeedbackViewModel viewModel,
+							   Model model) {
 		return "";
 	}
 
@@ -39,7 +42,8 @@ public class FeedbackControllerImpl implements FeedbackController {
 	}
 
 	@Override
-	public String saveFeedback(FeedbackViewModel viewModel, Model model) {
+	public String saveFeedback(@Valid @ModelAttribute("form") FeedbackViewModel viewModel,
+							   Model model) {
 		return "";
 	}
 
@@ -49,7 +53,9 @@ public class FeedbackControllerImpl implements FeedbackController {
 	}
 
 	@Override
-	public String updateFeedback(Long id, FeedbackViewModel viewModel, Model model) {
+	public String updateFeedback(Long id,
+								 @Valid @ModelAttribute("form") FeedbackViewModel viewModel,
+								 Model model) {
 		return "";
 	}
 }

@@ -4,7 +4,9 @@ import edu.rut.grocery.service.ProductService;
 import edu.rut.web.controllers.ProductController;
 import edu.rut.web.dto.base.BaseViewModel;
 import edu.rut.web.dto.product.ProductViewModel;
+import jakarta.validation.Valid;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +27,7 @@ public class ProductControllerImpl implements ProductController {
 	}
 
 	@Override
-	public String getProducts(ProductViewModel viewModel, Model model) {
+	public String getProducts(@ModelAttribute("form")ProductViewModel viewModel, Model model) {
 		return "";
 	}
 
@@ -40,7 +42,7 @@ public class ProductControllerImpl implements ProductController {
 	}
 
 	@Override
-	public String saveProduct(ProductViewModel viewModel, Model model) {
+	public String saveProduct(@Valid @ModelAttribute("form") ProductViewModel viewModel, Model model) {
 		return "";
 	}
 
@@ -50,7 +52,9 @@ public class ProductControllerImpl implements ProductController {
 	}
 
 	@Override
-	public String updateProduct(Long id, ProductViewModel viewModel, Model model) {
+	public String updateProduct(Long id,
+								@Valid @ModelAttribute("form") ProductViewModel viewModel,
+								Model model) {
 		return "";
 	}
 }

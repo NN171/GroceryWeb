@@ -4,7 +4,9 @@ import edu.rut.grocery.service.StoreService;
 import edu.rut.web.controllers.StoreController;
 import edu.rut.web.dto.base.BaseViewModel;
 import edu.rut.web.dto.store.StoreViewModel;
+import jakarta.validation.Valid;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,12 +27,14 @@ public class StoreControllerImpl implements StoreController {
 
 	@Override
 
-	public String getStores(StoreViewModel viewModel, Model model) {
+	public String getStores(@ModelAttribute("form") StoreViewModel viewModel,
+							Model model) {
 		return "";
 	}
 
 	@Override
-	public String getStore(Long id, Model model) {
+	public String getStore(Long id,
+						   Model model) {
 		return "";
 	}
 
@@ -40,7 +44,8 @@ public class StoreControllerImpl implements StoreController {
 	}
 
 	@Override
-	public String saveStore(StoreViewModel viewModel, Model model) {
+	public String saveStore(@Valid @ModelAttribute("form")StoreViewModel viewModel,
+							Model model) {
 		return "";
 	}
 
@@ -50,7 +55,9 @@ public class StoreControllerImpl implements StoreController {
 	}
 
 	@Override
-	public String updateStore(Long id, StoreViewModel viewModel, Model model) {
+	public String updateStore(Long id,
+							  @Valid @ModelAttribute("form") StoreViewModel viewModel,
+							  Model model) {
 		return "";
 	}
 }

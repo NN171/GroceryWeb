@@ -4,7 +4,9 @@ import edu.rut.grocery.service.OrderService;
 import edu.rut.web.controllers.OrderController;
 import edu.rut.web.dto.base.BaseViewModel;
 import edu.rut.web.dto.order.OrderViewModel;
+import jakarta.validation.Valid;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +27,8 @@ public class OrderControllerImpl implements OrderController {
 	}
 
 	@Override
-	public String getOrders(OrderViewModel viewModel, Model model) {
+	public String getOrders(@ModelAttribute("form") OrderViewModel viewModel,
+							Model model) {
 		return "";
 	}
 
@@ -40,12 +43,14 @@ public class OrderControllerImpl implements OrderController {
 	}
 
 	@Override
-	public String saveOrder(OrderViewModel viewModel, Model model) {
+	public String saveOrder(@Valid @ModelAttribute("form") OrderViewModel viewModel, Model model) {
 		return "";
 	}
 
 	@Override
-	public String updateOrder(Long id, OrderViewModel viewModel, Model model) {
+	public String updateOrder(Long id,
+							  @Valid @ModelAttribute("form") OrderViewModel viewModel,
+							  Model model) {
 		return "";
 	}
 }
