@@ -1,8 +1,8 @@
 package edu.rut.grocery.controller;
 
 import edu.rut.web.controllers.HomeController;
-import edu.rut.web.dto.BaseViewModel;
-import edu.rut.web.dto.HomeViewModel;
+import edu.rut.web.dto.base.BaseViewModel;
+import edu.rut.web.dto.home.HomeViewModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

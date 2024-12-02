@@ -1,9 +1,9 @@
 package edu.rut.grocery.controller.Impl;
 
 import edu.rut.grocery.service.EmployeeService;
-import edu.rut.web.controllers.model.EmployeeController;
-import edu.rut.web.dto.BaseViewModel;
-import edu.rut.web.dto.EmployeeViewModel;
+import edu.rut.web.controllers.EmployeeController;
+import edu.rut.web.dto.base.BaseViewModel;
+import edu.rut.web.dto.employee.EmployeeViewModel;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 

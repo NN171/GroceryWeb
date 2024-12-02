@@ -1,9 +1,9 @@
 package edu.rut.grocery.controller.Impl;
 
 import edu.rut.grocery.service.OrderService;
-import edu.rut.web.controllers.model.OrderController;
-import edu.rut.web.dto.BaseViewModel;
-import edu.rut.web.dto.OrderViewModel;
+import edu.rut.web.controllers.OrderController;
+import edu.rut.web.dto.base.BaseViewModel;
+import edu.rut.web.dto.order.OrderViewModel;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

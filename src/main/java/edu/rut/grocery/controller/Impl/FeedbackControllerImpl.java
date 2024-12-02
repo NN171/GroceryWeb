@@ -1,9 +1,9 @@
 package edu.rut.grocery.controller.Impl;
 
 import edu.rut.grocery.service.FeedbackService;
-import edu.rut.web.controllers.model.FeedbackController;
-import edu.rut.web.dto.BaseViewModel;
-import edu.rut.web.dto.FeedbackViewModel;
+import edu.rut.web.controllers.FeedbackController;
+import edu.rut.web.dto.base.BaseViewModel;
+import edu.rut.web.dto.feedback.FeedbackViewModel;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
