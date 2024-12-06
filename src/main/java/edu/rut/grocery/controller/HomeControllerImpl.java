@@ -9,14 +9,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/api/v1")
+@RequestMapping("/")
 public class HomeControllerImpl implements HomeController {
 
 	@Override
-	@GetMapping("/")
+	@GetMapping()
 	public String index(Model model) {
 		var viewModel = new HomeViewModel(createBaseViewModel("Grocery Web App"));
 		model.addAttribute("model", viewModel);
+
 		return "index";
 	}
 

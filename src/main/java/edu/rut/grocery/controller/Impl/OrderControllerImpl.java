@@ -5,12 +5,12 @@ import edu.rut.web.controllers.OrderController;
 import edu.rut.web.dto.base.BaseViewModel;
 import edu.rut.web.dto.order.OrderViewModel;
 import jakarta.validation.Valid;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 @RequestMapping("api/v1/orders")
 public class OrderControllerImpl implements OrderController {
 

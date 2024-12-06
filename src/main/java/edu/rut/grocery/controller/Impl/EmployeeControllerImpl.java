@@ -5,10 +5,16 @@ import edu.rut.web.controllers.EmployeeController;
 import edu.rut.web.dto.base.BaseViewModel;
 import edu.rut.web.dto.employee.EmployeeViewModel;
 import jakarta.validation.Valid;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-@RestController
+@Controller
 @RequestMapping("api/v1/employees")
 public class EmployeeControllerImpl implements EmployeeController {
 

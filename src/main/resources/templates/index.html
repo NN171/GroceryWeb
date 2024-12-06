@@ -1,21 +1,18 @@
 <!DOCTYPE html>
 <html lang="ru" class="h-100" xmlns:th="http://www.thymeleaf.org">
-<head/>
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
 <body class="d-flex flex-column h-100">
-<main class="flex-shrink-0">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-2"></div>
-            <div class="jumbotron text-center rounded col-md-8 align-self-center pt-5">
-                <div class="justify-content-center">
-                    <h1>Мои книги</h1>
-                </div>
-                <div>&nbsp;
-                    <span th:text="${#dates.createNow()}"></span>
-                </div>
-            </div>
-        </div>
+<div class="centering">
+    <h1>Главная</h1>
+    <div class="row-first">
+        <a th:href="@{/templates/customer/customer-home.html}" class="customer-button">Магазины</a>
     </div>
-</main>
+    <div class="row-second">
+        <a th:href="@{/}"
+    </div>
+</div>
 </body>
 </html>
