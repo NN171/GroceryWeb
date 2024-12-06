@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ProductService {
 
-	List<ProductDto> getProducts();
+	List<ProductDto> getProducts(int page, int size);
 
 	ProductDto getProduct(Long id);
 

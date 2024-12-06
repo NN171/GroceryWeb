@@ -1,5 +1,6 @@
 package edu.rut.grocery.repository;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.Repository;
 
@@ -11,11 +12,11 @@ public interface BaseRepository<T, ID> extends Repository<T, ID> {
 
     Optional<T> findById(Long id);
 
-    Optional<List<T>> findAll();
+    List<T> findAll(Pageable pageable);
 
     long count();
 
-    <S extends T> boolean save(S entity);
+    <S extends T> S save(S entity);
 
     <S extends T> boolean saveAll(Iterable<S> entities);
 }

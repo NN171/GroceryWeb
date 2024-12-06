@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 public record ProductDto(
+		Long id,
 		String name,
 		double price,
 		int amount,

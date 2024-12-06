@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface FeedbackService {
 
-	List<FeedbackDto> getFeedbacks();
+	List<FeedbackDto> getFeedbacks(int page, int size);
 
 	FeedbackDto getFeedback(Long id);
 

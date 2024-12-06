@@ -3,6 +3,7 @@ package edu.rut.grocery.controller.Impl;
 import edu.rut.grocery.service.EmployeeService;
 import edu.rut.web.controllers.EmployeeController;
 import edu.rut.web.dto.base.BaseViewModel;
+import edu.rut.web.dto.employee.EmployeeSearchForm;
 import edu.rut.web.dto.employee.EmployeeViewModel;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("api/v1/employees")
+@RequestMapping("/employees")
 public class EmployeeControllerImpl implements EmployeeController {
 
 	private final EmployeeService employeeService;
@@ -31,7 +32,7 @@ public class EmployeeControllerImpl implements EmployeeController {
 
 	@Override
 	@GetMapping("/")
-	public String getEmployees(@ModelAttribute("form") EmployeeViewModel viewModel,
+	public String getEmployees(@ModelAttribute("form") EmployeeSearchForm form,
 						Model model) {
 		return "";
 	}

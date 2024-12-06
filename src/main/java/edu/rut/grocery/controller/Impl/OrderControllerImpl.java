@@ -3,6 +3,7 @@ package edu.rut.grocery.controller.Impl;
 import edu.rut.grocery.service.OrderService;
 import edu.rut.web.controllers.OrderController;
 import edu.rut.web.dto.base.BaseViewModel;
+import edu.rut.web.dto.order.OrderSearchForm;
 import edu.rut.web.dto.order.OrderViewModel;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("api/v1/orders")
+@RequestMapping("/orders")
 public class OrderControllerImpl implements OrderController {
 
 	private final OrderService orderService;
@@ -27,7 +28,7 @@ public class OrderControllerImpl implements OrderController {
 	}
 
 	@Override
-	public String getOrders(@ModelAttribute("form") OrderViewModel viewModel,
+	public String getOrders(@ModelAttribute("form") OrderSearchForm form,
 							Model model) {
 		return "";
 	}

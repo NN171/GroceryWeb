@@ -6,6 +6,9 @@ import edu.rut.grocery.repository.OrderRepository;
 import edu.rut.grocery.service.OrderService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,9 +26,10 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<OrderDto> getOrders() {
-		List<Order> orders = orderRepository.findAll()
-				.orElseThrow(() -> new EntityNotFoundException("Orders not found"));
+	public List<OrderDto> getOrders(int page, int size) {
+
+		Pageable pageable = PageRequest.of(page-1, size, Sort.by("createDate").ascending());
+		List<Order> orders = orderRepository.findAll(pageable);
 
 		return orders.stream()
 				.map(order -> modelMapper.map(order, OrderDto.class))

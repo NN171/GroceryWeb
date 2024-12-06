@@ -3,6 +3,7 @@ package edu.rut.grocery.controller.Impl;
 import edu.rut.grocery.service.ProductService;
 import edu.rut.web.controllers.ProductController;
 import edu.rut.web.dto.base.BaseViewModel;
+import edu.rut.web.dto.product.ProductSearchForm;
 import edu.rut.web.dto.product.ProductViewModel;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("api/v1/products")
+@RequestMapping("/products")
 public class ProductControllerImpl implements ProductController {
 
 	private final ProductService productService;
@@ -27,7 +28,7 @@ public class ProductControllerImpl implements ProductController {
 	}
 
 	@Override
-	public String getProducts(@ModelAttribute("form")ProductViewModel viewModel, Model model) {
+	public String getProducts(@ModelAttribute("form") ProductSearchForm form, Model model) {
 		return "";
 	}
 

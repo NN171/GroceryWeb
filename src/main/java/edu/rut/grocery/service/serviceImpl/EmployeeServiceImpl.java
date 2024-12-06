@@ -6,6 +6,9 @@ import edu.rut.grocery.repository.EmployeeRepository;
 import edu.rut.grocery.service.EmployeeService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,9 +26,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public List<EmployeeDto> getEmployees() {
-		List<Employee> employees = employeeRepository.findAll()
-				.orElseThrow(() -> new EntityNotFoundException("employees not found"));
+	public List<EmployeeDto> getEmployees(int page, int size) {
+
+		Pageable pageable = PageRequest.of(page-1, size, Sort.by("lastName").ascending());
+		List<Employee> employees = employeeRepository.findAll(pageable);
 
 		return employees.stream()
 				.map(employee -> modelMapper.map(employee, EmployeeDto.class))
@@ -35,7 +39,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public EmployeeDto getEmployee(Long id) {
 		Employee employee = employeeRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException("employee not found"));
+				.orElseThrow(() -> new EntityNotFoundException("Employee not found"));
 
 		return modelMapper.map(employee, EmployeeDto.class);
 	}
@@ -51,7 +55,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public String deleteEmployee(Long id) {
 		boolean removed = employeeRepository.deleteById(id);
-		if (!removed) throw new EntityNotFoundException("employee not found");
+		if (!removed) throw new EntityNotFoundException("Employee not found");
 
 		return "Success";
 	}
@@ -59,7 +63,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public String updateEmployee(EmployeeDto employeeDto, Long id) {
 		Employee employee = employeeRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException("employee not found"));
+				.orElseThrow(() -> new EntityNotFoundException("Employee not found"));
 		modelMapper.map(employeeDto, employee);
 		employeeRepository.save(employee);
 		return "employee updated";

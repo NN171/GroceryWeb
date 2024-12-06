@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface StoreService {
 
-	List<StoreDto> getStores();
+	List<StoreDto> getStores(int page, int size);
 
 	StoreDto getStore(Long id);
 

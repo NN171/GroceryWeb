@@ -2,6 +2,7 @@ package edu.rut.grocery.domain;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -9,6 +10,7 @@ import java.util.Set;
 public class Order extends BaseEntity {
 
 	private double price;
+	private LocalDateTime createDate;
 	private Customer customer;
 	private Employee employee;
 	private Set<ProductOrder> productOrders;
@@ -16,8 +18,9 @@ public class Order extends BaseEntity {
 	public Order() {
 	}
 
-	public Order(double price, Customer customer, Employee employee, Set<ProductOrder> productOrders) {
+	public Order(double price, LocalDateTime createDate, Customer customer, Employee employee, Set<ProductOrder> productOrders) {
 		this.price = price;
+		this.createDate = createDate;
 		this.customer = customer;
 		this.employee = employee;
 		this.productOrders = productOrders;
@@ -59,5 +62,14 @@ public class Order extends BaseEntity {
 
 	public void setProductOrders(Set<ProductOrder> productOrders) {
 		this.productOrders = productOrders;
+	}
+
+	@Column(name = "create_date")
+	public LocalDateTime getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(LocalDateTime createDate) {
+		this.createDate = createDate;
 	}
 }

@@ -3,6 +3,7 @@ package edu.rut.grocery.controller.Impl;
 import edu.rut.grocery.service.FeedbackService;
 import edu.rut.web.controllers.FeedbackController;
 import edu.rut.web.dto.base.BaseViewModel;
+import edu.rut.web.dto.feedback.FeedbackSearchForm;
 import edu.rut.web.dto.feedback.FeedbackViewModel;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("api/v1/feedbacks")
+@RequestMapping("/feedbacks")
 public class FeedbackControllerImpl implements FeedbackController {
 
 	private final FeedbackService feedbackService;
@@ -26,7 +27,7 @@ public class FeedbackControllerImpl implements FeedbackController {
 	}
 
 	@Override
-	public String getFeedbacks(@ModelAttribute("form") FeedbackViewModel viewModel,
+	public String getFeedbacks(@ModelAttribute("form") FeedbackSearchForm form,
 							   Model model) {
 		return "";
 	}

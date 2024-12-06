@@ -3,6 +3,7 @@ package edu.rut.grocery.controller.Impl;
 import edu.rut.grocery.service.StoreService;
 import edu.rut.web.controllers.StoreController;
 import edu.rut.web.dto.base.BaseViewModel;
+import edu.rut.web.dto.store.StoreSearchForm;
 import edu.rut.web.dto.store.StoreViewModel;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("api/v1/stores")
+@RequestMapping("/stores")
 public class StoreControllerImpl implements StoreController {
 
 	private final StoreService storeService;
@@ -27,7 +28,7 @@ public class StoreControllerImpl implements StoreController {
 
 	@Override
 
-	public String getStores(@ModelAttribute("form") StoreViewModel viewModel,
+	public String getStores(@ModelAttribute("form") StoreSearchForm form,
 							Model model) {
 		return "";
 	}

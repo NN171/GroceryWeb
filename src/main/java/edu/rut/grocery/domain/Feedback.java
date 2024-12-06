@@ -2,21 +2,25 @@ package edu.rut.grocery.domain;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "feedbacks")
 public class Feedback extends BaseEntity {
 
 	private int rating;
 	private String comment;
+	private LocalDateTime createDate;
 	private Product product;
 	private Customer customer;
 
 	public Feedback() {
 	}
 
-	public Feedback(int rating, String comment, Product product, Customer customer) {
+	public Feedback(int rating, String comment, LocalDateTime createDate, Product product, Customer customer) {
 		this.rating = rating;
 		this.comment = comment;
+		this.createDate = createDate;
 		this.product = product;
 		this.customer = customer;
 	}
@@ -57,5 +61,14 @@ public class Feedback extends BaseEntity {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	@Column(name = "create_date")
+	public LocalDateTime getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(LocalDateTime createDate) {
+		this.createDate = createDate;
 	}
 }

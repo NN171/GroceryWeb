@@ -6,6 +6,9 @@ import edu.rut.grocery.repository.FeedbackRepository;
 import edu.rut.grocery.service.FeedbackService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,9 +26,10 @@ public class FeedbackServiceImpl implements FeedbackService {
 	}
 
 	@Override
-	public List<FeedbackDto> getFeedbacks() {
-		List<Feedback> feedbacks = feedbackRepository.findAll()
-				.orElseThrow(() -> new EntityNotFoundException("Feedbacks not found"));
+	public List<FeedbackDto> getFeedbacks(int page, int size) {
+
+		Pageable pageable = PageRequest.of(page-1, size, Sort.by("createDate").ascending());
+		List<Feedback> feedbacks = feedbackRepository.findAll(pageable);
 
 		return feedbacks.stream()
 				.map(feedback -> modelMapper.map(feedback, FeedbackDto.class))
