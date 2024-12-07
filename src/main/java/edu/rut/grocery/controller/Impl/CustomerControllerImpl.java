@@ -1,12 +1,12 @@
 package edu.rut.grocery.controller.Impl;
 
-import edu.rut.grocery.domain.Customer;
 import edu.rut.grocery.dto.CustomerDto;
 import edu.rut.grocery.service.CustomerService;
 import edu.rut.web.controllers.CustomerController;
 import edu.rut.web.dto.base.BaseViewModel;
 import edu.rut.web.dto.customer.CreateCustomerForm;
 import edu.rut.web.dto.customer.CreateCustomerViewModel;
+import edu.rut.web.dto.customer.CustomerListViewModel;
 import edu.rut.web.dto.customer.CustomerSearchForm;
 import edu.rut.web.dto.customer.CustomerViewModel;
 import edu.rut.web.dto.customer.EditCustomerForm;
@@ -49,7 +49,15 @@ public class CustomerControllerImpl implements CustomerController {
 		int size = form.size() != null ? form.size() : 5;
 
 		List<CustomerDto> customers = customerService.getCustomers(page, size);
+
+		CustomerListViewModel viewModel = new CustomerListViewModel(
+				createBaseViewModel("Customer list"),
+				customers,
+
+		)
+
 		model.addAttribute("customers", customers);
+		model.addAttribute("form", form)
 
 		return "customer/customer-list";
 	}
@@ -81,7 +89,7 @@ public class CustomerControllerImpl implements CustomerController {
 			return "customer/customer-create";
 		}
 
-		return "redirect:/books";
+		return "redirect:/customers";
 	}
 
 	@Override
@@ -108,7 +116,8 @@ public class CustomerControllerImpl implements CustomerController {
 
 			return "customer/customer-edit";
 		}
-		return "";
+
+		return "redirect:/customers";
 	}
 
 	@Override

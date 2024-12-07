@@ -3,12 +3,16 @@ package edu.rut.grocery.controller.Impl;
 import edu.rut.grocery.service.ProductService;
 import edu.rut.web.controllers.ProductController;
 import edu.rut.web.dto.base.BaseViewModel;
+import edu.rut.web.dto.product.CreateProductForm;
+import edu.rut.web.dto.product.EditProductForm;
 import edu.rut.web.dto.product.ProductSearchForm;
 import edu.rut.web.dto.product.ProductViewModel;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -33,28 +37,26 @@ public class ProductControllerImpl implements ProductController {
 	}
 
 	@Override
-	public String getProduct(Long id, Model model) {
-		return "";
-	}
-
-	@Override
 	public String createForm(Model model) {
 		return "";
 	}
 
 	@Override
-	public String saveProduct(@Valid @ModelAttribute("form") ProductViewModel viewModel, Model model) {
+	public String saveProduct(@Valid @ModelAttribute("form") CreateProductForm form,
+							  BindingResult bindingResult,
+							  Model model) {
 		return "";
 	}
 
 	@Override
-	public String deleteProduct(Long id) {
+	public String deleteProduct(@PathVariable Long id) {
 		return "";
 	}
 
 	@Override
-	public String updateProduct(Long id,
-								@Valid @ModelAttribute("form") ProductViewModel viewModel,
+	public String updateProduct(@PathVariable Long id,
+								@Valid @ModelAttribute("form") EditProductForm form,
+								BindingResult bindingResult,
 								Model model) {
 		return "";
 	}

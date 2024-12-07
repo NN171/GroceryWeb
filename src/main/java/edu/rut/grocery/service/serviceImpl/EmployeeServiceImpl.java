@@ -6,6 +6,7 @@ import edu.rut.grocery.repository.EmployeeRepository;
 import edu.rut.grocery.service.EmployeeService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -29,7 +30,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public List<EmployeeDto> getEmployees(int page, int size) {
 
 		Pageable pageable = PageRequest.of(page-1, size, Sort.by("lastName").ascending());
-		List<Employee> employees = employeeRepository.findAll(pageable);
+		Page<Employee> employees = employeeRepository.findAll(pageable);
 
 		return employees.stream()
 				.map(employee -> modelMapper.map(employee, EmployeeDto.class))

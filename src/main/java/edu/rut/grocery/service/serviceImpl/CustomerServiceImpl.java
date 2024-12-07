@@ -6,6 +6,7 @@ import edu.rut.grocery.repository.CustomerRepository;
 import edu.rut.grocery.service.CustomerService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -29,7 +30,7 @@ public class CustomerServiceImpl implements CustomerService {
 	public List<CustomerDto> getCustomers(int page, int size) {
 
 		Pageable pageable = PageRequest.of(page-1, size, Sort.by("lastName").ascending());
-		List<Customer> customers = customerRepository.findAll(pageable);
+		Page<Customer> customers = customerRepository.findAll(pageable);
 
 		return customers.stream()
 				.map(customer -> modelMapper.map(customer, CustomerDto.class))

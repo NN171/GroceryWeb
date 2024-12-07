@@ -1,12 +1,11 @@
 package edu.rut.grocery.service;
 
 import edu.rut.grocery.dto.StoreDto;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 public interface StoreService {
 
-	List<StoreDto> getStores(int page, int size);
+	Page getStores(int page, int size);
 
 	StoreDto getStore(Long id);
 

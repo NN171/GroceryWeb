@@ -5,12 +5,16 @@ import edu.rut.grocery.dto.StoreDto;
 import edu.rut.grocery.repository.StoreRepository;
 import edu.rut.grocery.service.StoreService;
 import jakarta.persistence.EntityNotFoundException;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,14 +30,20 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public List<StoreDto> getStores(int page, int size) {
+	public Page<StoreDto> getStores(int page, int size) {
 
 		Pageable pageable = PageRequest.of(page-1, size, Sort.by("address").ascending());
-		List<Store> stores = storeRepository.findAll(pageable);
+		Page<Store> stores = storeRepository.findAll(pageable);
 
-		return stores.stream()
-				.map(store -> modelMapper.map(store, StoreDto.class))
-				.collect(Collectors.toList());
+
+		return new PageImpl<>(
+				stores.getContent().stream()
+						.map(element -> modelMapper.map(element, StoreDto.class))
+						.collect(Collectors.toList()
+						),
+				stores.getPageable(),
+				stores.getTotalPages()
+		);
 	}
 
 	@Override
