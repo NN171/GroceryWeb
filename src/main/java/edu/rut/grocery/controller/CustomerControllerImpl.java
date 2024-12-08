@@ -1,4 +1,4 @@
-package edu.rut.grocery.controller.Impl;
+package edu.rut.grocery.controller;
 
 import edu.rut.grocery.dto.CustomerDto;
 import edu.rut.grocery.service.CustomerService;
@@ -12,6 +12,7 @@ import edu.rut.web.dto.customer.CustomerViewModel;
 import edu.rut.web.dto.customer.EditCustomerForm;
 import edu.rut.web.dto.customer.EditCustomerViewModel;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -48,16 +49,27 @@ public class CustomerControllerImpl implements CustomerController {
 		int page = form.page() != null ? form.page() : 1;
 		int size = form.size() != null ? form.size() : 5;
 
-		List<CustomerDto> customers = customerService.getCustomers(page, size);
+		Page<CustomerDto> customers = customerService.getCustomers(page, size);
+		List<CustomerViewModel> customerViewModel = customers
+				.stream()
+				.map(c -> new CustomerViewModel(
+						c.id(),
+						c.firstName(),
+						c.lastName(),
+						c.phoneNumber(),
+						c.discount(),
+						null,
+						null))
+				.toList();
 
 		CustomerListViewModel viewModel = new CustomerListViewModel(
 				createBaseViewModel("Customer list"),
-				customers,
+				customerViewModel,
+				page
+		);
 
-		)
-
-		model.addAttribute("customers", customers);
-		model.addAttribute("form", form)
+		model.addAttribute("model", viewModel);
+		model.addAttribute("form", form);
 
 		return "customer/customer-list";
 	}
@@ -89,6 +101,15 @@ public class CustomerControllerImpl implements CustomerController {
 			return "customer/customer-create";
 		}
 
+		CustomerDto customerDto = new CustomerDto(
+				null,
+				form.firstName(),
+				form.lastName(),
+				form.phone(),
+				null,
+				0);
+
+		customerService.saveCustomer(customerDto);
 		return "redirect:/customers";
 	}
 
@@ -117,6 +138,15 @@ public class CustomerControllerImpl implements CustomerController {
 			return "customer/customer-edit";
 		}
 
+		CustomerDto customerDto = new CustomerDto(
+				id,
+				form.firstName(),
+				form.lastName(),
+				form.phone(),
+				customerService.calculateOrders(id),
+				customerService.calculateDiscount(id));
+
+		customerService.updateCustomer(customerDto, id);
 		return "redirect:/customers";
 	}
 

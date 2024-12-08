@@ -1,5 +1,7 @@
 package edu.rut.grocery.service.serviceImpl;
 
+import edu.rut.grocery.domain.Employee;
+import edu.rut.grocery.domain.Order;
 import edu.rut.grocery.domain.Store;
 import edu.rut.grocery.dto.StoreDto;
 import edu.rut.grocery.repository.StoreRepository;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -68,6 +71,38 @@ public class StoreServiceImpl implements StoreService {
 		if (!removed) throw new EntityNotFoundException("Store not found");
 
 		return "Success";
+	}
+
+	@Override
+	public int getEmployeesCount(Long id) {
+
+		Store store = storeRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Store not found"));
+
+		Set<Employee> employees = store.getEmployees();
+
+		return employees.size();
+	}
+
+	@Override
+	public double countSold(Long id) {
+
+		Store store = storeRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Store not found"));
+
+		Set<Employee> employees = store.getEmployees();
+		double sells = 0;
+
+		for (Employee employee : employees) {
+
+			Set<Order> orders = employee.getOrders();
+
+			for (Order order : orders) {
+				sells += order.getPrice();
+			}
+		}
+
+		return sells;
 	}
 
 	@Override

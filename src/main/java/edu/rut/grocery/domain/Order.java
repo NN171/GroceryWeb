@@ -9,6 +9,7 @@ import java.util.Set;
 @Table(name = "orders")
 public class Order extends BaseEntity {
 
+	private String status;
 	private double price;
 	private LocalDateTime createDate;
 	private Customer customer;
@@ -18,12 +19,22 @@ public class Order extends BaseEntity {
 	public Order() {
 	}
 
-	public Order(double price, LocalDateTime createDate, Customer customer, Employee employee, Set<ProductOrder> productOrders) {
+	public Order(String status, double price, LocalDateTime createDate, Customer customer, Employee employee, Set<ProductOrder> productOrders) {
+		this.status = status;
 		this.price = price;
 		this.createDate = createDate;
 		this.customer = customer;
 		this.employee = employee;
 		this.productOrders = productOrders;
+	}
+
+	@Column(name = "status")
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	@Column(name = "price")

@@ -1,12 +1,13 @@
 package edu.rut.grocery.service;
 
 import edu.rut.grocery.dto.FeedbackDto;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface FeedbackService {
 
-	List<FeedbackDto> getFeedbacks(int page, int size);
+	Page<FeedbackDto> getFeedbacks(int page, int size);
 
 	FeedbackDto getFeedback(Long id);
 

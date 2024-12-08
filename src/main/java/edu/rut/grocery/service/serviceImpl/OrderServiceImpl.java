@@ -1,18 +1,22 @@
 package edu.rut.grocery.service.serviceImpl;
 
 import edu.rut.grocery.domain.Order;
+import edu.rut.grocery.domain.Product;
+import edu.rut.grocery.domain.ProductOrder;
 import edu.rut.grocery.dto.OrderDto;
 import edu.rut.grocery.repository.OrderRepository;
+import edu.rut.grocery.repository.ProductRepository;
 import edu.rut.grocery.service.OrderService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,21 +24,55 @@ public class OrderServiceImpl implements OrderService {
 
 	private final ModelMapper modelMapper;
 	private final OrderRepository orderRepository;
+	private final ProductRepository productRepository;
 
-	public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper) {
+	public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper, ProductRepository productRepository) {
 		this.orderRepository = orderRepository;
 		this.modelMapper = modelMapper;
+		this.productRepository = productRepository;
 	}
 
 	@Override
-	public List<OrderDto> getOrders(int page, int size) {
+	public Page<OrderDto> getOrders(int page, int size) {
 
 		Pageable pageable = PageRequest.of(page-1, size, Sort.by("createDate").ascending());
 		Page<Order> orders = orderRepository.findAll(pageable);
 
-		return orders.stream()
-				.map(order -> modelMapper.map(order, OrderDto.class))
-				.collect(Collectors.toList());
+		return new PageImpl<>(
+				orders.getContent().stream()
+						.map(element -> modelMapper.map(element, OrderDto.class))
+						.collect(Collectors.toList()
+						),
+				orders.getPageable(),
+				orders.getTotalPages()
+		);
+	}
+
+	@Override
+	public Order addProduct(Long orderId, Long productId, int quantity) {
+
+		Order order = orderRepository.findById(orderId)
+				.orElseThrow(() -> new EntityNotFoundException("Order not found"));
+
+		Product product = productRepository.findById(productId)
+				.orElseThrow(() -> new EntityNotFoundException("Product not found"));
+
+		Optional<ProductOrder> existingProduct = order.getProductOrders().stream()
+				.filter(op -> op.getProduct().equals(product))
+				.findFirst();
+
+		if (existingProduct.isPresent()) {
+
+			ProductOrder productOrder = existingProduct.get();
+			productOrder.setQuantity(productOrder.getQuantity() + quantity);
+		}
+		else {
+
+			ProductOrder productOrder = new ProductOrder(quantity, order, product);
+			order.getProductOrders().add(productOrder);
+		}
+
+		return orderRepository.save(order);
 	}
 
 	@Override
@@ -47,7 +85,19 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public String saveOrder(OrderDto orderDto) {
+
+		double orderCost = 0;
+
+		for (OrderDto.OrderProductDto product : orderDto.products()) {
+
+			orderCost += product.price() * product.quantity();
+		}
+
 		Order order = modelMapper.map(orderDto, Order.class);
+		int discount = order.getCustomer().getDiscount();
+
+		order.setPrice(orderCost * discount * 0.01);
+
 		orderRepository.save(order);
 
 		return "Order saved";

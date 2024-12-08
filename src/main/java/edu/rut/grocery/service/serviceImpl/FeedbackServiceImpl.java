@@ -7,6 +7,7 @@ import edu.rut.grocery.service.FeedbackService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -27,14 +28,19 @@ public class FeedbackServiceImpl implements FeedbackService {
 	}
 
 	@Override
-	public List<FeedbackDto> getFeedbacks(int page, int size) {
+	public Page<FeedbackDto> getFeedbacks(int page, int size) {
 
 		Pageable pageable = PageRequest.of(page-1, size, Sort.by("createDate").ascending());
 		Page<Feedback> feedbacks = feedbackRepository.findAll(pageable);
 
-		return feedbacks.stream()
-				.map(feedback -> modelMapper.map(feedback, FeedbackDto.class))
-				.collect(Collectors.toList());
+		return new PageImpl<>(
+				feedbacks.getContent().stream()
+						.map(element -> modelMapper.map(element, FeedbackDto.class))
+						.collect(Collectors.toList()
+						),
+				feedbacks.getPageable(),
+				feedbacks.getTotalPages()
+		);
 	}
 
 	@Override

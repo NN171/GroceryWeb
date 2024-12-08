@@ -9,12 +9,10 @@ import java.util.Set;
 public record ProductDto(
 		Long id,
 		String name,
-		double price,
-		int amount,
-		LocalDateTime prodDate,
-		LocalDateTime expiryDate,
-		double avgRating,
-		Set<Feedback>feedbacks,
-		Set<ProductOrder> productOrders
+		Double price,
+		Integer amount,
+		String prodDate,
+		String expiryDate,
+		Double avgRating
 ) {
 }

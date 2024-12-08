@@ -6,15 +6,26 @@ import jakarta.persistence.*;
 @Table(name = "products_orders")
 public class ProductOrder extends BaseEntity {
 
+	private int quantity;
 	private Order order;
 	private Product product;
 
 	public ProductOrder() {
 	}
 
-	public ProductOrder(Order order, Product product) {
+	public ProductOrder(int quantity, Order order, Product product) {
+		this.quantity = quantity;
 		this.order = order;
 		this.product = product;
+	}
+
+	@Column(name = "quantity")
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 	@ManyToOne

@@ -5,7 +5,7 @@ public record CustomerDto(
 		String firstName,
 		String lastName,
 		String phoneNumber,
-		double ordersAmount,
-		int discount
+		Double ordersAmount,
+		Integer discount
 ) {
 }

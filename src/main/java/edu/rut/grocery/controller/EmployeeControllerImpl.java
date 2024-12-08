@@ -1,21 +1,18 @@
-package edu.rut.grocery.controller.Impl;
+package edu.rut.grocery.controller;
 
-import edu.rut.grocery.dto.CustomerDto;
 import edu.rut.grocery.dto.EmployeeDto;
 import edu.rut.grocery.service.EmployeeService;
 import edu.rut.web.controllers.EmployeeController;
 import edu.rut.web.dto.base.BaseViewModel;
-import edu.rut.web.dto.customer.CreateCustomerForm;
-import edu.rut.web.dto.customer.CreateCustomerViewModel;
-import edu.rut.web.dto.customer.EditCustomerForm;
-import edu.rut.web.dto.customer.EditCustomerViewModel;
 import edu.rut.web.dto.employee.CreateEmployeeForm;
 import edu.rut.web.dto.employee.CreateEmployeeViewModel;
 import edu.rut.web.dto.employee.EditEmployeeForm;
 import edu.rut.web.dto.employee.EditEmployeeViewModel;
+import edu.rut.web.dto.employee.EmployeeListViewModel;
 import edu.rut.web.dto.employee.EmployeeSearchForm;
 import edu.rut.web.dto.employee.EmployeeViewModel;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -52,8 +49,26 @@ public class EmployeeControllerImpl implements EmployeeController {
 		int page = form.page() != null ? form.page() : 1;
 		int size = form.size() != null ? form.size() : 5;
 
-		List<EmployeeDto> customers = employeeService.getEmployees(page, size);
-		model.addAttribute("customers", customers);
+		Page<EmployeeDto> employees = employeeService.getEmployees(page, size);
+		List<EmployeeViewModel> employeeViewModel = employees
+				.stream()
+				.map(e -> new EmployeeViewModel(
+						e.id(),
+						e.firstName(),
+						e.lastName(),
+						e.phone(),
+						e.address(),
+						null))
+				.toList();
+
+		EmployeeListViewModel viewModel = new EmployeeListViewModel(
+				createBaseViewModel("Employee list"),
+				employeeViewModel,
+				page
+		);
+
+		model.addAttribute("model", viewModel);
+		model.addAttribute("form", form);
 
 		return "employee/employee-list";
 	}
@@ -90,6 +105,14 @@ public class EmployeeControllerImpl implements EmployeeController {
 			return "employee/employee-create";
 		}
 
+		EmployeeDto employeeDto = new EmployeeDto(
+				null,
+				form.firstName(),
+				form.lastName(),
+				form.phoneNumber(),
+				form.storeAddress());
+
+		employeeService.saveEmployee(employeeDto);
 		return "redirect:/employees";
 	}
 
@@ -118,6 +141,15 @@ public class EmployeeControllerImpl implements EmployeeController {
 
 			return "employee/employee-edit";
 		}
+
+		EmployeeDto employeeDto = new EmployeeDto(
+				id,
+				form.firstName(),
+				form.lastName(),
+				form.phone(),
+				form.storeAddress());
+
+		employeeService.updateEmployee(employeeDto, id);
 
 		return "redirect:/employees";
 	}
