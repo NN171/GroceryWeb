@@ -3,8 +3,6 @@ package edu.rut.grocery.service;
 import edu.rut.grocery.dto.CustomerDto;
 import org.springframework.data.domain.Page;
 
-import java.util.List;
-
 public interface CustomerService {
 
 	Page<CustomerDto> getCustomers(int page, int size);

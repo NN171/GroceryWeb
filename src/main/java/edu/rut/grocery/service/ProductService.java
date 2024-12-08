@@ -1,10 +1,7 @@
 package edu.rut.grocery.service;
 
-import edu.rut.grocery.dto.FeedbackDto;
 import edu.rut.grocery.dto.ProductDto;
 import org.springframework.data.domain.Page;
-
-import java.util.List;
 
 public interface ProductService {
 

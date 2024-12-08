@@ -3,7 +3,6 @@ package edu.rut.grocery.service.serviceImpl;
 import edu.rut.grocery.domain.Customer;
 import edu.rut.grocery.domain.Order;
 import edu.rut.grocery.dto.CustomerDto;
-import edu.rut.grocery.dto.StoreDto;
 import edu.rut.grocery.repository.CustomerRepository;
 import edu.rut.grocery.repository.OrderRepository;
 import edu.rut.grocery.service.CustomerService;
@@ -35,7 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public Page<CustomerDto> getCustomers(int page, int size) {
 
-		Pageable pageable = PageRequest.of(page-1, size, Sort.by("lastName").ascending());
+		Pageable pageable = PageRequest.of(page - 1, size, Sort.by("lastName").ascending());
 		Page<Customer> customers = customerRepository.findAll(pageable);
 
 		return new PageImpl<>(

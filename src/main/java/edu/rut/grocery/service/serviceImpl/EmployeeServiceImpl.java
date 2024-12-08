@@ -1,7 +1,6 @@
 package edu.rut.grocery.service.serviceImpl;
 
 import edu.rut.grocery.domain.Employee;
-import edu.rut.grocery.dto.CustomerDto;
 import edu.rut.grocery.dto.EmployeeDto;
 import edu.rut.grocery.repository.EmployeeRepository;
 import edu.rut.grocery.service.EmployeeService;
@@ -14,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,7 +29,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Page<EmployeeDto> getEmployees(int page, int size) {
 
-		Pageable pageable = PageRequest.of(page-1, size, Sort.by("lastName").ascending());
+		Pageable pageable = PageRequest.of(page - 1, size, Sort.by("lastName").ascending());
 		Page<Employee> employees = employeeRepository.findAll(pageable);
 
 		return new PageImpl<>(

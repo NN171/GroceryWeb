@@ -1,7 +1,6 @@
 package edu.rut.grocery.repository;
 
 import edu.rut.grocery.domain.Feedback;
-import edu.rut.grocery.domain.Order;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

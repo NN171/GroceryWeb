@@ -35,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public Page<OrderDto> getOrders(int page, int size) {
 
-		Pageable pageable = PageRequest.of(page-1, size, Sort.by("createDate").ascending());
+		Pageable pageable = PageRequest.of(page - 1, size, Sort.by("createDate").ascending());
 		Page<Order> orders = orderRepository.findAll(pageable);
 
 		return new PageImpl<>(
@@ -65,8 +65,7 @@ public class OrderServiceImpl implements OrderService {
 
 			ProductOrder productOrder = existingProduct.get();
 			productOrder.setQuantity(productOrder.getQuantity() + quantity);
-		}
-		else {
+		} else {
 
 			ProductOrder productOrder = new ProductOrder(quantity, order, product);
 			order.getProductOrders().add(productOrder);

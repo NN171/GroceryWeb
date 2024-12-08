@@ -1,12 +1,9 @@
 package edu.rut.grocery.controller;
 
-import edu.rut.grocery.dto.CustomerDto;
 import edu.rut.grocery.dto.ProductDto;
 import edu.rut.grocery.service.ProductService;
 import edu.rut.web.controllers.ProductController;
 import edu.rut.web.dto.base.BaseViewModel;
-import edu.rut.web.dto.customer.EditCustomerForm;
-import edu.rut.web.dto.customer.EditCustomerViewModel;
 import edu.rut.web.dto.order.EditOrderViewModel;
 import edu.rut.web.dto.product.CreateProductForm;
 import edu.rut.web.dto.product.CreateProductViewModel;

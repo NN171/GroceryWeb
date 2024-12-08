@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,7 +29,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 	@Override
 	public Page<FeedbackDto> getFeedbacks(int page, int size) {
 
-		Pageable pageable = PageRequest.of(page-1, size, Sort.by("createDate").ascending());
+		Pageable pageable = PageRequest.of(page - 1, size, Sort.by("createDate").ascending());
 		Page<Feedback> feedbacks = feedbackRepository.findAll(pageable);
 
 		return new PageImpl<>(

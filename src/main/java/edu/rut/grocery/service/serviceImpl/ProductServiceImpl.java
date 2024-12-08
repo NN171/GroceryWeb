@@ -14,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -32,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Page<ProductDto> getProducts(int page, int size) {
 
-		Pageable pageable = PageRequest.of(page-1, size, Sort.by("expiryDate").descending());
+		Pageable pageable = PageRequest.of(page - 1, size, Sort.by("expiryDate").descending());
 		Page<Product> products = productRepository.findAll(pageable);
 
 		return new PageImpl<>(
@@ -84,7 +83,7 @@ public class ProductServiceImpl implements ProductService {
 			rating += feedback.getRating();
 		}
 
-		return rating/feedbacks.size();
+		return rating / feedbacks.size();
 	}
 
 	@Override
