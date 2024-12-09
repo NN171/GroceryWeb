@@ -50,7 +50,7 @@ public class CustomerControllerImpl implements CustomerController {
 		int size = form.size() != null ? form.size() : 5;
 
 		Page<CustomerDto> customers = customerService.getCustomers(page, size);
-		List<CustomerViewModel> customerViewModel = customers
+		List<CustomerViewModel> customerViewModelList = customers
 				.stream()
 				.map(c -> new CustomerViewModel(
 						c.id(),
@@ -58,13 +58,14 @@ public class CustomerControllerImpl implements CustomerController {
 						c.lastName(),
 						c.phoneNumber(),
 						c.discount(),
+						c.ordersAmount(),
 						null,
 						null))
 				.toList();
 
 		CustomerListViewModel viewModel = new CustomerListViewModel(
 				createBaseViewModel("Customer list"),
-				customerViewModel,
+				customerViewModelList,
 				page
 		);
 

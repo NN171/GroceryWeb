@@ -2,9 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Edit Customer</title>
 </head>
 <body>
+<div class="customer-create">
+    <form method="POST" th:action="@{/customers/edit}" th:object="${form}">
+        <h1>Список покупателей</h1>
 
+        <label for="firstName">Имя: </label>
+        <input type="text" th:field="*{firstName}"/>
+        <br/>
+
+        <label for="lastName">Фамилия: </label>
+        <input type="text" th:field="*{lastName}"/>
+        <br/>
+
+        <label for="phone">Номер телефона: </label>
+        <input type="text" th:field="*{phone}"/>
+        <br/>
+
+        <button type="submit">Create</button>
+    </form>
+</div>
 </body>
 </html>

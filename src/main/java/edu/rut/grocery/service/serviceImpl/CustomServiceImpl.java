@@ -37,7 +37,11 @@ public class CustomServiceImpl implements CustomService {
 	private final CustomerRepository customerRepository;
 
 
-	public CustomServiceImpl(FeedbackRepository feedbackRepository, ProductRepository productRepository, ModelMapper modelMapper, CustomerRepository customerRepository) {
+	public CustomServiceImpl(FeedbackRepository feedbackRepository,
+							 ProductRepository productRepository,
+							 ModelMapper modelMapper,
+							 CustomerRepository
+									 customerRepository) {
 		this.feedbackRepository = feedbackRepository;
 		this.productRepository = productRepository;
 		this.modelMapper = modelMapper;
@@ -47,11 +51,11 @@ public class CustomServiceImpl implements CustomService {
 	@Override
 	public List<HighRatedDto> getHighRatedProducts() {
 
-		List<Product> products = productRepository.getAll();
+		List<Product> products = productRepository.findAll();
 
 		for (Product product : products) {
 
-			List<Feedback> feedbacks = feedbackRepository.getAll();
+			List<Feedback> feedbacks = feedbackRepository.findAll();
 			double avgRating = 0;
 
 			for (Feedback feedback : feedbacks) {
@@ -82,7 +86,6 @@ public class CustomServiceImpl implements CustomService {
 		Set<Order> orders = customer.getOrders();
 
 		for (Order order : orders) {
-
 			Set<ProductOrder> productOrders = order.getProductOrders();
 
 			for (ProductOrder productOrder : productOrders) {
@@ -92,14 +95,17 @@ public class CustomServiceImpl implements CustomService {
 
 				if (productMap.containsKey(product)) {
 					productMap.put(product, quantity + productMap.get(product));
-				}
-				else productMap.put(product, quantity);
+				} else productMap.put(product, quantity);
 			}
 		}
 
-		List<Product> products = new ArrayList<>(productMap.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+		List<Product> products = new ArrayList<>(productMap.entrySet().stream()
+				.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
 				.limit(10)
-				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new)).keySet());
+				.collect(Collectors.toMap(Map.Entry::getKey,
+						Map.Entry::getValue,
+						(e1, e2) -> e1,
+						LinkedHashMap::new)).keySet());
 
 		return products.stream().map(p -> modelMapper.map(p, ProductDto.class)).toList();
 	}
