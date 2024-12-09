@@ -15,18 +15,18 @@ import java.util.Set;
 public class Product extends BaseEntity {
 
 	private String name;
-	private double price;
-	private int amount;
+	private Double price;
+	private Integer amount;
 	private LocalDateTime prodDate;
 	private LocalDateTime expiryDate;
-	private double avgRating;
+	private Double avgRating;
 	private Set<Feedback> feedbacks;
 	private Set<ProductOrder> productOrders;
 
 	public Product() {
 	}
 
-	public Product(String name, double price, int amount, LocalDateTime prodDate, LocalDateTime expiryDate, double avgRating, Set<Feedback> feedbacks, Set<ProductOrder> productOrders) {
+	public Product(String name, Double price, Integer amount, LocalDateTime prodDate, LocalDateTime expiryDate, Double avgRating, Set<Feedback> feedbacks, Set<ProductOrder> productOrders) {
 		this.name = name;
 		this.price = price;
 		this.amount = amount;
