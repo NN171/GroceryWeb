@@ -5,6 +5,35 @@
     <title>Title</title>
 </head>
 <body>
+<div class="store-list">
+    <a href="/" class="back-button">На главную</a>
+    <h1>Пользователи</h1>
 
+    <form th:method="GET" th:action="@{/stores/}" th:object="${form}">
+        <div th:if="${model.viewModelList().isEmpty()}">
+            <p>Пользователи не найдены.</p>
+        </div>
+
+        <div class="store-cards">
+            <div th:each="store : ${model.storeViewModels()}" class="store-card">
+                <p><span th:text="${store.firstName()} + ' ' + ${store.lastName()}"></span></p>
+                <p><strong>Номер телефона:</strong> <span th:text="${store.phoneNumber()}"></span></p>
+                <p><strong>Сумма заказов:</strong> <span th:text="${store.storeAddress()}"></span></p>
+                <button th:onclick="'/orders/' + ${store.id()}">Заказы</button>
+                <button th:onclick="'/feedbacks/' + ${store.id()}">Отзывы</button>
+            </div>
+        </div>
+
+        <div class="pagination">
+        <span th:if="${model.pages() > 1}">
+            <a th:href="@{'/stores?page=' + ${model.pages() - 1} + '&size=' + ${form.size()}}">Предыдущая</a>
+        </span>
+            <span>Страница <span th:text="${model.pages()}"></span></span>
+            <span th:if="${model.viewModelList().size() > 0}">
+            <a th:href="@{'/stores?page=' + ${model.pages() + 1} + '&size=' + ${form.size()}}">Следующая</a>
+        </span>
+        </div>
+    </form>
+</div>
 </body>
 </html>

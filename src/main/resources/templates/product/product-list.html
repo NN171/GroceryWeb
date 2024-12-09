@@ -5,6 +5,35 @@
     <title>Title</title>
 </head>
 <body>
+<div class="product-list">
+    <a href="/" class="back-button">На главную</a>
+    <h1>Пользователи</h1>
 
+    <form th:method="GET" th:action="@{/products/}" th:object="${form}">
+        <div th:if="${model.viewModelList().isEmpty()}">
+            <p>Пользователи не найдены.</p>
+        </div>
+
+        <div class="product-cards">
+            <div th:each="product : ${model.productViewModels()}" class="product-card">
+                <p><span th:text="${product.firstName()} + ' ' + ${product.lastName()}"></span></p>
+                <p><strong>Номер телефона:</strong> <span th:text="${product.phoneNumber()}"></span></p>
+                <p><strong>Сумма заказов:</strong> <span th:text="${product.storeAddress()}"></span></p>
+                <button th:onclick="'/orders/' + ${product.id()}">Заказы</button>
+                <button th:onclick="'/feedbacks/' + ${product.id()}">Отзывы</button>
+            </div>
+        </div>
+
+        <div class="pagination">
+        <span th:if="${model.pages() > 1}">
+            <a th:href="@{'/products?page=' + ${model.pages() - 1} + '&size=' + ${form.size()}}">Предыдущая</a>
+        </span>
+            <span>Страница <span th:text="${model.pages()}"></span></span>
+            <span th:if="${model.viewModelList().size() > 0}">
+            <a th:href="@{'/products?page=' + ${model.pages() + 1} + '&size=' + ${form.size()}}">Следующая</a>
+        </span>
+        </div>
+    </form>
+</div>
 </body>
 </html>

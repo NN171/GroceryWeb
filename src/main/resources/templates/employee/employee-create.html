@@ -5,6 +5,24 @@
     <title>Title</title>
 </head>
 <body>
+<div class="employee-edit">
+    <form method="POST" th:action="@{/employees/create}" th:object="${form}">
+        <h1>Список покупателей</h1>
 
+        <label for="firstName">Имя: </label>
+        <input type="text" th:field="*{firstName}"/>
+        <br/>
+
+        <label for="lastName">Фамилия: </label>
+        <input type="text" th:field="*{lastName}"/>
+        <br/>
+
+        <label for="phone">Номер телефона: </label>
+        <input type="text" th:field="*{phone}"/>
+        <br/>
+
+        <button type="submit">Update</button>
+    </form>
+</div>
 </body>
 </html>

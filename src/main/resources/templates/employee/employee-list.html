@@ -5,6 +5,35 @@
     <title>Title</title>
 </head>
 <body>
+<div class="employee-list">
+    <a href="/" class="back-button">На главную</a>
+    <h1>Пользователи</h1>
 
+    <form th:method="GET" th:action="@{/employees/}" th:object="${form}">
+        <div th:if="${model.viewModelList().isEmpty()}">
+            <p>Пользователи не найдены.</p>
+        </div>
+
+        <div class="employee-cards">
+            <div th:each="employee : ${model.employeeViewModels()}" class="employee-card">
+                <p><span th:text="${employee.firstName()} + ' ' + ${employee.lastName()}"></span></p>
+                <p><strong>Номер телефона:</strong> <span th:text="${employee.phoneNumber()}"></span></p>
+                <p><strong>Сумма заказов:</strong> <span th:text="${employee.storeAddress()}"></span></p>
+                <button th:onclick="'/orders/' + ${employee.id()}">Заказы</button>
+                <button th:onclick="'/feedbacks/' + ${employee.id()}">Отзывы</button>
+            </div>
+        </div>
+
+        <div class="pagination">
+        <span th:if="${model.pages() > 1}">
+            <a th:href="@{'/employees?page=' + ${model.pages() - 1} + '&size=' + ${form.size()}}">Предыдущая</a>
+        </span>
+            <span>Страница <span th:text="${model.pages()}"></span></span>
+            <span th:if="${model.viewModelList().size() > 0}">
+            <a th:href="@{'/employees?page=' + ${model.pages() + 1} + '&size=' + ${form.size()}}">Следующая</a>
+        </span>
+        </div>
+    </form>
+</div>
 </body>
 </html>
