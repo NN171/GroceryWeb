@@ -7,21 +7,17 @@
 <body>
 <div class="feedback-list">
     <a href="/" class="back-button">На главную</a>
-    <h1>Пользователи</h1>
+    <h1>Отзывы</h1>
 
     <form th:method="GET" th:action="@{/feedbacks/}" th:object="${form}">
-        <div th:if="${model.viewModelList().isEmpty()}">
-            <p>Пользователи не найдены.</p>
+        <div th:if="${model.feedbackViewModels().isEmpty()}">
+            <p>Отзывы не найдены.</p>
         </div>
 
-        <div class="feedback-cards">
-            <div th:each="feedback : ${model.feedbackViewModels()}" class="feedback-card">
-                <p><span th:text="${feedback.firstName()} + ' ' + ${feedback.lastName()}"></span></p>
-                <p><strong>Номер телефона:</strong> <span th:text="${feedback.phoneNumber()}"></span></p>
-                <p><strong>Сумма заказов:</strong> <span th:text="${feedback.storeAddress()}"></span></p>
-                <button th:onclick="'/orders/' + ${feedback.id()}">Заказы</button>
-                <button th:onclick="'/feedbacks/' + ${feedback.id()}">Отзывы</button>
-            </div>
+        <div class="feedback-cards" th:each="feedback : ${model.feedbackViewModels()}">
+            <h3 th:text="${feedback.rating()} + ' ' + ${review.duration}"></h3>
+            <p th:text="${review.comment}"></p>
+            <div class="rating" th:text="${#strings.repeat('★', review.rating)}"></div>
         </div>
 
         <div class="pagination">

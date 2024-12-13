@@ -14,6 +14,8 @@ import edu.rut.web.dto.feedback.FeedbackSearchForm;
 import edu.rut.web.dto.feedback.FeedbackViewModel;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -57,13 +60,15 @@ public class FeedbackControllerImpl implements FeedbackController {
 						f.id(),
 						f.rating(),
 						f.comment(),
-						null))
+						feedbackService.getFeedbackTime(f),
+						feedbackService.getCustomerName(f.id())))
 				.toList();
 
 		FeedbackListViewModel viewModel = new FeedbackListViewModel(
 				createBaseViewModel("Feedback list"),
 				FeedbackViewModel,
-				page
+				page,
+				feedbackService.getProductName(feedbacks.getContent().getFirst().id())
 		);
 
 		model.addAttribute("model", viewModel);
@@ -91,7 +96,8 @@ public class FeedbackControllerImpl implements FeedbackController {
 	@PostMapping("/create")
 	public String saveFeedback(@Valid @ModelAttribute("form") CreateFeedbackForm form,
 							   BindingResult bindingResult,
-							   Model model) {
+							   Model model,
+							   @AuthenticationPrincipal UserDetails userDetails) {
 
 		if (bindingResult.hasErrors()) {
 			CreateFeedbackViewModel viewModel = new CreateFeedbackViewModel(
@@ -106,7 +112,9 @@ public class FeedbackControllerImpl implements FeedbackController {
 		FeedbackDto feedbackDto = new FeedbackDto(
 				null,
 				form.rating(),
-				form.comment());
+				form.comment(),
+				form.productId(),
+				userDetails.getUsername());
 
 		feedbackService.saveFeedback(feedbackDto);
 

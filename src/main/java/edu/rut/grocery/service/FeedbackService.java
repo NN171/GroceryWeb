@@ -14,4 +14,10 @@ public interface FeedbackService {
 	String deleteFeedback(Long id);
 
 	String updateFeedback(FeedbackDto FeedbackDto, Long id);
+
+	String getCustomerName(Long id);
+
+	String getFeedbackTime(FeedbackDto feedback);
+
+	String getProductName(Long id);
 }
