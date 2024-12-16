@@ -8,6 +8,8 @@ import edu.rut.grocery.repository.StoreRepository;
 import edu.rut.grocery.service.StoreService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -47,6 +49,7 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
+	@Cacheable("getStore")
 	public StoreDto getStore(Long id) {
 		Store store = storeRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Store not found"));
@@ -55,6 +58,7 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
+	@CacheEvict("saveStore")
 	public String saveStore(StoreDto storeDto) {
 		Store store = modelMapper.map(storeDto, Store.class);
 		storeRepository.save(store);
@@ -103,6 +107,7 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
+	@CacheEvict("updateStore")
 	public String updateStore(StoreDto StoreDto, Long id) {
 		Store store = storeRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Store not found"));

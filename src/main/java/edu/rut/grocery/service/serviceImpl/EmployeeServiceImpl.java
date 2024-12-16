@@ -6,6 +6,8 @@ import edu.rut.grocery.repository.EmployeeRepository;
 import edu.rut.grocery.service.EmployeeService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -35,14 +37,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return new PageImpl<>(
 				employees.getContent().stream()
 						.map(element -> modelMapper.map(element, EmployeeDto.class))
-						.collect(Collectors.toList()
-						),
+						.toList(),
 				employees.getPageable(),
 				employees.getTotalPages()
 		);
 	}
 
 	@Override
+	@Cacheable("getEmployee")
 	public EmployeeDto getEmployee(Long id) {
 		Employee employee = employeeRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Employee not found"));
@@ -51,6 +53,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
+	@CacheEvict("saveEmployee")
 	public String saveEmployee(EmployeeDto employeeDto) {
 		Employee employee = modelMapper.map(employeeDto, Employee.class);
 		employeeRepository.save(employee);
@@ -67,6 +70,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
+	@CacheEvict("updateEmployee")
 	public String updateEmployee(EmployeeDto employeeDto, Long id) {
 		Employee employee = employeeRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Employee not found"));

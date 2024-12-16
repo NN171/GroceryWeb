@@ -13,6 +13,8 @@ import edu.rut.grocery.repository.ProductRepository;
 import edu.rut.grocery.service.CustomService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -55,7 +57,7 @@ public class CustomServiceImpl implements CustomService {
 
 		for (Product product : products) {
 
-			List<Feedback> feedbacks = feedbackRepository.findAll();
+			Set<Feedback> feedbacks = product.getFeedbacks();
 			double avgRating = 0;
 
 			for (Feedback feedback : feedbacks) {

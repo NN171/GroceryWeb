@@ -9,11 +9,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
 @Table(name = "employees")
-public class Employee extends BaseEntity {
+public class Employee extends BaseEntity implements Serializable {
 
 	private String firstName;
 	private String lastName;

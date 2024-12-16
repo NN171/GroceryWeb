@@ -8,6 +8,8 @@ import edu.rut.grocery.repository.OrderRepository;
 import edu.rut.grocery.service.CustomerService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -73,6 +75,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	@Cacheable("getCustomer")
 	public CustomerDto getCustomer(Long id) {
 		Customer customer = customerRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Customer not found"));
@@ -81,6 +84,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	@CacheEvict("saveCustomer")
 	public String saveCustomer(CustomerDto customerDto) {
 		Customer customer = modelMapper.map(customerDto, Customer.class);
 		customerRepository.save(customer);
@@ -97,6 +101,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	@CacheEvict("updateCustomer")
 	public String updateCustomer(CustomerDto customerDto, Long id) {
 		Customer customer = customerRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Customer not found"));

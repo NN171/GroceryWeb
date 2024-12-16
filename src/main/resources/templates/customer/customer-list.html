@@ -7,36 +7,35 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-<div class="customer-list">
-    <a th:href="@{/}" class="back-button">На главную</a>
-    <h1>Пользователи</h1>
 
-    <form th:method="GET" th:action="@{/customers/}" th:object="${form}">
-    <div th:if="${model.viewModelList().isEmpty()}">
-    <p>Пользователи не найдены.</p>
-    </div>
+<div class="header" style="height: 80px">
+    <a th:href="@{/}" class="text-dark text-decoration-none" style="font-size: 40px; font-weight: bold; cursor: pointer;">Grocery Web App</a>
+    <hr style="border-top: 2px solid; opacity: 0.7">
+</div>
 
-    <div class="customer-cards">
-        <div th:each="customer : ${model.viewModelList()}" class="customer-card">
-            <p><span th:text="${customer.firstName} + ' ' + ${customer.lastName}"></span></p>
-            <p><strong>Номер телефона:</strong> <span th:text="${customer.phone()}"></span></p>
-            <p><strong>Сумма заказов:</strong> <span th:text="${customer.ordersAmount()}"></span></p>
-            <p><strong>Сумма скидки:</strong> <span th:text="${customer.discount()}"></span></p>
-            <button th:onclick="'/orders/' + ${customer.id()}">Заказы</button>
-            <button th:onclick="'/feedbacks/' + ${customer.id()}">Отзывы</button>
+<a href="/customers/" style="margin-left: 40px; margin-top: 20px; height: 70px; padding: 15px 30px; font-size: 24px"
+   class="btn btn-outline-primary app-btn">К списку покупателей</a>
+
+<div class="container text-center mt-4">
+    <h2>Пользователи</h2>
+</div>
+
+<div class="container mt-4">
+    <div class="row" th:each="user : ${model.viewModelList()}">
+        <div class="col-12 mb-3">
+            <div class="border rounded p-3 d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 th:text="${user.firstName} + ' ' + ${user.lastName}">Имя пользователя</h5>
+                    <p>Номер телефона: <span th:text="${user.phone}">+70000000000</span></p>
+                    <p>Сумма заказов: <span th:text="${user.ordersAmount}">0</span></p>
+                    <p>Сумма скидки: <span th:text="${user.discount}">0%</span></p>
+                </div>
+                <div>
+                    <a href="#" class="btn btn-outline-secondary">Заказы</a>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="pagination">
-        <span th:if="${model.pages() > 1}">
-            <a th:href="@{'/customers?page=' + ${model.pages() - 1} + '&size=' + ${form.size()}}">Предыдущая</a>
-        </span>
-        <span>Страница <span th:text="${model.pages()}"></span></span>
-        <span th:if="${model.viewModelList().size() > 0}">
-            <a th:href="@{'/customers?page=' + ${model.pages() + 1} + '&size=' + ${form.size()}}">Следующая</a>
-        </span>
-    </div>
-    </form>
 </div>
 </body>
 </html>
