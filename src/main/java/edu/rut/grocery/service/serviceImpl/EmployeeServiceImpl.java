@@ -29,6 +29,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
+	@Cacheable("getEmployees")
 	public Page<EmployeeDto> getEmployees(int page, int size) {
 
 		Pageable pageable = PageRequest.of(page - 1, size, Sort.by("lastName").ascending());
@@ -44,7 +45,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	@Cacheable("getEmployee")
+	@Cacheable(value = "getEmployee", key = "#id")
 	public EmployeeDto getEmployee(Long id) {
 		Employee employee = employeeRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Employee not found"));
@@ -53,7 +54,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	@CacheEvict("saveEmployee")
+	@CacheEvict(value = "getEmployees", allEntries = true)
 	public String saveEmployee(EmployeeDto employeeDto) {
 		Employee employee = modelMapper.map(employeeDto, Employee.class);
 		employeeRepository.save(employee);
@@ -62,6 +63,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
+	@CacheEvict(value = "getEmployees", allEntries = true)
 	public String deleteEmployee(Long id) {
 		boolean removed = employeeRepository.deleteById(id);
 		if (!removed) throw new EntityNotFoundException("Employee not found");
@@ -70,7 +72,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	@CacheEvict("updateEmployee")
+	@CacheEvict(value = "getEmployees", allEntries = true)
 	public String updateEmployee(EmployeeDto employeeDto, Long id) {
 		Employee employee = employeeRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Employee not found"));

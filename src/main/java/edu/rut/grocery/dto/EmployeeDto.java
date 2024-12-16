@@ -1,6 +1,8 @@
 package edu.rut.grocery.dto;
 
-public class EmployeeDto{
+import java.io.Serializable;
+
+public class EmployeeDto implements Serializable {
 	private Long id;
 	private String firstName;
 	private String lastName;

@@ -1,6 +1,8 @@
 package edu.rut.grocery.dto;
 
-public class HighRatedDto {
+import java.io.Serializable;
+
+public class HighRatedDto implements Serializable {
 	private String name;
 	private double price;
 	private Integer avgRating;

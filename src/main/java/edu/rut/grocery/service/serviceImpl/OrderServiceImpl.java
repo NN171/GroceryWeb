@@ -10,6 +10,8 @@ import edu.rut.grocery.repository.ProductRepository;
 import edu.rut.grocery.service.OrderService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +36,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	@Cacheable("getOrders")
 	public Page<OrderDto> getOrders(int page, int size) {
 
 		Pageable pageable = PageRequest.of(page - 1, size, Sort.by("createDate").ascending());
@@ -50,6 +53,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	@Cacheable(value = "getOrder", key = "#id")
 	public OrderDto getOrder(Long id) {
 		Order order = orderRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Order not found"));
@@ -58,6 +62,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	@CacheEvict(value = "getOrders", allEntries = true)
 	public String saveOrder(OrderDto orderDto) {
 
 		double orderCost = 0;

@@ -1,6 +1,8 @@
 package edu.rut.grocery.dto;
 
-public class FeedbackDto {
+import java.io.Serializable;
+
+public class FeedbackDto implements Serializable {
 	private Long id;
 	private int rating;
 	private String comment;

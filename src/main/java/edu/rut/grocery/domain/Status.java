@@ -1,6 +1,8 @@
 package edu.rut.grocery.domain;
 
-public enum Status {
+import java.io.Serializable;
+
+public enum Status implements Serializable {
 	IN_PROGRESS("В сборке"),
 	CREATED("Создан"),
 	FINISHED("Завершен");

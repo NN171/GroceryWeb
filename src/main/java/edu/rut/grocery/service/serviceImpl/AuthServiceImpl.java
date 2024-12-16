@@ -5,6 +5,8 @@ import edu.rut.grocery.domain.User;
 import edu.rut.grocery.dto.UserDto;
 import edu.rut.grocery.repository.UserRepository;
 import edu.rut.grocery.service.AuthService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
+	@CacheEvict(value = "register", allEntries = true)
 	public void register(UserDto userDto) {
 
 		User user = new User(
@@ -49,6 +52,7 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
+	@Cacheable(value = "getUser", key = "#username")
 	public User getUser(String username) {
 		return userRepository.findByUsername(username)
 				.orElseThrow(() -> new UsernameNotFoundException(username + " not found"));

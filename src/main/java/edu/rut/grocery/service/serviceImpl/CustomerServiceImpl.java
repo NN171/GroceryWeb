@@ -34,6 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	@Cacheable(value = "getCustomers")
 	public Page<CustomerDto> getCustomers(int page, int size) {
 
 		Pageable pageable = PageRequest.of(page - 1, size, Sort.by("lastName").ascending());
@@ -75,7 +76,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	@Cacheable("getCustomer")
+	@Cacheable(value = "getCustomer", key = "#id")
 	public CustomerDto getCustomer(Long id) {
 		Customer customer = customerRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Customer not found"));
@@ -84,7 +85,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	@CacheEvict("saveCustomer")
+	@CacheEvict(value = "getCustomers", allEntries = true)
 	public String saveCustomer(CustomerDto customerDto) {
 		Customer customer = modelMapper.map(customerDto, Customer.class);
 		customerRepository.save(customer);
@@ -93,6 +94,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	@CacheEvict(value = "getCustomers", allEntries = true)
 	public String deleteCustomer(Long id) {
 		boolean removed = customerRepository.deleteById(id);
 		if (!removed) throw new EntityNotFoundException("Customer not found");
@@ -101,7 +103,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	@CacheEvict("updateCustomer")
+	@CacheEvict(value = "getCustomers", allEntries = true)
 	public String updateCustomer(CustomerDto customerDto, Long id) {
 		Customer customer = customerRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Customer not found"));

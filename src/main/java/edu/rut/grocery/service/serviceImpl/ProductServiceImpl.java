@@ -7,6 +7,8 @@ import edu.rut.grocery.repository.ProductRepository;
 import edu.rut.grocery.service.ProductService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +31,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	@Cacheable("getProducts")
 	public Page<ProductDto> getProducts(int page, int size) {
 
 		Pageable pageable = PageRequest.of(page - 1, size, Sort.by("expiryDate").descending());
@@ -45,6 +48,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	@Cacheable(value = "getProduct", key = "#id")
 	public ProductDto getProduct(Long id) {
 		Product product = productRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Product not found"));
@@ -53,6 +57,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	@CacheEvict(value = "getProducts", allEntries = true)
 	public String saveProduct(ProductDto productDto) {
 
 		Product product = modelMapper.map(productDto, Product.class);
@@ -62,6 +67,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	@CacheEvict(value = "getProducts", allEntries = true)
 	public String deleteProduct(Long id) {
 
 		boolean removed = productRepository.deleteById(id);
@@ -87,6 +93,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	@CacheEvict(value = "getProducts", allEntries = true)
 	public String updateProduct(ProductDto productDto, Long id) {
 
 		Product product = productRepository.findById(id)

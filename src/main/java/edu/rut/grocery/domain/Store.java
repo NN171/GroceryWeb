@@ -7,11 +7,12 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
 @Table(name = "stores")
-public class Store extends BaseEntity {
+public class Store extends BaseEntity implements Serializable {
 
 	private String address;
 	private int employeesNum;

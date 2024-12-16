@@ -6,11 +6,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "feedbacks")
-public class Feedback extends BaseEntity {
+public class Feedback extends BaseEntity implements Serializable {
 
 	private int rating;
 	private String comment;

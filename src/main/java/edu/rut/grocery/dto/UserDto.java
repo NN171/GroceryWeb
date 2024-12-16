@@ -2,7 +2,9 @@ package edu.rut.grocery.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public class UserDto {
+import java.io.Serializable;
+
+public class UserDto implements Serializable {
 	@NotBlank(message = "Username cannot be empty") String username;
 	@NotBlank(message = "Password cannot be empty") String password;
 	@NotBlank(message = "Password confirmation cannot be empty") String passwordConfirm;

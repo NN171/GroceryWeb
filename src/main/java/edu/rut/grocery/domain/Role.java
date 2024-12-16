@@ -1,5 +1,7 @@
 package edu.rut.grocery.domain;
 
-public enum Role {
+import java.io.Serializable;
+
+public enum Role implements Serializable {
 	USER, ADMIN
 }

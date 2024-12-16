@@ -8,12 +8,10 @@ import edu.rut.grocery.domain.ProductOrder;
 import edu.rut.grocery.dto.HighRatedDto;
 import edu.rut.grocery.dto.ProductDto;
 import edu.rut.grocery.repository.CustomerRepository;
-import edu.rut.grocery.repository.FeedbackRepository;
 import edu.rut.grocery.repository.ProductRepository;
 import edu.rut.grocery.service.CustomService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,7 +22,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,24 +30,22 @@ import java.util.stream.Collectors;
 @Service
 public class CustomServiceImpl implements CustomService {
 
-	private final FeedbackRepository feedbackRepository;
 	private final ProductRepository productRepository;
 	private final ModelMapper modelMapper;
 	private final CustomerRepository customerRepository;
 
 
-	public CustomServiceImpl(FeedbackRepository feedbackRepository,
-							 ProductRepository productRepository,
+	public CustomServiceImpl(ProductRepository productRepository,
 							 ModelMapper modelMapper,
 							 CustomerRepository
 									 customerRepository) {
-		this.feedbackRepository = feedbackRepository;
 		this.productRepository = productRepository;
 		this.modelMapper = modelMapper;
 		this.customerRepository = customerRepository;
 	}
 
 	@Override
+	@Cacheable("getHighRated")
 	public List<HighRatedDto> getHighRatedProducts() {
 
 		List<Product> products = productRepository.findAll();
@@ -79,6 +74,7 @@ public class CustomServiceImpl implements CustomService {
 	}
 
 	@Override
+	@Cacheable("getAlways")
 	public List<ProductDto> alwaysOrdering(Long id) {
 
 		Customer customer = customerRepository.findById(id)

@@ -1,6 +1,8 @@
 package edu.rut.grocery.dto;
 
-public class StoreDto {
+import java.io.Serializable;
+
+public class StoreDto implements Serializable {
 	private Long id;
 	private String address;
 	private Integer employeesNum;

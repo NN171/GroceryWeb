@@ -10,6 +10,8 @@ import edu.rut.grocery.repository.ProductRepository;
 import edu.rut.grocery.service.FeedbackService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -36,6 +38,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 	}
 
 	@Override
+	@Cacheable("getFeedbacks")
 	public Page<FeedbackDto> getFeedbacks(int page, int size, Long productId) {
 
 		Pageable pageable = PageRequest.of(page - 1, size, Sort.by("createDate").ascending());
@@ -52,6 +55,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 	}
 
 	@Override
+	@Cacheable(value = "getFeedback", key = "#id")
 	public FeedbackDto getFeedback(Long id) {
 		Feedback Feedback = feedbackRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Feedback not found"));
@@ -60,14 +64,13 @@ public class FeedbackServiceImpl implements FeedbackService {
 	}
 
 	@Override
+	@CacheEvict(value = "getFeedbacks", allEntries = true)
 	public String saveFeedback(FeedbackDto feedbackDto) {
 		Feedback feedback = modelMapper.map(feedbackDto, Feedback.class);
 		feedback.setCreateDate(LocalDateTime.now());
 
 		Product product = productRepository.findById(feedbackDto.getId())
-						.orElseThrow(() -> new RuntimeException("Product not found"));
-
-
+						.orElseThrow(() -> new RuntimeException("Product not found")); // TODO
 
 		feedbackRepository.save(feedback);
 
@@ -75,6 +78,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 	}
 
 	@Override
+	@CacheEvict(value = "getFeedbacks", allEntries = true)
 	public String deleteFeedback(Long id) {
 		boolean removed = feedbackRepository.deleteById(id);
 		if (!removed) throw new EntityNotFoundException("Feedback not found");
@@ -83,6 +87,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 	}
 
 	@Override
+	@CacheEvict(value = "getFeedbacks", allEntries = true)
 	public String updateFeedback(FeedbackDto feedbackDto, Long id) {
 		Feedback feedback = feedbackRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Feedback not found"));
@@ -108,9 +113,9 @@ public class FeedbackServiceImpl implements FeedbackService {
 	}
 
 	@Override
+	@Cacheable(value = "getProduct", key = "#id")
 	public Product getProduct(Long id) {
-		Product product = feedbackRepository.getProductById(id);
 
-		return product;
+		return feedbackRepository.getProductById(id);
 	}
 }

@@ -32,6 +32,7 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
+	@Cacheable("getStores")
 	public Page<StoreDto> getStores(int page, int size) {
 
 		Pageable pageable = PageRequest.of(page - 1, size, Sort.by("address").ascending());
@@ -49,7 +50,7 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	@Cacheable("getStore")
+	@Cacheable(value = "getStore", key = "#id")
 	public StoreDto getStore(Long id) {
 		Store store = storeRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Store not found"));
@@ -58,7 +59,7 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	@CacheEvict("saveStore")
+	@CacheEvict(value = "getStores", allEntries = true)
 	public String saveStore(StoreDto storeDto) {
 		Store store = modelMapper.map(storeDto, Store.class);
 		storeRepository.save(store);
@@ -67,6 +68,7 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
+	@CacheEvict(value = "getStores", allEntries = true)
 	public String deleteStore(Long id) {
 		boolean removed = storeRepository.deleteById(id);
 		if (!removed) throw new EntityNotFoundException("Store not found");
@@ -107,7 +109,7 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	@CacheEvict("updateStore")
+	@CacheEvict(value = "getStores", allEntries = true)
 	public String updateStore(StoreDto StoreDto, Long id) {
 		Store store = storeRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Store not found"));
