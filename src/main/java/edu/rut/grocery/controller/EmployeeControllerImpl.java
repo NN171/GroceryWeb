@@ -53,18 +53,19 @@ public class EmployeeControllerImpl implements EmployeeController {
 		List<EmployeeViewModel> employeeViewModel = employees
 				.stream()
 				.map(e -> new EmployeeViewModel(
-						e.id(),
-						e.firstName(),
-						e.lastName(),
-						e.phone(),
-						e.address(),
+						e.getId(),
+						e.getFirstName(),
+						e.getLastName(),
+						e.getPhone(),
+						e.getAddress(),
 						null))
 				.toList();
 
 		EmployeeListViewModel viewModel = new EmployeeListViewModel(
 				createBaseViewModel("Employee list"),
 				employeeViewModel,
-				page
+				page,
+				employees.getTotalPages()
 		);
 
 		model.addAttribute("model", viewModel);
@@ -163,11 +164,11 @@ public class EmployeeControllerImpl implements EmployeeController {
 
 		model.addAttribute("model", viewModel);
 		model.addAttribute("form", new EditEmployeeForm(
-				employee.id(),
-				employee.firstName(),
-				employee.lastName(),
-				employee.phone(),
-				employee.address()
+				employee.getId(),
+				employee.getFirstName(),
+				employee.getLastName(),
+				employee.getPhone(),
+				employee.getAddress()
 		));
 
 		return "employee/employee-edit";

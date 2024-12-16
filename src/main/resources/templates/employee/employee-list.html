@@ -6,7 +6,7 @@
 </head>
 <body>
 <div class="employee-list">
-    <a href="/" class="back-button">На главную</a>
+    <a th:href="@{/}" class="back-button">На главную</a>
     <h1>Пользователи</h1>
 
     <form th:method="GET" th:action="@{/employees/}" th:object="${form}">

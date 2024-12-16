@@ -16,9 +16,9 @@ import java.util.Set;
 @Table(name = "orders")
 public class Order extends BaseEntity {
 
-	private String status;
 	private double price;
 	private LocalDateTime createDate;
+	private Status status;
 	private Customer customer;
 	private Employee employee;
 	private Set<ProductOrder> productOrders;
@@ -26,7 +26,7 @@ public class Order extends BaseEntity {
 	public Order() {
 	}
 
-	public Order(String status, double price, LocalDateTime createDate, Customer customer, Employee employee, Set<ProductOrder> productOrders) {
+	public Order(Status status, double price, LocalDateTime createDate, Customer customer, Employee employee, Set<ProductOrder> productOrders) {
 		this.status = status;
 		this.price = price;
 		this.createDate = createDate;
@@ -36,11 +36,11 @@ public class Order extends BaseEntity {
 	}
 
 	@Column(name = "status")
-	public String getStatus() {
+	public Status getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 

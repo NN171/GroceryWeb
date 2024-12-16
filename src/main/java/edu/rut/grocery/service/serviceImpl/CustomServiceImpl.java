@@ -79,11 +79,14 @@ public class CustomServiceImpl implements CustomService {
 	@Override
 	public List<ProductDto> alwaysOrdering(Long id) {
 
-		Map<Product, Integer> productMap = new HashMap<>();
 		Customer customer = customerRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Customer not found"));
 
 		Set<Order> orders = customer.getOrders();
+
+		if (orders.isEmpty()) throw new IllegalArgumentException("Orders not found");
+
+		Map<Product, Integer> productMap = new HashMap<>();
 
 		for (Order order : orders) {
 			Set<ProductOrder> productOrders = order.getProductOrders();
@@ -93,20 +96,18 @@ public class CustomServiceImpl implements CustomService {
 				Product product = productOrder.getProduct();
 				int quantity = productOrder.getQuantity();
 
-				if (productMap.containsKey(product)) {
-					productMap.put(product, quantity + productMap.get(product));
-				} else productMap.put(product, quantity);
+				productMap.merge(product, quantity, Integer::sum);
 			}
 		}
 
 		List<Product> products = new ArrayList<>(productMap.entrySet().stream()
 				.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
 				.limit(10)
-				.collect(Collectors.toMap(Map.Entry::getKey,
-						Map.Entry::getValue,
-						(e1, e2) -> e1,
-						LinkedHashMap::new)).keySet());
+				.map(Map.Entry::getKey)
+				.toList());
 
-		return products.stream().map(p -> modelMapper.map(p, ProductDto.class)).toList();
+		return products.stream()
+				.map(p -> modelMapper.map(p, ProductDto.class))
+				.collect(Collectors.toList());
 	}
 }

@@ -54,13 +54,13 @@ public class ProductControllerImpl implements ProductController {
 		List<ProductViewModel> ProductViewModel = products
 				.stream()
 				.map(p -> new ProductViewModel(
-						p.id(),
-						p.name(),
-						p.price(),
-						p.amount(),
-						p.prodDate(),
-						p.expiryDate(),
-						p.avgRating(),
+						p.getId(),
+						p.getName(),
+						p.getPrice(),
+						p.getAmount(),
+						p.getProdDate(),
+						p.getExpiryDate(),
+						p.getAvgRating(),
 						null,
 						null))
 				.toList();
@@ -68,7 +68,8 @@ public class ProductControllerImpl implements ProductController {
 		ProductListViewModel viewModel = new ProductListViewModel(
 				createBaseViewModel("Product list"),
 				ProductViewModel,
-				page
+				page,
+				products.getTotalPages()
 		);
 
 		model.addAttribute("model", viewModel);
@@ -168,7 +169,7 @@ public class ProductControllerImpl implements ProductController {
 
 	@Override
 	@GetMapping("/update/{id}")
-	public String updateForm(Long id, Model model) {
+	public String updateForm(@PathVariable Long id, Model model) {
 
 		ProductDto product = productService.getProduct(id);
 
@@ -178,12 +179,12 @@ public class ProductControllerImpl implements ProductController {
 
 		model.addAttribute("model", viewModel);
 		model.addAttribute("form", new EditProductForm(
-				product.id(),
-				product.name(),
-				product.price(),
-				product.amount(),
-				product.prodDate(),
-				product.expiryDate()
+				product.getId(),
+				product.getName(),
+				product.getPrice(),
+				product.getAmount(),
+				product.getProdDate(),
+				product.getExpiryDate()
 		));
 
 		return "product/product-create";

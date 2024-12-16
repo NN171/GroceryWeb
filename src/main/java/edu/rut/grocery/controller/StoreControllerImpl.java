@@ -53,17 +53,18 @@ public class StoreControllerImpl implements StoreController {
 		List<StoreViewModel> StoreViewModel = stores
 				.stream()
 				.map(s -> new StoreViewModel(
-						s.id(),
-						s.address(),
-						s.employeesNum(),
-						s.soldAmount(),
+						s.getId(),
+						s.getAddress(),
+						s.getEmployeesNum(),
+						s.getSoldAmount(),
 						null))
 				.toList();
 
 		StoreListViewModel viewModel = new StoreListViewModel(
 				createBaseViewModel("Store list"),
 				StoreViewModel,
-				page
+				page,
+				stores.getTotalPages()
 		);
 
 		model.addAttribute("model", viewModel);
@@ -171,8 +172,8 @@ public class StoreControllerImpl implements StoreController {
 
 		model.addAttribute("model", viewModel);
 		model.addAttribute("form", new EditStoreForm(
-				storeDto.id(),
-				storeDto.address()
+				storeDto.getId(),
+				storeDto.getAddress()
 		));
 
 		return "store/store-edit";

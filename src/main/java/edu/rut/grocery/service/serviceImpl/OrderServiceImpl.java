@@ -4,6 +4,7 @@ import edu.rut.grocery.domain.Order;
 import edu.rut.grocery.domain.Product;
 import edu.rut.grocery.domain.ProductOrder;
 import edu.rut.grocery.dto.OrderDto;
+import edu.rut.grocery.dto.OrderProductDto;
 import edu.rut.grocery.repository.OrderRepository;
 import edu.rut.grocery.repository.ProductRepository;
 import edu.rut.grocery.service.OrderService;
@@ -49,32 +50,6 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Order addProduct(Long orderId, Long productId, int quantity) {
-
-		Order order = orderRepository.findById(orderId)
-				.orElseThrow(() -> new EntityNotFoundException("Order not found"));
-
-		Product product = productRepository.findById(productId)
-				.orElseThrow(() -> new EntityNotFoundException("Product not found"));
-
-		Optional<ProductOrder> existingProduct = order.getProductOrders().stream()
-				.filter(op -> op.getProduct().equals(product))
-				.findFirst();
-
-		if (existingProduct.isPresent()) {
-
-			ProductOrder productOrder = existingProduct.get();
-			productOrder.setQuantity(productOrder.getQuantity() + quantity);
-		} else {
-
-			ProductOrder productOrder = new ProductOrder(quantity, order, product);
-			order.getProductOrders().add(productOrder);
-		}
-
-		return orderRepository.save(order);
-	}
-
-	@Override
 	public OrderDto getOrder(Long id) {
 		Order order = orderRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Order not found"));
@@ -87,9 +62,9 @@ public class OrderServiceImpl implements OrderService {
 
 		double orderCost = 0;
 
-		for (OrderDto.OrderProductDto product : orderDto.products()) {
+		for (OrderProductDto product : orderDto.getProducts()) {
 
-			orderCost += product.price() * product.quantity();
+			orderCost += product.getPrice() * product.getQuantity();
 		}
 
 		Order order = modelMapper.map(orderDto, Order.class);
@@ -100,14 +75,5 @@ public class OrderServiceImpl implements OrderService {
 		orderRepository.save(order);
 
 		return "Order saved";
-	}
-
-	@Override
-	public String updateOrder(OrderDto orderDto, Long id) {
-		Order order = orderRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException("Order not found"));
-		modelMapper.map(orderDto, order);
-		orderRepository.save(order);
-		return "Order updated";
 	}
 }

@@ -64,7 +64,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 		Feedback feedback = modelMapper.map(feedbackDto, Feedback.class);
 		feedback.setCreateDate(LocalDateTime.now());
 
-		Product product = productRepository.findById(feedbackDto.id())
+		Product product = productRepository.findById(feedbackDto.getId())
 						.orElseThrow(() -> new RuntimeException("Product not found"));
 
 
@@ -101,7 +101,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 	@Override
 	public String getFeedbackTime(FeedbackDto feedback) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		LocalDateTime dateTime = feedbackRepository.findById(feedback.id())
+		LocalDateTime dateTime = feedbackRepository.findById(feedback.getId())
 				.orElseThrow(() -> new RuntimeException("Feedback not found")).getCreateDate();
 
 		return dateTime.format(formatter);

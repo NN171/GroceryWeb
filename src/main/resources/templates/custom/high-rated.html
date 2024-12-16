@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popular Products</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="header" style="height: 80px">
+    <a th:href="@{/}" class="text-dark text-decoration-none" style="font-size: 40px; font-weight: bold; cursor: pointer;">Grocery Web App</a>
+    <hr style="border-top: 2px solid; opacity: 0.7">
+</div>
+
+<div class="container mt-5">
+    <h1>10 самых высокооцененных товаров</h1>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
+        <div th:each="product : ${model.productViewModels}" class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${product.name}">Product Name</h5>
+                    <p class="card-text">
+                        <strong>Price:</strong> <span th:text="${product.price}">Price</span><br>
+                        <strong>Average Rating:</strong> <span th:text="${product.avgRating}">Rating</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

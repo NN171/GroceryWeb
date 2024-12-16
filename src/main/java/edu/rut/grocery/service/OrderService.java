@@ -11,8 +11,4 @@ public interface OrderService {
 	OrderDto getOrder(Long id);
 
 	String saveOrder(OrderDto orderDto);
-
-	String updateOrder(OrderDto orderDto, Long id);
-
-	Order addProduct(Long orderId, Long productId, int quantity);
 }

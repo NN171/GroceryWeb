@@ -58,18 +58,19 @@ public class FeedbackControllerImpl implements FeedbackController {
 		List<FeedbackViewModel> FeedbackViewModel = feedbacks
 				.stream()
 				.map(f -> new FeedbackViewModel(
-						f.id(),
-						f.rating(),
-						f.comment(),
+						f.getId(),
+						f.getRating(),
+						f.getComment(),
 						feedbackService.getFeedbackTime(f),
-						feedbackService.getCustomerName(f.id())))
+						feedbackService.getCustomerName(f.getId())))
 				.toList();
 
 		FeedbackListViewModel viewModel = new FeedbackListViewModel(
 				createBaseViewModel("Feedback list"),
 				FeedbackViewModel,
+				feedbackService.getProduct(feedbacks.getContent().getFirst().getId()).getName(),
 				page,
-				feedbackService.getProduct(feedbacks.getContent().getFirst().id()).getName()
+				feedbacks.getTotalPages()
 		);
 
 		model.addAttribute("model", viewModel);
@@ -171,9 +172,9 @@ public class FeedbackControllerImpl implements FeedbackController {
 
 		model.addAttribute("model", viewModel);
 		model.addAttribute("form", new EditFeedbackForm(
-				feedbackDto.id(),
-				feedbackDto.rating(),
-				feedbackDto.comment()
+				feedbackDto.getId(),
+				feedbackDto.getRating(),
+				feedbackDto.getComment()
 		));
 
 		return "feedback/feedback-edit";

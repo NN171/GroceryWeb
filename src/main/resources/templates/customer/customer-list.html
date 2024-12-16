@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="customer-list">
-    <a href="/" class="back-button">На главную</a>
+    <a th:href="@{/}" class="back-button">На главную</a>
     <h1>Пользователи</h1>
 
     <form th:method="GET" th:action="@{/customers/}" th:object="${form}">
@@ -18,7 +18,7 @@
 
     <div class="customer-cards">
         <div th:each="customer : ${model.viewModelList()}" class="customer-card">
-            <p><span th:text="${customer.firstName()} + ' ' + ${customer.lastName()}"></span></p>
+            <p><span th:text="${customer.firstName} + ' ' + ${customer.lastName}"></span></p>
             <p><strong>Номер телефона:</strong> <span th:text="${customer.phone()}"></span></p>
             <p><strong>Сумма заказов:</strong> <span th:text="${customer.ordersAmount()}"></span></p>
             <p><strong>Сумма скидки:</strong> <span th:text="${customer.discount()}"></span></p>

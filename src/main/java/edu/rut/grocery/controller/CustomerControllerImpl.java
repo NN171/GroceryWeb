@@ -53,12 +53,12 @@ public class CustomerControllerImpl implements CustomerController {
 		List<CustomerViewModel> customerViewModelList = customers
 				.stream()
 				.map(c -> new CustomerViewModel(
-						c.id(),
-						c.firstName(),
-						c.lastName(),
-						c.phoneNumber(),
-						c.discount(),
-						c.ordersAmount(),
+						c.getId(),
+						c.getFirstName(),
+						c.getLastName(),
+						c.getPhoneNumber(),
+						c.getDiscount(),
+						c.getOrdersAmount(),
 						null,
 						null))
 				.toList();
@@ -66,7 +66,8 @@ public class CustomerControllerImpl implements CustomerController {
 		CustomerListViewModel viewModel = new CustomerListViewModel(
 				createBaseViewModel("Customer list"),
 				customerViewModelList,
-				page
+				page,
+				customers.getTotalPages()
 		);
 
 		model.addAttribute("model", viewModel);
@@ -160,10 +161,10 @@ public class CustomerControllerImpl implements CustomerController {
 
 		model.addAttribute("model", viewModel);
 		model.addAttribute("form", new EditCustomerForm(
-				customer.id(),
-				customer.firstName(),
-				customer.lastName(),
-				customer.phoneNumber()));
+				customer.getId(),
+				customer.getFirstName(),
+				customer.getLastName(),
+				customer.getPhoneNumber()));
 
 		return "customer/customer-edit";
 	}

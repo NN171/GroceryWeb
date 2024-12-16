@@ -3,37 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
 <div class="store-list">
-    <a href="/" class="back-button">На главную</a>
-    <h1>Пользователи</h1>
 
-    <form th:method="GET" th:action="@{/stores/}" th:object="${form}">
-        <div th:if="${model.viewModelList().isEmpty()}">
-            <p>Пользователи не найдены.</p>
-        </div>
+    <div class="header" style="height: 80px">
+        <a th:href="@{/}" class="text-dark text-decoration-none" style="font-size: 40px; font-weight: bold; cursor: pointer;">Grocery Web App</a>
+        <hr style="border-top: 2px solid; opacity: 0.7">
+    </div>
 
-        <div class="store-cards">
-            <div th:each="store : ${model.storeViewModels()}" class="store-card">
-                <p><span th:text="${store.firstName()} + ' ' + ${store.lastName()}"></span></p>
-                <p><strong>Номер телефона:</strong> <span th:text="${store.phoneNumber()}"></span></p>
-                <p><strong>Сумма заказов:</strong> <span th:text="${store.storeAddress()}"></span></p>
-                <button th:onclick="'/orders/' + ${store.id()}">Заказы</button>
-                <button th:onclick="'/feedbacks/' + ${store.id()}">Отзывы</button>
+    <div class="justify-content-center">
+        <h1>Магазины</h1>
+
+        <form th:method="GET" th:action="@{/stores/}" th:object="${form}">
+            <div th:if="${model.storeViewModels().isEmpty()}">
+                <p>Stores not found</p>
             </div>
-        </div>
 
-        <div class="pagination">
-        <span th:if="${model.pages() > 1}">
-            <a th:href="@{'/stores?page=' + ${model.pages() - 1} + '&size=' + ${form.size()}}">Предыдущая</a>
-        </span>
-            <span>Страница <span th:text="${model.pages()}"></span></span>
-            <span th:if="${model.viewModelList().size() > 0}">
-            <a th:href="@{'/stores?page=' + ${model.pages() + 1} + '&size=' + ${form.size()}}">Следующая</a>
-        </span>
-        </div>
-    </form>
+            <div class="row row-cols-1 row-cols-md-3 g-4 mt-4 justify-content-center">
+                <div th:each="store : ${model.storeViewModels()}" class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${store.address()}">Address</h5>
+                            <p class="card-text">
+                                <span th:text="${store.employeesNum()}">Employees</span><br>
+                                <span th:text="${store.soldAmount()}">Sells</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pagination">
+            <span th:if="${model.pages() > 1}">
+                <a th:href="@{'/stores?page=' + ${model.pages() - 1} + '&size=' + ${form.size()}}">Предыдущая</a>
+            </span>
+                <span>Страница <span th:text="${model.pages()}"></span></span>
+                <span th:if="${model.viewModelList().size() > 0}">
+                <a th:href="@{'/stores?page=' + ${model.pages() + 1} + '&size=' + ${form.size()}}">Следующая</a>
+            </span>
+            </div>
+        </form>
+    </div>
 </div>
 </body>
 </html>
