@@ -36,10 +36,10 @@ public class FeedbackServiceImpl implements FeedbackService {
 	}
 
 	@Override
-	public Page<FeedbackDto> getFeedbacks(int page, int size) {
+	public Page<FeedbackDto> getFeedbacks(int page, int size, Long productId) {
 
 		Pageable pageable = PageRequest.of(page - 1, size, Sort.by("createDate").ascending());
-		Page<Feedback> feedbacks = feedbackRepository.findAll(pageable);
+		Page<Feedback> feedbacks = feedbackRepository.getFeedbacksByProductId(productId, pageable);
 
 		return new PageImpl<>(
 				feedbacks.getContent().stream()
@@ -108,9 +108,9 @@ public class FeedbackServiceImpl implements FeedbackService {
 	}
 
 	@Override
-	public String getProductName(Long id) {
+	public Product getProduct(Long id) {
 		Product product = feedbackRepository.getProductById(id);
 
-		return product.getName();
+		return product;
 	}
 }

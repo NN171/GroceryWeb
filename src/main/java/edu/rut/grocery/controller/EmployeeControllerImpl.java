@@ -109,7 +109,7 @@ public class EmployeeControllerImpl implements EmployeeController {
 				null,
 				form.firstName(),
 				form.lastName(),
-				form.phoneNumber(),
+				form.phone(),
 				form.storeAddress());
 
 		employeeService.saveEmployee(employeeDto);

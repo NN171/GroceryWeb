@@ -10,7 +10,7 @@
     <h1>Пользователи</h1>
 
     <form th:method="GET" th:action="@{/employees/}" th:object="${form}">
-        <div th:if="${model.viewModelList().isEmpty()}">
+        <div th:if="${model.employeeViewModels().isEmpty()}">
             <p>Пользователи не найдены.</p>
         </div>
 

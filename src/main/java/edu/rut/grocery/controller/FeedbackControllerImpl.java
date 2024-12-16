@@ -46,14 +46,15 @@ public class FeedbackControllerImpl implements FeedbackController {
 	}
 
 	@Override
-	@GetMapping("/")
+	@GetMapping("/{productId}")
 	public String getFeedbacks(@ModelAttribute("form") FeedbackSearchForm form,
-							   Model model) {
+							   Model model,
+							   @PathVariable Long productId) {
 
 		int page = form.page() != null ? form.page() : 1;
 		int size = form.size() != null ? form.size() : 5;
 
-		Page<FeedbackDto> feedbacks = feedbackService.getFeedbacks(page, size);
+		Page<FeedbackDto> feedbacks = feedbackService.getFeedbacks(page, size, productId);
 		List<FeedbackViewModel> FeedbackViewModel = feedbacks
 				.stream()
 				.map(f -> new FeedbackViewModel(
@@ -68,7 +69,7 @@ public class FeedbackControllerImpl implements FeedbackController {
 				createBaseViewModel("Feedback list"),
 				FeedbackViewModel,
 				page,
-				feedbackService.getProductName(feedbacks.getContent().getFirst().id())
+				feedbackService.getProduct(feedbacks.getContent().getFirst().id()).getName()
 		);
 
 		model.addAttribute("model", viewModel);
@@ -87,7 +88,7 @@ public class FeedbackControllerImpl implements FeedbackController {
 		);
 
 		model.addAttribute("model", viewModel);
-		model.addAttribute("form", new CreateFeedbackForm(1, ""));
+		model.addAttribute("form", new CreateFeedbackForm(1L, 1, ""));
 
 		return "feedback/feedback-create";
 	}
@@ -150,7 +151,9 @@ public class FeedbackControllerImpl implements FeedbackController {
 		FeedbackDto feedbackDto = new FeedbackDto(
 				id,
 				form.rating(),
-				form.comment());
+				form.comment(),
+				feedbackService.getProduct(id).getId(),
+				feedbackService.getCustomerName(id));
 
 		feedbackService.updateFeedback(feedbackDto, id);
 
