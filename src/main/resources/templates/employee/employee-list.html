@@ -21,13 +21,18 @@
 </div>
 
 <div class="container mt-4">
+
+    <div th:if="${model.employeeViewModels().isEmpty()}">
+        <p>Работники не найдены.</p>
+    </div>
+
     <div class="row" th:each="employee : ${model.employeeViewModels()}">
         <div class="col-12 mb-3">
             <div class="border rounded p-3 d-flex justify-content-between align-items-center">
                 <div>
                     <h5 th:text="${employee.firstName} + ' ' + ${employee.lastName}">Имя пользователя</h5>
-                    <p>Номер телефона: <span th:text="${employee.phone}">+70000000000</span></p>
-                    <p>Адрес магазина: <span th:text="${employee.storeAddress}">Дмитровская</span></p>
+                    <p>Номер телефона: <span th:text="${employee.phone}">+12345</span></p>
+                    <p>Адрес магазина: <span th:text="${employee.storeAddress}">Адрес</span></p>
                 </div>
                 <div>
                     <a href="#" class="btn btn-outline-secondary">Заказы</a>

@@ -3,37 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-<div class="product-list">
-    <a th:href="@{/}" class="back-button">На главную</a>
-    <h1>Пользователи</h1>
 
+<div class="header" style="height: 80px">
+    <a th:href="@{/}" class="text-dark text-decoration-none" style="font-size: 40px; font-weight: bold; cursor: pointer;">Grocery Web App</a>
+    <hr style="border-top: 2px solid; opacity: 0.7">
+</div>
+
+<a href="/customers/" style="margin-left: 40px; margin-top: 20px; height: 70px; padding: 15px 30px; font-size: 24px"
+   class="btn btn-outline-primary app-btn">К списку покупателей</a>
+
+<div class="container text-center mt-4">
+    <h2>Продукты</h2>
+</div>
+
+<div class="container mt-4">
     <form th:method="GET" th:action="@{/products/}" th:object="${form}">
-        <div th:if="${model.viewModelList().isEmpty()}">
-            <p>Пользователи не найдены.</p>
+        <div th:if="${model.productViewModels.isEmpty()}">
+            <p>Продукты не найдены.</p>
         </div>
 
-        <div class="product-cards">
-            <div th:each="product : ${model.productViewModels()}" class="product-card">
-                <p><span th:text="${product.firstName()} + ' ' + ${product.lastName()}"></span></p>
-                <p><strong>Номер телефона:</strong> <span th:text="${product.phoneNumber()}"></span></p>
-                <p><strong>Сумма заказов:</strong> <span th:text="${product.storeAddress()}"></span></p>
-                <button th:onclick="'/orders/' + ${product.id()}">Заказы</button>
-                <button th:onclick="'/feedbacks/' + ${product.id()}">Отзывы</button>
+        <div th:each="product : ${model.productViewModels}" class="row">
+            <div class="col-12 mb-3">
+                <div class="border rounded p-3 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 th:text="${product.name}"></h5>
+                        <p>Цена: <span th:text="${product.price}"></span></p>
+                        <p>Количество: <span th:text="${product.amount}"></span></p>
+                        <p>Дата производства: <span th:text="${product.prodDate}"></span></p>
+                        <p>Дата окончания срока годности: <span th:text="${product.expiryDate}"></span></p>
+                        <p>Рейтинг: <span th:text="${product.avgRating}"></span></p>
+                        <div class="col w-0 mt-3">
+                            <button class="btn btn-secondary" th:href="@{/orders/add?productId=${product.id()}}">Добавить в заказ</button>
+                            <button class="btn btn-secondary" th:onclick="@{/feedbacks/{productId}(productId=${product.id()})}">Отзывы</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="pagination">
-        <span th:if="${model.pages() > 1}">
-            <a th:href="@{'/products?page=' + ${model.pages() - 1} + '&size=' + ${form.size()}}">Предыдущая</a>
-        </span>
-            <span>Страница <span th:text="${model.pages()}"></span></span>
-            <span th:if="${model.viewModelList().size() > 0}">
-            <a th:href="@{'/products?page=' + ${model.pages() + 1} + '&size=' + ${form.size()}}">Следующая</a>
-        </span>
-        </div>
     </form>
+
+    <div class="pagination align-center">
+    <span th:if="${model.totalPages > 1}">
+        <a th:href="@{'/products?page=' + ${model.totalPages - 1} + '&size=' + ${form.size()}}">Предыдущая</a>
+    </span>
+        <span>Страница <span th:text="${model.totalPages}"></span></span>
+        <span th:if="${model.productViewModels.size() > 0}">
+        <a th:href="@{'/products?page=' + ${model.totalPages + 1} + '&size=' + ${form.size()}}">Следующая</a>
+    </span>
+    </div>
 </div>
 </body>
 </html>

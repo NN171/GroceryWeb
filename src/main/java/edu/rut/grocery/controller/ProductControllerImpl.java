@@ -75,7 +75,7 @@ public class ProductControllerImpl implements ProductController {
 		model.addAttribute("model", viewModel);
 		model.addAttribute("form", form);
 
-		return "redirect:/products";
+		return "product/product-list";
 	}
 
 	@Override
