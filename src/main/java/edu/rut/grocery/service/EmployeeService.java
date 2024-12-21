@@ -11,7 +11,7 @@ public interface EmployeeService {
 
 	String saveEmployee(EmployeeDto employeeDto);
 
-	String deleteEmployee(Long id);
+	void deleteEmployee(Long id);
 
 	String updateEmployee(EmployeeDto employeeDto, Long id);
 }

@@ -124,7 +124,7 @@ public class ProductControllerImpl implements ProductController {
 
 		productService.saveProduct(productDto);
 
-		return "redirect:/products";
+		return "redirect:/products/";
 	}
 
 	@Override
@@ -133,7 +133,7 @@ public class ProductControllerImpl implements ProductController {
 
 		productService.deleteProduct(id);
 
-		return "redirect:/products";
+		return "redirect:/products/";
 	}
 
 	@Override
@@ -164,7 +164,7 @@ public class ProductControllerImpl implements ProductController {
 
 		productService.updateProduct(productDto, id);
 
-		return "redirect:/products";
+		return "redirect:/products/";
 	}
 
 	@Override

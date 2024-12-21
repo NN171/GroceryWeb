@@ -14,7 +14,7 @@
 </div>
 
 <div class="container mt-5">
-    <h1 th:text="${model.baseViewModel.title}">10 самых популярных товаров покупателя</h1>
+    <h1>10 самых популярных товаров покупателя</h1>
 
     <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
         <div th:each="product : ${model.productViewModels}" class="col">

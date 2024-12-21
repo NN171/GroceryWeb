@@ -4,7 +4,9 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 import java.io.Serializable;
@@ -19,13 +21,14 @@ public class Customer extends BaseEntity implements Serializable {
 	private String phoneNumber;
 	private double ordersAmount;
 	private int discount;
+	private User user;
 	private Set<Feedback> feedbacks;
 	private Set<Order> orders;
 
 	public Customer() {
 	}
 
-	public Customer(String firstName, String lastName, String phoneNumber, double ordersAmount, int discount, Set<Feedback> feedbacks, Set<Order> orders) {
+	public Customer(String firstName, String lastName, String phoneNumber, double ordersAmount, int discount, Set<Feedback> feedbacks, Set<Order> orders, User user) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phoneNumber = phoneNumber;
@@ -33,6 +36,7 @@ public class Customer extends BaseEntity implements Serializable {
 		this.discount = discount;
 		this.feedbacks = feedbacks;
 		this.orders = orders;
+		this.user = user;
 	}
 
 	@Column(name = "first_name")
@@ -96,5 +100,15 @@ public class Customer extends BaseEntity implements Serializable {
 
 	public void setOrders(Set<Order> orders) {
 		this.orders = orders;
+	}
+
+	@OneToOne
+	@JoinColumn(name = "user_id")
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

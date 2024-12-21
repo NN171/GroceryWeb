@@ -136,7 +136,6 @@ public class OrderControllerImpl implements OrderController {
 			model.addAttribute("error", "Product not found: " + e.getMessage());
 			return "error-page";
 		} catch (IllegalArgumentException e) {
-			// Обрабатываем случай, если количество некорректное
 			model.addAttribute("error", "Invalid quantity: " + e.getMessage());
 			return "error-page";
 		}
@@ -188,7 +187,7 @@ public class OrderControllerImpl implements OrderController {
 
 		orderService.saveOrder(orderDto);
 
-		return "redirect:/orders";
+		return "redirect:/orders/";
 	}
 
 	@Override
@@ -210,7 +209,7 @@ public class OrderControllerImpl implements OrderController {
 			return "order/order-edit";
 		}
 
-		return "redirect:/orders";
+		return "redirect:/orders/";
 	}
 
 	@Override

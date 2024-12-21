@@ -7,17 +7,17 @@ public class FeedbackDto implements Serializable {
 	private int rating;
 	private String comment;
 	private Long productId;
-	private String username;
+	private Long customerId;
 
 	public FeedbackDto() {
 	}
 
-	public FeedbackDto(Long id, int rating, String comment, Long productId, String username) {
+	public FeedbackDto(Long id, int rating, String comment, Long productId, Long customerId) {
 		this.id = id;
 		this.rating = rating;
 		this.comment = comment;
 		this.productId = productId;
-		this.username = username;
+		this.customerId = customerId;
 	}
 
 	public Long getId() {
@@ -52,11 +52,11 @@ public class FeedbackDto implements Serializable {
 		this.productId = productId;
 	}
 
-	public String getUsername() {
-		return username;
+	public Long getCustomerId() {
+		return customerId;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setCustomerId(Long customerId) {
+		this.customerId = customerId;
 	}
 }

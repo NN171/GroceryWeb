@@ -1,6 +1,7 @@
 package edu.rut.grocery.service;
 
 import edu.rut.grocery.domain.Product;
+import edu.rut.grocery.domain.User;
 import edu.rut.grocery.dto.FeedbackDto;
 import org.springframework.data.domain.Page;
 

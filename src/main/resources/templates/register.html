@@ -44,6 +44,33 @@
         </div>
 
         <div class="mb-4">
+            <label for="firstName" class="form-label fw-bold">Имя</label>
+            <input type="text" id="firstName" name="firstName" th:field="*{firstName}" th:errorclass="is-invalid"
+                   class="form-control"
+                   placeholder="Введите имя" required>
+            <small th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="text-danger">Error
+                message</small>
+        </div>
+
+        <div class="mb-4">
+            <label for="lastName" class="form-label fw-bold">Фамилия</label>
+            <input type="text" id="lastName" name="lastName" th:field="*{lastName}" th:errorclass="is-invalid"
+                   class="form-control"
+                   placeholder="Введите фамилию" required>
+            <small th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="text-danger">Error
+                message</small>
+        </div>
+
+        <div class="mb-4">
+            <label for="phone" class="form-label fw-bold">Номер телефона</label>
+            <input type="text" id="phone" name="phone" th:field="*{phone}" th:errorclass="is-invalid"
+                   class="form-control"
+                   placeholder="Введите номер телефона" required>
+            <small th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="text-danger">Error
+                message</small>
+        </div>
+
+        <div class="mb-4">
             <label for="password" class="form-label fw-bold">Пароль</label>
             <input type="password" id="password" name="password" th:field="*{password}" th:errorclass="is-invalid"
                    class="form-control"

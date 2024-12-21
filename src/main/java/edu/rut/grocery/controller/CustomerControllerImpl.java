@@ -120,7 +120,7 @@ public class CustomerControllerImpl implements CustomerController {
 	public String deleteCustomer(@PathVariable Long id) {
 
 		customerService.deleteCustomer(id);
-		return "redirect:/customers";
+		return "redirect:/customers/";
 	}
 
 	@Override
@@ -149,7 +149,7 @@ public class CustomerControllerImpl implements CustomerController {
 				customerService.calculateDiscount(id));
 
 		customerService.updateCustomer(customerDto, id);
-		return "redirect:/customers";
+		return "redirect:/customers/";
 	}
 
 	@Override

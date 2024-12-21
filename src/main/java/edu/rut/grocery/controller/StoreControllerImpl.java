@@ -86,7 +86,7 @@ public class StoreControllerImpl implements StoreController {
 				""
 		));
 
-		return "redirect:/stores";
+		return "store/store-create";
 	}
 
 	@Override
@@ -117,7 +117,7 @@ public class StoreControllerImpl implements StoreController {
 
 		storeService.saveStore(storeDto);
 
-		return "redirect:/stores";
+		return "redirect:/stores/";
 	}
 
 	@Override
@@ -126,7 +126,7 @@ public class StoreControllerImpl implements StoreController {
 
 		storeService.deleteStore(id);
 
-		return "redirect:/stores";
+		return "redirect:/stores/";
 	}
 
 	@Override
@@ -157,7 +157,7 @@ public class StoreControllerImpl implements StoreController {
 
 		storeService.updateStore(storeDto, id);
 
-		return "redirect:/stores";
+		return "redirect:/stores/";
 	}
 
 	@Override

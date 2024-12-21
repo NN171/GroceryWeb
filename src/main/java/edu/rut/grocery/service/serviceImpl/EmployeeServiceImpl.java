@@ -1,8 +1,10 @@
 package edu.rut.grocery.service.serviceImpl;
 
 import edu.rut.grocery.domain.Employee;
+import edu.rut.grocery.domain.Store;
 import edu.rut.grocery.dto.EmployeeDto;
 import edu.rut.grocery.repository.EmployeeRepository;
+import edu.rut.grocery.repository.StoreRepository;
 import edu.rut.grocery.service.EmployeeService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -22,10 +24,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	private final ModelMapper modelMapper;
 	private final EmployeeRepository employeeRepository;
+	private final StoreRepository storeRepository;
 
-	public EmployeeServiceImpl(EmployeeRepository employeeRepository, ModelMapper modelMapper) {
+	public EmployeeServiceImpl(EmployeeRepository employeeRepository, ModelMapper modelMapper, StoreRepository storeRepository) {
 		this.employeeRepository = employeeRepository;
 		this.modelMapper = modelMapper;
+		this.storeRepository = storeRepository;
 	}
 
 	@Override
@@ -57,6 +61,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@CacheEvict(value = "getEmployees", allEntries = true)
 	public String saveEmployee(EmployeeDto employeeDto) {
 		Employee employee = modelMapper.map(employeeDto, Employee.class);
+		Store store = storeRepository.findByAddress(employeeDto.getAddress())
+						.orElseThrow(() -> new EntityNotFoundException("Store not found"));
+		employee.setStore(store);
 		employeeRepository.save(employee);
 
 		return "employee saved";
@@ -64,11 +71,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	@CacheEvict(value = "getEmployees", allEntries = true)
-	public String deleteEmployee(Long id) {
-		boolean removed = employeeRepository.deleteById(id);
-		if (!removed) throw new EntityNotFoundException("Employee not found");
-
-		return "Success";
+	public void deleteEmployee(Long id) {
+		employeeRepository.deleteById(id);
 	}
 
 	@Override

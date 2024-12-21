@@ -1,8 +1,10 @@
 package edu.rut.grocery.service.serviceImpl;
 
+import edu.rut.grocery.domain.Customer;
 import edu.rut.grocery.domain.Role;
 import edu.rut.grocery.domain.User;
 import edu.rut.grocery.dto.UserDto;
+import edu.rut.grocery.repository.CustomerRepository;
 import edu.rut.grocery.repository.UserRepository;
 import edu.rut.grocery.service.AuthService;
 import org.springframework.cache.annotation.CacheEvict;
@@ -11,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
 
 @Service
@@ -18,23 +21,41 @@ public class AuthServiceImpl implements AuthService {
 
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
+	private final CustomerRepository customerRepository;
 
-	public AuthServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+	public AuthServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, CustomerRepository customerRepository) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
+		this.customerRepository = customerRepository;
 	}
 
 	@Override
 	@CacheEvict(value = "register", allEntries = true)
 	public void register(UserDto userDto) {
 
+		Customer customer = new Customer(
+				userDto.getFirstName(),
+				userDto.getLastName(),
+				userDto.getPhone(),
+				0L,
+				0,
+				new HashSet<>(),
+				new HashSet<>(),
+				null
+		);
+
+
 		User user = new User(
 				userDto.getUsername(),
 				passwordEncoder.encode(userDto.getPassword()),
-				Role.USER
+				Role.USER,
+				customer
 		);
 
+		customer.setUser(user);
+
 		userRepository.save(user);
+		customerRepository.save(customer);
 	}
 
 	@Override
@@ -46,9 +67,7 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	public boolean userExists(UserDto userDto) {
 
-		Optional<User> existingUser = userRepository.findByUsername(userDto.getUsername());
-
-		return existingUser.isPresent();
+		return userRepository.existsByUsername(userDto.getUsername());
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import edu.rut.grocery.dto.EmployeeDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
 
 @Configuration
 public class AppConfig {
@@ -17,5 +18,10 @@ public class AppConfig {
 				.addMapping(src -> src.getStore().getAddress(), EmployeeDto::setAddress);
 
 		return modelMapper;
+	}
+
+	@Bean
+	public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
+		return new HiddenHttpMethodFilter();
 	}
 }

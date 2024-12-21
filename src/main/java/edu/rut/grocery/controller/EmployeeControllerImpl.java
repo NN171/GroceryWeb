@@ -114,15 +114,15 @@ public class EmployeeControllerImpl implements EmployeeController {
 				form.storeAddress());
 
 		employeeService.saveEmployee(employeeDto);
-		return "redirect:/employees";
+		return "redirect:/employees/";
 	}
 
 	@Override
 	@DeleteMapping("/delete/{id}")
 	public String deleteEmployee(@PathVariable Long id) {
-
 		employeeService.deleteEmployee(id);
-		return "redirect:/employees";
+
+		return "redirect:/employees/";
 	}
 
 	@Override
@@ -152,7 +152,7 @@ public class EmployeeControllerImpl implements EmployeeController {
 
 		employeeService.updateEmployee(employeeDto, id);
 
-		return "redirect:/employees";
+		return "redirect:/employees/";
 	}
 
 	@Override

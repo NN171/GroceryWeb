@@ -1,6 +1,8 @@
 package edu.rut.grocery.controller;
 
+import edu.rut.grocery.domain.User;
 import edu.rut.grocery.dto.FeedbackDto;
+import edu.rut.grocery.service.AuthService;
 import edu.rut.grocery.service.FeedbackService;
 import edu.rut.web.controllers.FeedbackController;
 import edu.rut.web.dto.base.BaseViewModel;
@@ -35,9 +37,11 @@ import java.util.List;
 public class FeedbackControllerImpl implements FeedbackController {
 
 	private final FeedbackService feedbackService;
+	private final AuthService authService;
 
-	public FeedbackControllerImpl(FeedbackService feedbackService) {
+	public FeedbackControllerImpl(FeedbackService feedbackService, AuthService authService) {
 		this.feedbackService = feedbackService;
+		this.authService = authService;
 	}
 
 	@Override
@@ -62,6 +66,7 @@ public class FeedbackControllerImpl implements FeedbackController {
 						f.getRating(),
 						f.getComment(),
 						feedbackService.getFeedbackTime(f),
+						productId,
 						feedbackService.getCustomerName(f.getId())))
 				.toList();
 
@@ -111,16 +116,18 @@ public class FeedbackControllerImpl implements FeedbackController {
 			return "feedback/feedback-create";
 		}
 
+		User user = authService.getUser(userDetails.getUsername());
+
 		FeedbackDto feedbackDto = new FeedbackDto(
 				null,
 				form.rating(),
 				form.comment(),
 				form.productId(),
-				userDetails.getUsername());
+				user.getCustomer().getId());
 
 		feedbackService.saveFeedback(feedbackDto);
 
-		return "redirect:/feedbacks";
+		return "redirect:/feedbacks/" + feedbackDto.getId();
 	}
 
 	@Override
@@ -136,7 +143,8 @@ public class FeedbackControllerImpl implements FeedbackController {
 	public String updateFeedback(@PathVariable Long id,
 								 @Valid @ModelAttribute("form") EditFeedbackForm form,
 								 BindingResult bindingResult,
-								 Model model) {
+								 Model model,
+								 @AuthenticationPrincipal UserDetails userDetails) {
 
 		if (bindingResult.hasErrors()) {
 			EditCustomerViewModel viewModel = new EditCustomerViewModel(
@@ -154,11 +162,11 @@ public class FeedbackControllerImpl implements FeedbackController {
 				form.rating(),
 				form.comment(),
 				feedbackService.getProduct(id).getId(),
-				feedbackService.getCustomerName(id));
+				authService.getUser(userDetails.getUsername()).getCustomer().getId());
 
 		feedbackService.updateFeedback(feedbackDto, id);
 
-		return "redirect:/feedbacks";
+		return "redirect:/feedbacks/" + id;
 	}
 
 	@Override
@@ -174,7 +182,9 @@ public class FeedbackControllerImpl implements FeedbackController {
 		model.addAttribute("form", new EditFeedbackForm(
 				feedbackDto.getId(),
 				feedbackDto.getRating(),
-				feedbackDto.getComment()
+				feedbackDto.getComment(),
+				feedbackDto.getProductId(),
+				feedbackDto.getCustomerId()
 		));
 
 		return "feedback/feedback-edit";

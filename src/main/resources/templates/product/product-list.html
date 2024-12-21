@@ -5,56 +5,107 @@
     <title>Title</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        .h4 {
+            color: white;
+            cursor: pointer;
+        }
+        .fw-bold {
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .header {
+            height: 80px;
+            background-color: #6c757d;
+        }
+        .btn-outline-secondary {
+            height: 50px;
+            padding: 10px 30px;
+            font-size: 18px;
+            text-decoration: none;
+            color: #6c757d;
+        }
+        .btn-secondary {
+            background-color: white;
+            color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background-color: #6c757d;
+        }
+        .btn-delete {
+            height: 40px;
+            width: 80px;
+        }
+        .btn-edit {
+            height: 40px;
+        }
+    </style>
 </head>
 <body>
 
-<div class="header" style="height: 80px">
-    <a th:href="@{/}" class="text-dark text-decoration-none" style="font-size: 40px; font-weight: bold; cursor: pointer;">Grocery Web App</a>
-    <hr style="border-top: 2px solid; opacity: 0.7">
-</div>
+<header class="header d-flex align-items-center">
+    <a th:href="@{/}" class="text-light text-decoration-none h3 fw-bold">Grocery Web App</a>
+    <div class="d-flex gap-5 position-absolute start-50 translate-middle-x">
+        <a th:href="@{/products/}" class="text-light text-decoration-none h4">Список продуктов</a>
+        <br>
+        <a th:href="@{/products/create}" class="text-light text-decoration-none h4">Добавить продукт</a>
+    </div>
+</header>
 
-<a href="/customers/" style="margin-left: 40px; margin-top: 20px; height: 70px; padding: 15px 30px; font-size: 24px"
-   class="btn btn-outline-primary app-btn">К списку покупателей</a>
 
 <div class="container text-center mt-4">
     <h2>Продукты</h2>
 </div>
 
 <div class="container mt-4">
-    <form th:method="GET" th:action="@{/products/}" th:object="${form}">
-        <div th:if="${model.productViewModels.isEmpty()}">
-            <p>Продукты не найдены.</p>
-        </div>
 
-        <div th:each="product : ${model.productViewModels}" class="row">
-            <div class="col-12 mb-3">
-                <div class="border rounded p-3 d-flex justify-content-between align-items-center">
-                    <div>
-                        <h5 th:text="${product.name}"></h5>
-                        <p>Цена: <span th:text="${product.price}"></span></p>
-                        <p>Количество: <span th:text="${product.amount}"></span></p>
-                        <p>Дата производства: <span th:text="${product.prodDate}"></span></p>
-                        <p>Дата окончания срока годности: <span th:text="${product.expiryDate}"></span></p>
-                        <p>Рейтинг: <span th:text="${product.avgRating}"></span></p>
-                        <div class="col w-0 mt-3">
-                            <button class="btn btn-secondary" th:href="@{/orders/add?productId=${product.id()}}">Добавить в заказ</button>
-                            <button class="btn btn-secondary" th:onclick="@{/feedbacks/{productId}(productId=${product.id()})}">Отзывы</button>
-                        </div>
-                    </div>
+    <div th:if="${model.productViewModels().isEmpty()}">
+        <p>Продукты не найдены.</p>
+    </div>
+
+    <div class="row" th:each="product : ${model.productViewModels()}">
+        <div class="col-12 mb-3">
+            <div class="border rounded p-3 d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 th:text="${product.name}">Название</h5>
+                    <p>Цена: <span th:text="${product.price}">199</span></p>
+                    <p>Количество: <span th:text="${product.amount}">0</span></p>
+                    <p>Дата производства: <span th:text="${product.prodDate}">01.01.1999</span></p>
+                    <p>Дата окончания срока годности: <span th:text="${product.expiryDate}">01.01.1999</span></p>
+                    <p>Рейтинг: <span th:text="${product.avgRating}">199</span></p>
+                    <a th:href="@{/feedbacks/{id}(id=${product.id})}" class="btn btn-outline-secondary">Отзывы</a>
+                    <a th:href="@{/orders/}" class="btn btn-outline-secondary">Добавить в корзину</a>
+                </div>
+                <div>
+                    <a th:href="@{/products/update/{id}(id=${product.id})}" class="btn btn-secondary btn-edit">Редактировать</a>
+                    <a th:href="@{/products/delete/{id}(id=${product.id})}" class="btn btn-secondary btn-delete">Удалить</a>
                 </div>
             </div>
         </div>
-    </form>
-
-    <div class="pagination align-center">
-    <span th:if="${model.totalPages > 1}">
-        <a th:href="@{'/products?page=' + ${model.totalPages - 1} + '&size=' + ${form.size()}}">Предыдущая</a>
-    </span>
-        <span>Страница <span th:text="${model.totalPages}"></span></span>
-        <span th:if="${model.productViewModels.size() > 0}">
-        <a th:href="@{'/products?page=' + ${model.totalPages + 1} + '&size=' + ${form.size()}}">Следующая</a>
-    </span>
     </div>
 </div>
+
+<nav aria-label="Product pagination" th:if="${model.totalPages > 1}" class="mt-4">
+    <ul class="pagination justify-content-center">
+        <li class="page-item" th:classappend="${model.page == 1} ? 'disabled'">
+            <a class="page-link" th:href="@{/products/(page=${model.page - 1}, size=${form.size})}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item" th:each="i : ${#numbers.sequence(1, model.totalPages)}"
+            th:classappend="${i == model.page} ? 'active'">
+            <a class="page-link" th:href="@{/products/(page=${i}, size=${form.size})}" th:text="${i}">
+                <span th:if="${i == model.page}" class="visually-hidden">(current)</span>
+            </a>
+        </li>
+        <li class="page-item" th:classappend="${model.page == model.totalPages} ? 'disabled'">
+            <a class="page-link" th:href="@{/products/(page=${model.page + 1}, size=${form.size})}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
 </body>
 </html>

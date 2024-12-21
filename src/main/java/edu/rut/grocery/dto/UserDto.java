@@ -1,44 +1,72 @@
 package edu.rut.grocery.dto;
 
-import jakarta.validation.constraints.NotBlank;
-
 import java.io.Serializable;
 
 public class UserDto implements Serializable {
-	@NotBlank(message = "Username cannot be empty") String username;
-	@NotBlank(message = "Password cannot be empty") String password;
-	@NotBlank(message = "Password confirmation cannot be empty") String passwordConfirm;
+	private String username;
+	private String password;
+	private String passwordConfirm;
+	private String firstName;
+	private String lastName;
+	private String phone;
 
 	public UserDto() {
 	}
 
-	public UserDto(String username, String password, String passwordConfirm) {
+	public UserDto(String username, String password, String passwordConfirm, String firstName, String lastName, String phone) {
 		this.username = username;
 		this.password = password;
 		this.passwordConfirm = passwordConfirm;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.phone = phone;
 	}
 
-	public @NotBlank(message = "Username cannot be empty") String getUsername() {
+	public String getUsername() {
 		return username;
 	}
 
-	public void setUsername(@NotBlank(message = "Username cannot be empty") String username) {
+	public void setUsername(String username) {
 		this.username = username;
 	}
 
-	public @NotBlank(message = "Password cannot be empty") String getPassword() {
+	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(@NotBlank(message = "Password cannot be empty") String password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
-	public @NotBlank(message = "Password confirmation cannot be empty") String getPasswordConfirm() {
+	public String getPasswordConfirm() {
 		return passwordConfirm;
 	}
 
-	public void setPasswordConfirm(@NotBlank(message = "Password confirmation cannot be empty") String passwordConfirm) {
+	public void setPasswordConfirm(String passwordConfirm) {
 		this.passwordConfirm = passwordConfirm;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 }

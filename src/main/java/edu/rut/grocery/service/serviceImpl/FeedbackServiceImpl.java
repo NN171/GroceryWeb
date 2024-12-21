@@ -3,10 +3,12 @@ package edu.rut.grocery.service.serviceImpl;
 import edu.rut.grocery.domain.Customer;
 import edu.rut.grocery.domain.Feedback;
 import edu.rut.grocery.domain.Product;
+import edu.rut.grocery.domain.User;
 import edu.rut.grocery.dto.FeedbackDto;
 import edu.rut.grocery.dto.ProductDto;
 import edu.rut.grocery.repository.FeedbackRepository;
 import edu.rut.grocery.repository.ProductRepository;
+import edu.rut.grocery.repository.UserRepository;
 import edu.rut.grocery.service.FeedbackService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -17,6 +19,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -30,11 +33,13 @@ public class FeedbackServiceImpl implements FeedbackService {
 	private final ModelMapper modelMapper;
 	private final FeedbackRepository feedbackRepository;
 	private final ProductRepository productRepository;
+	private final UserRepository userRepository;
 
-	public FeedbackServiceImpl(FeedbackRepository feedbackRepository, ModelMapper modelMapper, ProductRepository productRepository) {
+	public FeedbackServiceImpl(FeedbackRepository feedbackRepository, ModelMapper modelMapper, ProductRepository productRepository, UserRepository userRepository) {
 		this.feedbackRepository = feedbackRepository;
 		this.modelMapper = modelMapper;
 		this.productRepository = productRepository;
+		this.userRepository = userRepository;
 	}
 
 	@Override

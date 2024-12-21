@@ -18,17 +18,17 @@ public class Employee extends BaseEntity implements Serializable {
 
 	private String firstName;
 	private String lastName;
-	private String phoneNumber;
+	private String phone;
 	private Store store;
 	private Set<Order> orders;
 
 	public Employee() {
 	}
 
-	public Employee(String firstName, String lastName, String phoneNumber, Store store, Set<Order> orders) {
+	public Employee(String firstName, String lastName, String phone, Store store, Set<Order> orders) {
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.phoneNumber = phoneNumber;
+		this.phone = phone;
 		this.store = store;
 		this.orders = orders;
 	}
@@ -52,12 +52,12 @@ public class Employee extends BaseEntity implements Serializable {
 	}
 
 	@Column(name = "phone_number")
-	public String getPhoneNumber() {
-		return phoneNumber;
+	public String getPhone() {
+		return phone;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setPhone(String phoneNumber) {
+		this.phone = phoneNumber;
 	}
 
 	@ManyToOne

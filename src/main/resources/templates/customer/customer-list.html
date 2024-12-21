@@ -5,13 +5,23 @@
     <title>List customers</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        .fw-bold {
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .header {
+            height: 80px;
+            background-color: #6c757d;
+        }
+    </style>
 </head>
 <body>
 
-<div class="header" style="height: 80px">
-    <a th:href="@{/}" class="text-dark text-decoration-none" style="font-size: 40px; font-weight: bold; cursor: pointer;">Grocery Web App</a>
-    <hr style="border-top: 2px solid; opacity: 0.7">
-</div>
+<header class="header d-flex align-items-center">
+    <a th:href="@{/}" class="text-light text-decoration-none h3 fw-bold">Grocery Web App</a>
+</header>
 
 <a href="/customers/" style="margin-left: 40px; margin-top: 20px; height: 70px; padding: 15px 30px; font-size: 24px"
    class="btn btn-outline-primary app-btn">К списку покупателей</a>
@@ -41,6 +51,27 @@
             </div>
         </div>
     </div>
+
+    <nav aria-label="Employee pagination" th:if="${model.totalPages > 1}" class="mt-4">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${model.page == 1} ? 'disabled'">
+                <a class="page-link" th:href="@{/employees/(page=${model.page - 1}, size=${form.size})}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(1, model.totalPages)}"
+                th:classappend="${i == model.page} ? 'active'">
+                <a class="page-link" th:href="@{/employees/(page=${i}, size=${form.size})}" th:text="${i}">
+                    <span th:if="${i == model.page}" class="visually-hidden">(current)</span>
+                </a>
+            </li>
+            <li class="page-item" th:classappend="${model.page == model.totalPages} ? 'disabled'">
+                <a class="page-link" th:href="@{/employees/(page=${model.page + 1}, size=${form.size})}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>
 </body>
 </html>
