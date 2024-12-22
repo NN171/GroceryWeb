@@ -1,10 +1,11 @@
 package edu.rut.grocery.service;
 
 import edu.rut.grocery.domain.Order;
+import edu.rut.grocery.dto.OrderDto;
 
 public interface BasketService {
 
-	Order addProduct(Long customerId, Long productId, int quantity);
+	OrderDto addProduct(Long customerId, Long productId, int quantity);
 
 	Order removeProduct(Long orderId, Long productId);
 }

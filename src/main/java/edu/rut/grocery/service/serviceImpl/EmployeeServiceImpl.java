@@ -17,8 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.stream.Collectors;
-
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
@@ -62,8 +60,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public String saveEmployee(EmployeeDto employeeDto) {
 		Employee employee = modelMapper.map(employeeDto, Employee.class);
 		Store store = storeRepository.findByAddress(employeeDto.getAddress())
-						.orElseThrow(() -> new EntityNotFoundException("Store not found"));
+				.orElseThrow(() -> new EntityNotFoundException("Store not found"));
 		employee.setStore(store);
+
+		int employees = store.getEmployeesNum();
+		store.setEmployeesNum(++employees);
+
+		storeRepository.save(store);
 		employeeRepository.save(employee);
 
 		return "employee saved";

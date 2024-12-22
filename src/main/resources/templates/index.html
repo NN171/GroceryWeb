@@ -17,12 +17,13 @@
             padding: 15px 30px;
             background-color: white;
             color: black;
+            border-color: #6c757d;
         }
 
         .btn-primary:hover {
             font-size: 30px;
             padding: 15px 30px;
-            background-color: dodgerblue;
+            background-color: #6c757d;
             color: white;
             border-color: white;
         }
@@ -32,20 +33,23 @@
             padding: 25px 40px;
             background-color: white;
             color: black;
-            border-color: dodgerblue;
+            border-color: #6c757d;
         }
+
         .btn-info:hover {
             font-size: 35px;
             padding: 25px 40px;
-            background-color: dodgerblue;
+            background-color: #6c757d;
             color: white;
             border-color: white;
         }
+
         .fw-bold {
             font-size: 40px;
             font-weight: bold;
             cursor: pointer;
         }
+
         .header {
             height: 80px;
             background-color: #6c757d;
@@ -59,7 +63,9 @@
 </header>
 
 <form th:action="@{/users/logout}" method="post">
-    <button type="submit" style="margin-left: 40px; margin-top: 20px; height: 50px; padding: 0 30px; font-size: 24px" class="btn btn-secondary">Выйти</button>
+    <button type="submit" style="margin-left: 40px; margin-top: 20px; height: 50px; padding: 0 30px; font-size: 24px"
+            class="btn btn-secondary">Выйти
+    </button>
 </form>
 
 <div class="container d-flex justify-content-center align-items-center">
@@ -67,27 +73,27 @@
         <h1 class="mb-4">Главная</h1>
 
         <div class="menu mb-4">
-            <button type="button" class="btn btn-primary m-2"
-                    onclick="location.href='/stores/'">Магазины
-            </button>
-            <button type="button" class="btn btn-primary m-2"
-                    onclick="location.href='/products/'">Товары
-            </button>
-            <button type="button" class="btn btn-primary m-2"
-                    onclick="location.href='/customers/'">Покупатели
-            </button>
-            <button type="button" class="btn btn-primary m-2"
-                    onclick="location.href='/employees/'">Сотрудники
-            </button>
+            <a type="submit" class="btn btn-primary m-2"
+                    th:href="@{/stores/}">Магазины
+            </a>
+            <a type="submit" class="btn btn-primary m-2"
+                    th:href="@{/products/}">Продукты
+            </a>
+            <a type="submit" class="btn btn-primary m-2"
+                    th:href="@{/customers/}">Покупатели
+            </a>
+            <a type="submit" class="btn btn-primary m-2"
+                    th:href="@{/employees/}">Сотрудники
+            </a>
         </div>
 
         <div class="section mb-4">
-            <button type="button" class="btn btn-info m-2 w-100"
+            <a type="submit" class="btn btn-info m-2 w-100"
                     th:href="@{/customs/highrates}">Высокооцененные товары
-            </button>
-            <form method="GET" th:action="@{/customs/frequents}" class="d-flex">
-                <button type="submit" class="btn btn-info m-2 w-100">Популярные товары</button>
-            </form>
+            </a>
+            <a type="submit" class="btn btn-info m-2 w-100"
+                    th:href="@{/customs/frequents}">Популярные товары
+            </a>
         </div>
 
         <!--<div class="section mb-4">

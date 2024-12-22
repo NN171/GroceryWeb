@@ -1,11 +1,9 @@
 package edu.rut.grocery.service.serviceImpl;
 
 import edu.rut.grocery.domain.Feedback;
-import edu.rut.grocery.domain.Product;
 import edu.rut.grocery.dto.FeedbackDto;
 import edu.rut.grocery.repository.FeedbackRepository;
 import edu.rut.grocery.repository.ProductRepository;
-import edu.rut.grocery.repository.UserRepository;
 import edu.rut.grocery.service.FeedbackService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -19,8 +17,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,13 +25,11 @@ public class FeedbackServiceImpl implements FeedbackService {
 	private final ModelMapper modelMapper;
 	private final FeedbackRepository feedbackRepository;
 	private final ProductRepository productRepository;
-	private final UserRepository userRepository;
 
-	public FeedbackServiceImpl(FeedbackRepository feedbackRepository, ModelMapper modelMapper, ProductRepository productRepository, UserRepository userRepository) {
+	public FeedbackServiceImpl(FeedbackRepository feedbackRepository, ModelMapper modelMapper, ProductRepository productRepository) {
 		this.feedbackRepository = feedbackRepository;
 		this.modelMapper = modelMapper;
 		this.productRepository = productRepository;
-		this.userRepository = userRepository;
 	}
 
 	@Override
@@ -105,14 +99,5 @@ public class FeedbackServiceImpl implements FeedbackService {
 
 		return feedbackRepository.findById(feedback.getId())
 				.orElseThrow(() -> new RuntimeException("Feedback not found")).getCreateDate().toString();
-	}
-
-	@Override
-	@Cacheable(value = "getProduct", key = "#id")
-	public Product getProduct(Long id) {
-		Feedback feedback = feedbackRepository.findById(id)
-				.orElseThrow(() -> new EntityNotFoundException("Feedback not found"));
-
-		return feedback.getProduct();
 	}
 }

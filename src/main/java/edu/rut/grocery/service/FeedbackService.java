@@ -1,6 +1,5 @@
 package edu.rut.grocery.service;
 
-import edu.rut.grocery.domain.Product;
 import edu.rut.grocery.dto.FeedbackDto;
 import org.springframework.data.domain.Page;
 
@@ -19,6 +18,4 @@ public interface FeedbackService {
 	String getCustomerName(Long id);
 
 	String getFeedbackTime(FeedbackDto feedback);
-
-	Product getProduct(Long id);
 }

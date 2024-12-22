@@ -1,8 +1,6 @@
 package edu.rut.grocery.service.serviceImpl;
 
 import edu.rut.grocery.domain.Order;
-import edu.rut.grocery.domain.Product;
-import edu.rut.grocery.domain.ProductOrder;
 import edu.rut.grocery.dto.OrderDto;
 import edu.rut.grocery.dto.OrderProductDto;
 import edu.rut.grocery.repository.OrderRepository;
@@ -19,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	@Cacheable(value = "getOrder", key = "#id")
-	public OrderDto getOrder(Long id) {
+	public OrderDto getActiveOrder(Long id) {
 		Order order = orderRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Order not found"));
 

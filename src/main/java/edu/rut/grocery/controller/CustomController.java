@@ -9,15 +9,12 @@ import edu.rut.web.dto.custom.FrequentViewModel;
 import edu.rut.web.dto.custom.HighRatedViewModel;
 import edu.rut.web.dto.custom.ProductFrequentViewModel;
 import edu.rut.web.dto.custom.ProductRateViewModel;
-import edu.rut.web.dto.product.ProductViewModel;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -48,7 +45,7 @@ public class CustomController {
 		HighRatedViewModel highRatedViewModel = new HighRatedViewModel(
 				createBaseViewModel("High rated"),
 				productViewModels
-				);
+		);
 
 		model.addAttribute("model", highRatedViewModel);
 

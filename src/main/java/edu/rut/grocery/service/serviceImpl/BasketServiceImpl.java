@@ -5,16 +5,20 @@ import edu.rut.grocery.domain.Order;
 import edu.rut.grocery.domain.Product;
 import edu.rut.grocery.domain.ProductOrder;
 import edu.rut.grocery.domain.Status;
+import edu.rut.grocery.dto.OrderDto;
 import edu.rut.grocery.repository.CustomerRepository;
 import edu.rut.grocery.repository.OrderRepository;
 import edu.rut.grocery.repository.ProductOrderRepository;
 import edu.rut.grocery.repository.ProductRepository;
 import edu.rut.grocery.service.BasketService;
-import org.springframework.security.core.parameters.P;
+import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Optional;
 
 @Service
@@ -24,23 +28,34 @@ public class BasketServiceImpl implements BasketService {
 	private final ProductRepository productRepository;
 	private final ProductOrderRepository productOrderRepository;
 	private final CustomerRepository customerRepository;
+	private final ModelMapper modelMapper;
 
 
-	public BasketServiceImpl(OrderRepository orderRepository, ProductRepository productRepository, ProductOrderRepository productOrderRepository, CustomerRepository customerRepository) {
+	public BasketServiceImpl(OrderRepository orderRepository, ProductRepository productRepository, ProductOrderRepository productOrderRepository, CustomerRepository customerRepository, ModelMapper modelMapper) {
 		this.orderRepository = orderRepository;
 		this.productRepository = productRepository;
 		this.productOrderRepository = productOrderRepository;
 		this.customerRepository = customerRepository;
+		this.modelMapper = modelMapper;
 	}
 
+	@Transactional
+	@Caching(evict = {
+			@CacheEvict(value = "getProducts", allEntries = true),
+			@CacheEvict(value = "getOrder", key = "#result.id")
+	})
 	@Override
-	public Order addProduct(Long customerId, Long productId, int quantity) {
+	public OrderDto addProduct(Long customerId, Long productId, int quantity) {
 
 		Customer customer = customerRepository.findById(customerId)
 				.orElseThrow(() -> new RuntimeException("Customer not found"));
 
 		Product product = productRepository.findById(productId)
 				.orElseThrow(() -> new RuntimeException("Product not found"));
+
+		if (product.getAmount() < quantity) {
+			throw new RuntimeException("Not enough products in store");
+		}
 
 		Order order = orderRepository.getByCustomerIdAndStatus(customerId, Status.IN_PROGRESS);
 
@@ -63,16 +78,23 @@ public class BasketServiceImpl implements BasketService {
 			productOrder.setProduct(product);
 			productOrder.setQuantity(quantity);
 			order.getProductOrders().add(productOrder);
+
+			productOrderRepository.save(productOrder);
 		}
 
-		order.setPrice(calculatePrice(order));
+		updatePrice(order);
 
 		product.setAmount(product.getAmount() - quantity);
 		productRepository.save(product);
 
-		return orderRepository.save(order);
+		return modelMapper.map(orderRepository.save(order), OrderDto.class);
 	}
 
+	@Transactional
+	@Caching(evict = {
+			@CacheEvict(value = "getProducts", allEntries = true),
+			@CacheEvict(value = "getOrder", key = "#orderId")
+	})
 	@Override
 	public Order removeProduct(Long orderId, Long productId) {
 
@@ -90,24 +112,27 @@ public class BasketServiceImpl implements BasketService {
 
 		productOrderRepository.delete(productOrder);
 		productRepository.save(product);
-		order.setPrice(calculatePrice(order));
+		updatePrice(order);
 
 		return orderRepository.save(order);
 	}
 
-	private double calculatePrice(Order order) {
+	private void updatePrice(Order order) {
 
-		return order.getProductOrders().stream()
+		double price = order.getProductOrders().stream()
 				.mapToDouble(po -> po.getProduct().getPrice() * po.getQuantity())
 				.sum();
+
+		order.setPrice(price);
 	}
 
 	private Order createNewOrder(Customer customer) {
 		Order order = new Order();
-		order.setCustomer(customer);
-		order.setStatus(Status.IN_PROGRESS);
-		order.setCreateDate(LocalDate.now());
 		order.setPrice(0);
+		order.setCreateDate(LocalDate.now());
+		order.setStatus(Status.IN_PROGRESS);
+		order.setCustomer(customer);
+		order.setProductOrders(new HashSet<>());
 
 		return orderRepository.save(order);
 	}

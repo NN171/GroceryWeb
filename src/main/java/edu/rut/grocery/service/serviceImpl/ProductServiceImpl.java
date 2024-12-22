@@ -68,12 +68,9 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	@CacheEvict(value = "getProducts", allEntries = true)
-	public String deleteProduct(Long id) {
+	public void deleteProduct(Long id) {
 
-		boolean removed = productRepository.deleteById(id);
-		if (!removed) throw new EntityNotFoundException("Product not found");
-
-		return "Success";
+		productRepository.deleteById(id);
 	}
 
 	@Override

@@ -40,16 +40,25 @@
         .btn-edit {
             height: 40px;
         }
+        .form-control {
+            width: 130px;
+            height: 40px;
+        }
     </style>
 </head>
 <body>
 
-<header class="header d-flex align-items-center">
+<header class="header d-flex align-items-center justify-content-between px-4">
     <a th:href="@{/}" class="text-light text-decoration-none h3 fw-bold">Grocery Web App</a>
+
     <div class="d-flex gap-5 position-absolute start-50 translate-middle-x">
         <a th:href="@{/products/}" class="text-light text-decoration-none h4">Список продуктов</a>
         <br>
         <a th:href="@{/products/create}" class="text-light text-decoration-none h4">Добавить продукт</a>
+    </div>
+
+    <div>
+        <a th:href="@{/orders/order}" class="text-light text-decoration-none h4">Корзина</a>
     </div>
 </header>
 
@@ -74,13 +83,20 @@
                     <p>Дата производства: <span th:text="${product.prodDate}">01.01.1999</span></p>
                     <p>Дата окончания срока годности: <span th:text="${product.expiryDate}">01.01.1999</span></p>
                     <p>Рейтинг: <span th:text="${product.avgRating}">199</span></p>
+                    <form th:action="@{/orders/add}" method="post" class="d-flex align-items-center mb-2">
+                        <input type="hidden" name="productId" th:value="${product.id}">
+                        <button type="submit" class="btn btn-outline-secondary btn-cart">Добавить в корзину</button>
+                        <input type="number" name="quantity" class="form-control ms-2" min="1" th:attr="max=${product.amount}" placeholder="Количество" required>
+                    </form>
                     <a th:href="@{/feedbacks/{id}(id=${product.id})}" class="btn btn-outline-secondary">Отзывы</a>
-                    <a th:href="@{/orders/}" class="btn btn-outline-secondary">Добавить в корзину</a>
                     <a th:href="@{/feedbacks/create/{id}(id=${product.id})}" class="btn btn-outline-secondary">Добавить отзыв</a>
                 </div>
                 <div>
                     <a th:href="@{/products/update/{id}(id=${product.id})}" class="btn btn-secondary btn-edit">Редактировать</a>
-                    <a th:href="@{/products/delete/{id}(id=${product.id})}" class="btn btn-secondary btn-delete">Удалить</a>
+                    <form th:action="@{/products/delete/{id}(id=${product.id})}" th:method="delete" style="display: inline">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <button type="submit" class="btn btn-secondary btn-delete">Удалить</button>
+                    </form>
                 </div>
             </div>
         </div>

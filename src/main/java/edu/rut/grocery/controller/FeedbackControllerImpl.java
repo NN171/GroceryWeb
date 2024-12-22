@@ -4,6 +4,7 @@ import edu.rut.grocery.domain.User;
 import edu.rut.grocery.dto.FeedbackDto;
 import edu.rut.grocery.service.AuthService;
 import edu.rut.grocery.service.FeedbackService;
+import edu.rut.grocery.service.ProductService;
 import edu.rut.web.controllers.FeedbackController;
 import edu.rut.web.dto.base.BaseViewModel;
 import edu.rut.web.dto.customer.EditCustomerViewModel;
@@ -29,7 +30,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -38,10 +38,12 @@ public class FeedbackControllerImpl implements FeedbackController {
 
 	private final FeedbackService feedbackService;
 	private final AuthService authService;
+	private final ProductService productService;
 
-	public FeedbackControllerImpl(FeedbackService feedbackService, AuthService authService) {
+	public FeedbackControllerImpl(FeedbackService feedbackService, AuthService authService, ProductService productService) {
 		this.feedbackService = feedbackService;
 		this.authService = authService;
+		this.productService = productService;
 	}
 
 	@Override
@@ -73,7 +75,7 @@ public class FeedbackControllerImpl implements FeedbackController {
 		FeedbackListViewModel viewModel = new FeedbackListViewModel(
 				createBaseViewModel("Feedback list"),
 				FeedbackViewModel,
-				feedbackService.getProduct(feedbacks.getContent().getFirst().getId()).getName(),
+				productService.getProduct(feedbacks.getContent().getFirst().getProductId()).getName(),
 				page,
 				feedbacks.getTotalPages()
 		);
@@ -83,7 +85,6 @@ public class FeedbackControllerImpl implements FeedbackController {
 
 		return "feedback/feedback-list";
 	}
-
 
 	@Override
 	@GetMapping("/create/{productId}")
@@ -163,7 +164,7 @@ public class FeedbackControllerImpl implements FeedbackController {
 				id,
 				form.rating(),
 				form.comment(),
-				feedbackService.getProduct(id).getId(),
+				productService.getProduct(id).getId(),
 				authService.getUser(userDetails.getUsername()).getCustomer().getId());
 
 		feedbackService.updateFeedback(feedbackDto, id);

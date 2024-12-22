@@ -10,5 +10,5 @@ public interface ProductRepository extends BaseRepository<Product, Long> {
 
 	List<Product> findAll();
 
-	boolean deleteById(Long id);
+	void deleteById(Long id);
 }

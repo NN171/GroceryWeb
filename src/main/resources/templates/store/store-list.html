@@ -19,6 +19,20 @@
             height: 80px;
             background-color: #6c757d;
         }
+        .btn-secondary {
+            background-color: white;
+            color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background-color: #6c757d;
+        }
+        .btn-delete {
+            height: 40px;
+            width: 80px;
+        }
+        .btn-edit {
+            height: 40px;
+        }
     </style>
 </head>
 <body>
@@ -46,7 +60,8 @@
                     <p>Сумма продаж: <span th:text="${store.soldAmount}">0</span></p>
                 </div>
                 <div>
-                    <a href="#" class="btn btn-outline-secondary">Заказы</a>
+                    <a th:href="@{/stores/update/{id}(id=${store.id})}" class="btn btn-secondary btn-edit">Редактировать</a>
+                    <a th:href="@{/stores/delete/{id}(id=${store.id})}" class="btn btn-secondary btn-delete">Удалить</a>
                 </div>
             </div>
         </div>

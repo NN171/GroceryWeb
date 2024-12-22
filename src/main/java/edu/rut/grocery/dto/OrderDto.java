@@ -1,18 +1,18 @@
 package edu.rut.grocery.dto;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 public class OrderDto implements Serializable {
 	private Long id;
 	private String status;
 	private Double price;
-	private List<OrderProductDto> products;
+	private Set<OrderProductDto> products;
 
 	public OrderDto() {
 	}
 
-	public OrderDto(Long id, String status, Double price, List<OrderProductDto> products) {
+	public OrderDto(Long id, String status, Double price, Set<OrderProductDto> products) {
 		this.id = id;
 		this.status = status;
 		this.price = price;
@@ -43,11 +43,11 @@ public class OrderDto implements Serializable {
 		this.price = price;
 	}
 
-	public List<OrderProductDto> getProducts() {
+	public Set<OrderProductDto> getProducts() {
 		return products;
 	}
 
-	public void setProducts(List<OrderProductDto> products) {
+	public void setProducts(Set<OrderProductDto> products) {
 		this.products = products;
 	}
 }

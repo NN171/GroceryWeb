@@ -32,8 +32,10 @@ public class SecurityConfig {
 						auth ->
 								auth
 										.requestMatchers("/users/login", "/users/register", "/users/login-fail").permitAll()
-										.requestMatchers("/products/", "/stores/", "/employees/").authenticated()
-										.requestMatchers("/stores/delete/**", "/customers/delete/**", "/employees/delete/**", "/stores/delete/**")
+										.requestMatchers("/products/", "/stores/", "/employees/", "feedbacks/**").authenticated()
+										.requestMatchers("/stores/delete/**", "/employees/delete/**",
+												"/products/delete/**", "/stores/create", "/employees/create",
+												"/products/update/**", "/stores/update/**", "/employees/update/**")
 										.hasRole(Role.ADMIN.name())
 										.anyRequest().authenticated()
 				)
