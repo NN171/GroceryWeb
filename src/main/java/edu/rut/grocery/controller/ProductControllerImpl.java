@@ -187,6 +187,6 @@ public class ProductControllerImpl implements ProductController {
 				product.getExpiryDate()
 		));
 
-		return "product/product-create";
+		return "product/product-edit";
 	}
 }

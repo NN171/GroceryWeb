@@ -8,6 +8,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -18,8 +19,8 @@ public class Product extends BaseEntity implements Serializable {
 	private String name;
 	private Double price;
 	private Integer amount;
-	private LocalDateTime prodDate;
-	private LocalDateTime expiryDate;
+	private LocalDate prodDate;
+	private LocalDate expiryDate;
 	private Double avgRating;
 	private Set<Feedback> feedbacks;
 	private Set<ProductOrder> productOrders;
@@ -27,7 +28,7 @@ public class Product extends BaseEntity implements Serializable {
 	public Product() {
 	}
 
-	public Product(String name, Double price, Integer amount, LocalDateTime prodDate, LocalDateTime expiryDate, Double avgRating, Set<Feedback> feedbacks, Set<ProductOrder> productOrders) {
+	public Product(String name, Double price, Integer amount, LocalDate prodDate, LocalDate expiryDate, Double avgRating, Set<Feedback> feedbacks, Set<ProductOrder> productOrders) {
 		this.name = name;
 		this.price = price;
 		this.amount = amount;
@@ -66,20 +67,20 @@ public class Product extends BaseEntity implements Serializable {
 	}
 
 	@Column(name = "prod_date")
-	public LocalDateTime getProdDate() {
+	public LocalDate getProdDate() {
 		return prodDate;
 	}
 
-	public void setProdDate(LocalDateTime prodDate) {
+	public void setProdDate(LocalDate prodDate) {
 		this.prodDate = prodDate;
 	}
 
 	@Column(name = "expiry_date")
-	public LocalDateTime getExpiryDate() {
+	public LocalDate getExpiryDate() {
 		return expiryDate;
 	}
 
-	public void setExpiryDate(LocalDateTime expiryDate) {
+	public void setExpiryDate(LocalDate expiryDate) {
 		this.expiryDate = expiryDate;
 	}
 

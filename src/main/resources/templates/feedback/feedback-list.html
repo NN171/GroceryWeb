@@ -19,27 +19,6 @@
             height: 80px;
             background-color: #6c757d;
         }
-        .btn-outline-secondary {
-            height: 50px;
-            padding: 10px 30px;
-            font-size: 18px;
-            text-decoration: none;
-            color: #6c757d;
-        }
-        .btn-secondary {
-            background-color: white;
-            color: #6c757d;
-        }
-        .btn-secondary:hover {
-            background-color: #6c757d;
-        }
-        .btn-delete {
-            height: 40px;
-            width: 80px;
-        }
-        .btn-edit {
-            height: 40px;
-        }
     </style>
 </head>
 <body>
@@ -68,11 +47,6 @@
                         <h5 th:text="${feedback.customerName}">Имя пользователя</h5>
                         <p>Рейтинг: <span th:text="${feedback.rating}">1</span></p>
                         <p>Комментарий: <span th:text="${feedback.comment}">Комментарий</span></p>
-                        <a th:href="@{/orders/}" class="btn btn-outline-secondary">Заказы</a>
-                    </div>
-                    <div>
-                        <a th:href="@{/feedbacks/edit/{id}(id=${feedback.id})}" class="btn btn-secondary btn-edit">Редактировать</a>
-                        <a th:href="@{/feedbacks/delete/{id}(id=${feedback.id})}" class="btn btn-secondary btn-delete">Удалить</a>
                     </div>
                 </div>
             </div>

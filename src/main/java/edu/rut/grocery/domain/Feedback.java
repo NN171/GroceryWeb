@@ -7,6 +7,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,14 +16,14 @@ public class Feedback extends BaseEntity implements Serializable {
 
 	private int rating;
 	private String comment;
-	private LocalDateTime createDate;
+	private LocalDate createDate;
 	private Product product;
 	private Customer customer;
 
 	public Feedback() {
 	}
 
-	public Feedback(int rating, String comment, LocalDateTime createDate, Product product, Customer customer) {
+	public Feedback(int rating, String comment, LocalDate createDate, Product product, Customer customer) {
 		this.rating = rating;
 		this.comment = comment;
 		this.createDate = createDate;
@@ -69,11 +70,11 @@ public class Feedback extends BaseEntity implements Serializable {
 	}
 
 	@Column(name = "create_date")
-	public LocalDateTime getCreateDate() {
+	public LocalDate getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(LocalDateTime createDate) {
+	public void setCreateDate(LocalDate createDate) {
 		this.createDate = createDate;
 	}
 }

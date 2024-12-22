@@ -83,13 +83,10 @@
 
         <div class="section mb-4">
             <button type="button" class="btn btn-info m-2 w-100"
-                    onclick="location.href='/customs/highrates'">Высокооцененные товары
+                    th:href="@{/customs/highrates}">Высокооцененные товары
             </button>
-            <form method="GET" th:action="@{/customs/frequents(id=${fid})}" class="d-flex">
-                <button type="submit" class="btn btn-info m-2 w-100">Популярные товары
-                </button>
-                <input type="number" id="fid" name="id" min="0" class="form-control" style="padding: 15px 20px; font-size: 25px"
-                       placeholder="Введите ID покупателя" required />
+            <form method="GET" th:action="@{/customs/frequents}" class="d-flex">
+                <button type="submit" class="btn btn-info m-2 w-100">Популярные товары</button>
             </form>
         </div>
 

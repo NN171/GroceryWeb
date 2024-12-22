@@ -76,6 +76,7 @@
                     <p>Рейтинг: <span th:text="${product.avgRating}">199</span></p>
                     <a th:href="@{/feedbacks/{id}(id=${product.id})}" class="btn btn-outline-secondary">Отзывы</a>
                     <a th:href="@{/orders/}" class="btn btn-outline-secondary">Добавить в корзину</a>
+                    <a th:href="@{/feedbacks/create/{id}(id=${product.id})}" class="btn btn-outline-secondary">Добавить отзыв</a>
                 </div>
                 <div>
                     <a th:href="@{/products/update/{id}(id=${product.id})}" class="btn btn-secondary btn-edit">Редактировать</a>

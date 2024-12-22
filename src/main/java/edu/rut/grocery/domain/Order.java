@@ -10,6 +10,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -18,7 +19,7 @@ import java.util.Set;
 public class Order extends BaseEntity implements Serializable {
 
 	private double price;
-	private LocalDateTime createDate;
+	private LocalDate createDate;
 	private Status status;
 	private Customer customer;
 	private Employee employee;
@@ -27,7 +28,7 @@ public class Order extends BaseEntity implements Serializable {
 	public Order() {
 	}
 
-	public Order(Status status, double price, LocalDateTime createDate, Customer customer, Employee employee, Set<ProductOrder> productOrders) {
+	public Order(Status status, double price, LocalDate createDate, Customer customer, Employee employee, Set<ProductOrder> productOrders) {
 		this.status = status;
 		this.price = price;
 		this.createDate = createDate;
@@ -84,11 +85,11 @@ public class Order extends BaseEntity implements Serializable {
 	}
 
 	@Column(name = "create_date")
-	public LocalDateTime getCreateDate() {
+	public LocalDate getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(LocalDateTime createDate) {
+	public void setCreateDate(LocalDate createDate) {
 		this.createDate = createDate;
 	}
 }

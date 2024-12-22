@@ -44,7 +44,6 @@ public class AuthServiceImpl implements AuthService {
 				null
 		);
 
-
 		User user = new User(
 				userDto.getUsername(),
 				passwordEncoder.encode(userDto.getPassword()),
@@ -55,7 +54,6 @@ public class AuthServiceImpl implements AuthService {
 		customer.setUser(user);
 
 		userRepository.save(user);
-		customerRepository.save(customer);
 	}
 
 	@Override

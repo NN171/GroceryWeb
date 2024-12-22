@@ -13,25 +13,30 @@
         input[type="text"] {
             border-color: darkgray;
         }
-
+        .fw-bold {
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .header {
+            height: 80px;
+            background-color: #6c757d;
+        }
     </style>
 </head>
 <body>
 
-<div class="header" style="height: 80px">
-    <a th:href="@{/}" class="text-dark text-decoration-none" style="font-size: 40px; font-weight: bold; cursor: pointer;">Grocery Web App</a>
-    <hr style="border-top: 2px solid; opacity: 0.7">
-</div>
+<header class="header d-flex align-items-center">
+    <a th:href="@{/}" class="text-light text-decoration-none h3 fw-bold">Grocery Web App</a>
+</header>
 
-<a href="/customers/" style="margin-left: 40px; margin-top: 20px; height: 70px; padding: 15px 30px; font-size: 24px"
+<a th:href="@{/customers/}" style="margin-left: 40px; margin-top: 20px; height: 70px; padding: 15px 30px; font-size: 24px"
    class="btn btn-outline-primary app-btn">К списку покупателей</a>
 
 <div class="container full-height d-flex justify-content-center align-items-center">
 
     <div class="card p-5 w-50 rounded-5 shadow-lg">
         <form method="POST" th:action="@{/customers/create}" th:object="${form}">
-            <h1 class="text-center mb-4">Создать покупателя</h1>
-
             <div class="mb-3">
                 <label for="firstName" class="form-label">Имя</label>
                 <input type="text" th:field="*{firstName}" id="firstName" class="form-control"

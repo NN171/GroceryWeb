@@ -1,7 +1,6 @@
 package edu.rut.grocery.service;
 
 import edu.rut.grocery.domain.Product;
-import edu.rut.grocery.domain.User;
 import edu.rut.grocery.dto.FeedbackDto;
 import org.springframework.data.domain.Page;
 
@@ -11,7 +10,7 @@ public interface FeedbackService {
 
 	FeedbackDto getFeedback(Long id);
 
-	String saveFeedback(FeedbackDto feedbackDto);
+	void saveFeedback(FeedbackDto feedbackDto);
 
 	String deleteFeedback(Long id);
 

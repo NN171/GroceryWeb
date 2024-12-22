@@ -2,6 +2,7 @@ package edu.rut.grocery.controller;
 
 import edu.rut.grocery.dto.HighRatedDto;
 import edu.rut.grocery.dto.ProductDto;
+import edu.rut.grocery.service.AuthService;
 import edu.rut.grocery.service.CustomService;
 import edu.rut.web.dto.base.BaseViewModel;
 import edu.rut.web.dto.custom.FrequentViewModel;
@@ -9,6 +10,8 @@ import edu.rut.web.dto.custom.HighRatedViewModel;
 import edu.rut.web.dto.custom.ProductFrequentViewModel;
 import edu.rut.web.dto.custom.ProductRateViewModel;
 import edu.rut.web.dto.product.ProductViewModel;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +26,11 @@ import java.util.List;
 public class CustomController {
 
 	private final CustomService customService;
+	private final AuthService authService;
 
-	public CustomController(CustomService customService) {
+	public CustomController(CustomService customService, AuthService authService) {
 		this.customService = customService;
+		this.authService = authService;
 	}
 
 	@GetMapping("/highrates")
@@ -51,9 +56,10 @@ public class CustomController {
 	}
 
 	@GetMapping("/frequents")
-	public String getFrequents(@RequestParam Long id,
-							   Model model) {
+	public String getFrequents(Model model,
+							   @AuthenticationPrincipal UserDetails userDetails) {
 
+		Long id = authService.getUser(userDetails.getUsername()).getCustomer().getId();
 		List<ProductDto> productDto = customService.alwaysOrdering(id);
 
 		List<ProductFrequentViewModel> productViewModels = productDto.stream()

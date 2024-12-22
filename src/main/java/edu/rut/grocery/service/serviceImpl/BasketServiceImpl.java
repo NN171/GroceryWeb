@@ -13,6 +13,7 @@ import edu.rut.grocery.service.BasketService;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -105,7 +106,7 @@ public class BasketServiceImpl implements BasketService {
 		Order order = new Order();
 		order.setCustomer(customer);
 		order.setStatus(Status.IN_PROGRESS);
-		order.setCreateDate(LocalDateTime.now());
+		order.setCreateDate(LocalDate.now());
 		order.setPrice(0);
 
 		return orderRepository.save(order);

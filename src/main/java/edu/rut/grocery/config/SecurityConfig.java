@@ -33,7 +33,7 @@ public class SecurityConfig {
 								auth
 										.requestMatchers("/users/login", "/users/register", "/users/login-fail").permitAll()
 										.requestMatchers("/products/", "/stores/", "/employees/").authenticated()
-										.requestMatchers("/stores/delete/", "/customers/delete/", "/employees/delete/")
+										.requestMatchers("/stores/delete/**", "/customers/delete/**", "/employees/delete/**", "/stores/delete/**")
 										.hasRole(Role.ADMIN.name())
 										.anyRequest().authenticated()
 				)

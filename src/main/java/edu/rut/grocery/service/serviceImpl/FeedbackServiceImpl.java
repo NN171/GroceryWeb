@@ -1,11 +1,8 @@
 package edu.rut.grocery.service.serviceImpl;
 
-import edu.rut.grocery.domain.Customer;
 import edu.rut.grocery.domain.Feedback;
 import edu.rut.grocery.domain.Product;
-import edu.rut.grocery.domain.User;
 import edu.rut.grocery.dto.FeedbackDto;
-import edu.rut.grocery.dto.ProductDto;
 import edu.rut.grocery.repository.FeedbackRepository;
 import edu.rut.grocery.repository.ProductRepository;
 import edu.rut.grocery.repository.UserRepository;
@@ -19,11 +16,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
@@ -70,16 +66,11 @@ public class FeedbackServiceImpl implements FeedbackService {
 
 	@Override
 	@CacheEvict(value = "getFeedbacks", allEntries = true)
-	public String saveFeedback(FeedbackDto feedbackDto) {
+	public void saveFeedback(FeedbackDto feedbackDto) {
 		Feedback feedback = modelMapper.map(feedbackDto, Feedback.class);
-		feedback.setCreateDate(LocalDateTime.now());
-
-		Product product = productRepository.findById(feedbackDto.getId())
-						.orElseThrow(() -> new RuntimeException("Product not found")); // TODO
+		feedback.setCreateDate(LocalDate.now());
 
 		feedbackRepository.save(feedback);
-
-		return "Feedback saved";
 	}
 
 	@Override
@@ -103,24 +94,25 @@ public class FeedbackServiceImpl implements FeedbackService {
 
 	@Override
 	public String getCustomerName(Long id) {
-		Customer customer = feedbackRepository.getCustomerById(id);
+		Feedback feedback = feedbackRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Feedback not found"));
 
-		return customer.getFirstName();
+		return feedback.getCustomer().getFirstName();
 	}
 
 	@Override
 	public String getFeedbackTime(FeedbackDto feedback) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		LocalDateTime dateTime = feedbackRepository.findById(feedback.getId())
-				.orElseThrow(() -> new RuntimeException("Feedback not found")).getCreateDate();
 
-		return dateTime.format(formatter);
+		return feedbackRepository.findById(feedback.getId())
+				.orElseThrow(() -> new RuntimeException("Feedback not found")).getCreateDate().toString();
 	}
 
 	@Override
 	@Cacheable(value = "getProduct", key = "#id")
 	public Product getProduct(Long id) {
+		Feedback feedback = feedbackRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Feedback not found"));
 
-		return feedbackRepository.getProductById(id);
+		return feedback.getProduct();
 	}
 }

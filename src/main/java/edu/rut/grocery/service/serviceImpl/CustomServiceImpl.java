@@ -82,7 +82,7 @@ public class CustomServiceImpl implements CustomService {
 
 		Set<Order> orders = customer.getOrders();
 
-		if (orders.isEmpty()) throw new IllegalArgumentException("Orders not found");
+		if (orders.isEmpty()) return new ArrayList<>();
 
 		Map<Product, Integer> productMap = new HashMap<>();
 

@@ -86,25 +86,27 @@ public class FeedbackControllerImpl implements FeedbackController {
 
 
 	@Override
-	@GetMapping("/create")
-	public String createForm(Model model) {
+	@GetMapping("/create/{productId}")
+	public String createForm(Model model,
+							 @PathVariable Long productId) {
 
 		CreateFeedbackViewModel viewModel = new CreateFeedbackViewModel(
 				createBaseViewModel("Create feedback")
 		);
 
 		model.addAttribute("model", viewModel);
-		model.addAttribute("form", new CreateFeedbackForm(1L, 1, ""));
+		model.addAttribute("form", new CreateFeedbackForm(productId, 1, ""));
 
 		return "feedback/feedback-create";
 	}
 
 	@Override
-	@PostMapping("/create")
+	@PostMapping("/create/{productId}")
 	public String saveFeedback(@Valid @ModelAttribute("form") CreateFeedbackForm form,
 							   BindingResult bindingResult,
 							   Model model,
-							   @AuthenticationPrincipal UserDetails userDetails) {
+							   @AuthenticationPrincipal UserDetails userDetails,
+							   @PathVariable Long productId) {
 
 		if (bindingResult.hasErrors()) {
 			CreateFeedbackViewModel viewModel = new CreateFeedbackViewModel(
@@ -127,7 +129,7 @@ public class FeedbackControllerImpl implements FeedbackController {
 
 		feedbackService.saveFeedback(feedbackDto);
 
-		return "redirect:/feedbacks/" + feedbackDto.getId();
+		return "redirect:/feedbacks/" + feedbackDto.getProductId();
 	}
 
 	@Override
