@@ -1,20 +1,21 @@
 package edu.rut.grocery.dto;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 public class ProductDto implements Serializable {
 	private Long id;
 	private String name;
 	private Double price;
 	private Integer amount;
-	private String prodDate;
-	private String expiryDate;
+	private LocalDate prodDate;
+	private LocalDate expiryDate;
 	private Double avgRating;
 
 	public ProductDto() {
 	}
 
-	public ProductDto(Long id, String name, Double price, Integer amount, String prodDate, String expiryDate, Double avgRating) {
+	public ProductDto(Long id, String name, Double price, Integer amount, LocalDate prodDate, LocalDate expiryDate, Double avgRating) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
@@ -56,19 +57,19 @@ public class ProductDto implements Serializable {
 		this.amount = amount;
 	}
 
-	public String getProdDate() {
+	public LocalDate getProdDate() {
 		return prodDate;
 	}
 
-	public void setProdDate(String prodDate) {
+	public void setProdDate(LocalDate prodDate) {
 		this.prodDate = prodDate;
 	}
 
-	public String getExpiryDate() {
+	public LocalDate getExpiryDate() {
 		return expiryDate;
 	}
 
-	public void setExpiryDate(String expiryDate) {
+	public void setExpiryDate(LocalDate expiryDate) {
 		this.expiryDate = expiryDate;
 	}
 

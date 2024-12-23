@@ -4,6 +4,7 @@ import edu.rut.grocery.dto.HighRatedDto;
 import edu.rut.grocery.dto.ProductDto;
 import edu.rut.grocery.service.AuthService;
 import edu.rut.grocery.service.CustomService;
+import edu.rut.web.controllers.CustomController;
 import edu.rut.web.dto.base.BaseViewModel;
 import edu.rut.web.dto.custom.FrequentViewModel;
 import edu.rut.web.dto.custom.HighRatedViewModel;
@@ -20,12 +21,12 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/customs")
-public class CustomController {
+public class CustomControllerImpl implements CustomController {
 
 	private final CustomService customService;
 	private final AuthService authService;
 
-	public CustomController(CustomService customService, AuthService authService) {
+	public CustomControllerImpl(CustomService customService, AuthService authService) {
 		this.customService = customService;
 		this.authService = authService;
 	}

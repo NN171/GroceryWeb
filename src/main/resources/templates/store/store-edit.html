@@ -36,6 +36,7 @@
 
     <div class="card p-5 w-50 rounded-5 shadow-lg">
         <form method="POST" th:action="@{/stores/edit/{id}(id=${form.id})}" th:object="${form}">
+            <input type="hidden" name="_method" value="PUT">
             <h1 class="text-center mb-4">Обновить магазин</h1>
 
             <div class="mb-3">

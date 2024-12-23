@@ -9,6 +9,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -59,7 +60,10 @@ public class FeedbackServiceImpl implements FeedbackService {
 	}
 
 	@Override
-	@CacheEvict(value = "getFeedbacks", allEntries = true)
+	@Caching(evict = {
+			@CacheEvict(value = "getFeedbacks", allEntries = true),
+			@CacheEvict(value = "getProducts", allEntries = true)
+	})
 	public void saveFeedback(FeedbackDto feedbackDto) {
 		Feedback feedback = modelMapper.map(feedbackDto, Feedback.class);
 		feedback.setCreateDate(LocalDate.now());
@@ -77,7 +81,10 @@ public class FeedbackServiceImpl implements FeedbackService {
 	}
 
 	@Override
-	@CacheEvict(value = "getFeedbacks", allEntries = true)
+	@Caching(evict = {
+			@CacheEvict(value = "getFeedbacks", allEntries = true),
+			@CacheEvict(value = "getProducts", allEntries = true)
+	})
 	public String updateFeedback(FeedbackDto feedbackDto, Long id) {
 		Feedback feedback = feedbackRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Feedback not found"));

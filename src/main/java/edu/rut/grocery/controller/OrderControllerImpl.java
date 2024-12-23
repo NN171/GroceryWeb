@@ -101,25 +101,7 @@ public class OrderControllerImpl implements OrderController {
 							 @AuthenticationPrincipal UserDetails userDetails) {
 
 		Long customerId = authService.getUser(userDetails.getUsername()).getCustomer().getId();
-
 		basketService.addProduct(customerId, productId, quantity);
-
-//		List<ProductOrderViewModel> products = order.getProducts().stream()
-//				.map(po -> new ProductOrderViewModel(
-//						productId,
-//						po.getProductName(),
-//						po.getQuantity(),
-//						po.getPrice()
-//				)).toList();
-//
-//		OrderViewModel viewModel = new OrderViewModel(
-//				order.getId(),
-//				order.getStatus(),
-//				order.getPrice(),
-//				products
-//		);
-//
-//		model.addAttribute("model", viewModel);
 
 		return "redirect:/products/";
 	}

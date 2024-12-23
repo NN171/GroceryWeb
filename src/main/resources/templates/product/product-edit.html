@@ -29,7 +29,8 @@
 <div class="container full-height d-flex justify-content-center align-items-center">
 
     <div class="card p-5 w-50 rounded-5 shadow-lg">
-        <form method="POST" th:action="@{/products/edit/{id}(id=${form.id})}" th:object="${form}">
+        <form method="POST" th:action="@{/products/update/{id}(id=${form.id})}" th:object="${form}">
+            <input type="hidden" name="_method" value="PUT">
             <h1 class="text-center mb-4">Изменить отзыв</h1>
 
             <div class="mb-3">
@@ -54,12 +55,12 @@
 
             <div class="mb-4">
                 <label for="prodDate" class="form-label">Дата производства</label>
-                <input type="datetime-local" th:field="*{creationDate}" id="prodDate" class="form-control" placeholder="Введите дату изготовления"/>
+                <input type="date" th:field="*{creationDate}" id="prodDate" class="form-control" placeholder="Введите дату изготовления"/>
             </div>
 
             <div class="mb-3">
                 <label for="expiryDate" class="form-label">Введите дату окончания срока годности</label>
-                <input type="datetime-local" th:field="*{expiryDate}" id="expiryDate" class="form-control" placeholder="Введите дату окончания срока годности"/>
+                <input type="date" th:field="*{expiryDate}" id="expiryDate" class="form-control" placeholder="Введите дату окончания срока годности"/>
             </div>
 
             <div class="text-center">

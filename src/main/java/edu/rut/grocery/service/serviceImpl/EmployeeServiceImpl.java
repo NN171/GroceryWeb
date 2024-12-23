@@ -80,11 +80,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	@CacheEvict(value = "getEmployees", allEntries = true)
-	public String updateEmployee(EmployeeDto employeeDto, Long id) {
+	public void updateEmployee(EmployeeDto employeeDto, Long id) {
 		Employee employee = employeeRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Employee not found"));
 		modelMapper.map(employeeDto, employee);
+		Store store = storeRepository.findByAddress(employeeDto.getAddress())
+				.orElseThrow(() -> new EntityNotFoundException("Store not found"));
+		employee.setStore(store);
 		employeeRepository.save(employee);
-		return "employee updated";
 	}
 }

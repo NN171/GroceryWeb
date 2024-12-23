@@ -36,12 +36,12 @@
         <div th:each="product : ${model.productViewModels}" class="col">
             <div class="card h-100">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${product.name}">Product Name</h5>
+                    <h5 class="card-title" th:text="${product.name}">Наименование продукта</h5>
                     <p class="card-text">
-                        <strong>Price:</strong> <span th:text="${product.price}">Price</span><br>
-                        <strong>Manufacture Date:</strong> <span th:text="${product.prodDate}">Date</span><br>
-                        <strong>Expiry Date:</strong> <span th:text="${product.expiryDate}">Expiry Date</span><br>
-                        <strong>Average Rating:</strong> <span th:text="${product.avgRating}">Rating</span>
+                        <strong>Цена:</strong> <span th:text="${product.price}">Цена</span><br>
+                        <strong>Дата производства:</strong> <span th:text="${product.prodDate}">01.01.1999</span><br>
+                        <strong>Дата истечения срока годности:</strong> <span th:text="${product.expiryDate}">01.01.1999</span><br>
+                        <strong>Средний рейтинг:</strong> <span th:text="${product.avgRating}">Рейтинг</span>
                     </p>
                 </div>
             </div>

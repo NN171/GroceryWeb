@@ -13,7 +13,7 @@ public interface ProductService {
 
 	void deleteProduct(Long id);
 
-	String updateProduct(ProductDto productDto, Long id);
+	void updateProduct(ProductDto productDto, Long id);
 
 	double calculateRating(Long id);
 }

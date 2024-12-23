@@ -91,12 +91,11 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	@CacheEvict(value = "getProducts", allEntries = true)
-	public String updateProduct(ProductDto productDto, Long id) {
+	public void updateProduct(ProductDto productDto, Long id) {
 
 		Product product = productRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Product not found"));
 		modelMapper.map(productDto, product);
 		productRepository.save(product);
-		return "Product updated";
 	}
 }

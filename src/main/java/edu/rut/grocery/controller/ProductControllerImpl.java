@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -88,7 +89,7 @@ public class ProductControllerImpl implements ProductController {
 
 		model.addAttribute("model", viewModel);
 		model.addAttribute("form", new CreateProductForm(
-				"", 0L, 0, "", "")
+				"", 0L, 0, LocalDate.now(), LocalDate.now())
 		);
 
 		return "product/product-create";
