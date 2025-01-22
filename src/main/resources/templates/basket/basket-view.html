@@ -56,20 +56,21 @@
         <tr th:each="productOrder : ${model.products}">
             <td th:text="${productOrder.productName}">Наименование</td>
             <td th:text="${productOrder.quantity}">0</td>
-            <td th:text="${productOrder.price * productOrder.quantity}">0.00</td>
+            <td>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span th:text="${productOrder.price}">0.00</span>
+                    <form th:action="@{/orders/remove}" method="post" class="d-inline">
+                        <input type="hidden" name="productId" th:value="${productOrder.id}">
+                        <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+                    </form>
+                </div>
+            </td>
         </tr>
         </tbody>
     </table>
 
-    <div th:each="productOrder : ${model.products}" class="remove-button-container">
-        <form th:action="@{/orders/remove}" method="post" class="d-inline">
-            <input type="hidden" name="productId" th:value="${productOrder.id}">
-            <button type="submit" class="btn btn-sm btn-danger remove-button">Удалить</button>
-        </form>
-    </div>
-
     <div class="d-flex justify-content-between align-items-center mt-4">
-        <h4>Итого: <span th:text="${model.price}">0.00</span></h4>
+        <h4>Итого: <span th:text="${#numbers.formatDecimal(model.price, 2, 2)}">0.00</span></h4>
         <a th:href="@{/orders/create}" class="btn btn-outline-secondary btn-create">Создать</a>
     </div>
 </div>

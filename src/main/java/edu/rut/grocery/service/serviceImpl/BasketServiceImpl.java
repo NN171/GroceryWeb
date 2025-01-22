@@ -71,12 +71,14 @@ public class BasketServiceImpl implements BasketService {
 
 			ProductOrder productOrder = existingProductOrder.get();
 			productOrder.setQuantity(productOrder.getQuantity() + quantity);
+			productOrder.setPrice(product.getPrice()*productOrder.getQuantity());
 		} else {
 
 			ProductOrder productOrder = new ProductOrder();
 			productOrder.setOrder(order);
 			productOrder.setProduct(product);
 			productOrder.setQuantity(quantity);
+			productOrder.setPrice(product.getPrice()*productOrder.getQuantity());
 			order.getProductOrders().add(productOrder);
 
 			productOrderRepository.save(productOrder);
@@ -93,13 +95,12 @@ public class BasketServiceImpl implements BasketService {
 	@Transactional
 	@Caching(evict = {
 			@CacheEvict(value = "getProducts", allEntries = true),
-			@CacheEvict(value = "getOrder", key = "#orderId")
+			@CacheEvict(value = "getOrder", key = "#customerId")
 	})
 	@Override
-	public Order removeProduct(Long orderId, Long productId) {
+	public Order removeProduct(Long customerId, Long productId) {
 
-		Order order = orderRepository.findById(orderId)
-				.orElseThrow(() -> new RuntimeException("Order doesn't exist"));
+		Order order = orderRepository.getByCustomerIdAndStatus(customerId, Status.IN_PROGRESS);
 
 		Product product = productRepository.findById(productId)
 				.orElseThrow(() -> new RuntimeException("Product doesn't exist"));

@@ -7,16 +7,16 @@ public class OrderDto implements Serializable {
 	private Long id;
 	private String status;
 	private Double price;
-	private Set<OrderProductDto> products;
+	private Set<ProductOrderDto> productOrders;
 
 	public OrderDto() {
 	}
 
-	public OrderDto(Long id, String status, Double price, Set<OrderProductDto> products) {
+	public OrderDto(Long id, String status, Double price, Set<ProductOrderDto> productOrders) {
 		this.id = id;
 		this.status = status;
 		this.price = price;
-		this.products = products;
+		this.productOrders = productOrders;
 	}
 
 	public Long getId() {
@@ -43,11 +43,11 @@ public class OrderDto implements Serializable {
 		this.price = price;
 	}
 
-	public Set<OrderProductDto> getProducts() {
-		return products;
+	public Set<ProductOrderDto> getProductOrders() {
+		return productOrders;
 	}
 
-	public void setProducts(Set<OrderProductDto> products) {
-		this.products = products;
+	public void setProductOrders(Set<ProductOrderDto> productOrders) {
+		this.productOrders = productOrders;
 	}
 }

@@ -13,14 +13,16 @@ import java.io.Serializable;
 public class ProductOrder extends BaseEntity implements Serializable {
 
 	private int quantity;
+	private double price;
 	private Order order;
 	private Product product;
 
 	public ProductOrder() {
 	}
 
-	public ProductOrder(int quantity, Order order, Product product) {
+	public ProductOrder(int quantity, Order order, double price, Product product) {
 		this.quantity = quantity;
+		this.price = price;
 		this.order = order;
 		this.product = product;
 	}
@@ -32,6 +34,15 @@ public class ProductOrder extends BaseEntity implements Serializable {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	@Column(name = "price")
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
 	}
 
 	@ManyToOne

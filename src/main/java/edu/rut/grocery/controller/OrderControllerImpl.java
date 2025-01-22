@@ -1,7 +1,7 @@
 package edu.rut.grocery.controller;
 
 import edu.rut.grocery.dto.OrderDto;
-import edu.rut.grocery.dto.OrderProductDto;
+import edu.rut.grocery.dto.ProductOrderDto;
 import edu.rut.grocery.service.AuthService;
 import edu.rut.grocery.service.BasketService;
 import edu.rut.grocery.service.OrderService;
@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Controller
@@ -37,6 +39,7 @@ public class OrderControllerImpl implements OrderController {
 	private final OrderService orderService;
 	private final BasketService basketService;
 	private final AuthService authService;
+	private static final Logger LOG = LogManager.getLogManager().getLogger("Logger");
 
 	public OrderControllerImpl(OrderService orderService, BasketService basketService, AuthService authService) {
 		this.orderService = orderService;
@@ -62,7 +65,7 @@ public class OrderControllerImpl implements OrderController {
 		List<OrderViewModel> orderViewModels = orders
 				.stream()
 				.map(o -> {
-					List<ProductOrderViewModel> productViewModels = o.getProducts().stream()
+					List<ProductOrderViewModel> productViewModels = o.getProductOrders().stream()
 							.map(p -> new ProductOrderViewModel(
 									p.getProductId(),
 									p.getProductName(),
@@ -115,7 +118,7 @@ public class OrderControllerImpl implements OrderController {
 
 		OrderDto order = orderService.getActiveOrder(customerId);
 
-		List<ProductOrderViewModel> products = order.getProducts().stream()
+		List<ProductOrderViewModel> products = order.getProductOrders().stream()
 				.map(po -> new ProductOrderViewModel(
 						po.getProductId(),
 						po.getProductName(),
@@ -135,12 +138,15 @@ public class OrderControllerImpl implements OrderController {
 		return "basket/basket-view";
 	}
 
-	@PostMapping("/delete")
+	@PostMapping("/remove")
 	public String removeProduct(@RequestParam Long productId,
-								@RequestParam int quantity,
-								Model model) {
+								Model model,
+								@AuthenticationPrincipal UserDetails userDetails) {
 
-		return "";
+		Long customerId = authService.getUser(userDetails.getUsername()).getCustomer().getId();
+		basketService.removeProduct(customerId, productId);
+
+		return "redirect:/orders/order";
 	}
 
 	@Override
@@ -184,7 +190,7 @@ public class OrderControllerImpl implements OrderController {
 				"Создан",
 				null,
 				form.productList().stream()
-						.map(p -> new OrderProductDto(p.productId(), p.productName(), p.quantity(), p.price()))
+						.map(p -> new ProductOrderDto(p.productId(), p.productName(), p.quantity(), p.price()))
 						.collect(Collectors.toSet()));
 
 		orderService.saveOrder(orderDto);

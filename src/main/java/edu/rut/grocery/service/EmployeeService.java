@@ -9,7 +9,7 @@ public interface EmployeeService {
 
 	EmployeeDto getEmployee(Long id);
 
-	String saveEmployee(EmployeeDto employeeDto);
+	Long saveEmployee(EmployeeDto employeeDto);
 
 	void deleteEmployee(Long id);
 

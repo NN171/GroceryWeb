@@ -13,6 +13,8 @@ import edu.rut.web.dto.product.ProductListViewModel;
 import edu.rut.web.dto.product.ProductSearchForm;
 import edu.rut.web.dto.product.ProductViewModel;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,13 +29,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.logging.Level;
 
 @Controller
 @RequestMapping("/products")
 public class ProductControllerImpl implements ProductController {
 
 	private final ProductService productService;
-
+	private static final Logger LOG = LoggerFactory.getLogger(ProductControllerImpl.class);
 
 	public ProductControllerImpl(ProductService productService) {
 		this.productService = productService;
@@ -48,6 +51,7 @@ public class ProductControllerImpl implements ProductController {
 	@GetMapping("/")
 	public String getProducts(@ModelAttribute("form") ProductSearchForm form, Model model) {
 
+		LOG.info("Получение списка продуктов");
 		int page = form.page() != null ? form.page() : 1;
 		int size = form.size() != null ? form.size() : 5;
 
@@ -83,6 +87,7 @@ public class ProductControllerImpl implements ProductController {
 	@GetMapping("/create")
 	public String createForm(Model model) {
 
+		LOG.info("Форма создания продукта");
 		CreateProductViewModel viewModel = new CreateProductViewModel(
 				createBaseViewModel("Create product")
 		);
@@ -101,6 +106,7 @@ public class ProductControllerImpl implements ProductController {
 							  BindingResult bindingResult,
 							  Model model) {
 
+		LOG.info("Создание продукта");
 		if (bindingResult.hasErrors()) {
 
 			CreateProductViewModel viewModel = new CreateProductViewModel(
@@ -109,6 +115,8 @@ public class ProductControllerImpl implements ProductController {
 
 			model.addAttribute("model", viewModel);
 			model.addAttribute("form", form);
+
+			LOG.warn("Ошибка при создании продукта");
 
 			return "product/product-create";
 		}
@@ -124,6 +132,7 @@ public class ProductControllerImpl implements ProductController {
 		);
 
 		productService.saveProduct(productDto);
+		LOG.info("Добавлен продукт {}", productDto);
 
 		return "redirect:/products/";
 	}
@@ -134,6 +143,7 @@ public class ProductControllerImpl implements ProductController {
 
 		productService.deleteProduct(id);
 
+		LOG.info("Удален продукт {}", id);
 		return "redirect:/products/";
 	}
 
@@ -144,6 +154,7 @@ public class ProductControllerImpl implements ProductController {
 								BindingResult bindingResult,
 								Model model) {
 
+		LOG.info("Обновление продукта {}", id);
 		if (bindingResult.hasErrors()) {
 			EditOrderViewModel viewModel = new EditOrderViewModel(
 					createBaseViewModel("Edit product")
@@ -165,6 +176,7 @@ public class ProductControllerImpl implements ProductController {
 
 		productService.updateProduct(productDto, id);
 
+		LOG.info("Обновлен продукт {}", productDto);
 		return "redirect:/products/";
 	}
 
@@ -172,6 +184,7 @@ public class ProductControllerImpl implements ProductController {
 	@GetMapping("/update/{id}")
 	public String updateForm(@PathVariable Long id, Model model) {
 
+		LOG.info("Форма обновления продукта");
 		ProductDto product = productService.getProduct(id);
 
 		EditProductViewModel viewModel = new EditProductViewModel(

@@ -57,7 +57,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	@CacheEvict(value = "getEmployees", allEntries = true)
-	public String saveEmployee(EmployeeDto employeeDto) {
+	public Long saveEmployee(EmployeeDto employeeDto) {
 		Employee employee = modelMapper.map(employeeDto, Employee.class);
 		Store store = storeRepository.findByAddress(employeeDto.getAddress())
 				.orElseThrow(() -> new EntityNotFoundException("Store not found"));
@@ -67,9 +67,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		store.setEmployeesNum(++employees);
 
 		storeRepository.save(store);
-		employeeRepository.save(employee);
 
-		return "employee saved";
+
+		return employeeRepository.save(employee).getId();
 	}
 
 	@Override

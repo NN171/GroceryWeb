@@ -12,11 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
 @Controller
 @RequestMapping("/users")
 public class UserController {
 
 	private final AuthService authService;
+	private static final Logger LOG = LogManager.getLogManager().getLogger(UserController.class.getName());
 
 	public UserController(AuthService authService) {
 		this.authService = authService;

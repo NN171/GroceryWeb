@@ -1,5 +1,6 @@
 package edu.rut.grocery.controller;
 
+import edu.rut.grocery.domain.Employee;
 import edu.rut.grocery.dto.EmployeeDto;
 import edu.rut.grocery.service.EmployeeService;
 import edu.rut.web.controllers.EmployeeController;
@@ -12,6 +13,8 @@ import edu.rut.web.dto.employee.EmployeeListViewModel;
 import edu.rut.web.dto.employee.EmployeeSearchForm;
 import edu.rut.web.dto.employee.EmployeeViewModel;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,12 +28,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.logging.Level;
 
 @Controller
 @RequestMapping("/employees")
 public class EmployeeControllerImpl implements EmployeeController {
 
 	private final EmployeeService employeeService;
+	private static final Logger LOG = LoggerFactory.getLogger(EmployeeControllerImpl.class);;
 
 	public EmployeeControllerImpl(EmployeeService employeeService) {
 		this.employeeService = employeeService;
@@ -46,6 +51,7 @@ public class EmployeeControllerImpl implements EmployeeController {
 	public String getEmployees(@ModelAttribute("form") EmployeeSearchForm form,
 							   Model model) {
 
+		LOG.info("Список сотрудников");
 		int page = form.page() != null ? form.page() : 1;
 		int size = form.size() != null ? form.size() : 5;
 
@@ -78,6 +84,7 @@ public class EmployeeControllerImpl implements EmployeeController {
 	@GetMapping("/create")
 	public String createForm(Model model) {
 
+		LOG.info("Форма создания сотрудника");
 		CreateEmployeeViewModel viewModel = new CreateEmployeeViewModel(
 				createBaseViewModel("Create employee")
 		);
@@ -96,6 +103,7 @@ public class EmployeeControllerImpl implements EmployeeController {
 			 BindingResult bindingResult,
 			 Model model) {
 
+		LOG.info("Создание сотрудника");
 		if (bindingResult.hasErrors()) {
 			CreateEmployeeViewModel viewModel = new CreateEmployeeViewModel(
 					createBaseViewModel("Create employee")
@@ -113,15 +121,17 @@ public class EmployeeControllerImpl implements EmployeeController {
 				form.phone(),
 				form.storeAddress());
 
-		employeeService.saveEmployee(employeeDto);
+		Long id = employeeService.saveEmployee(employeeDto);
+		LOG.info("Создан сотрудник {}", id);
 		return "redirect:/employees/";
 	}
 
 	@Override
 	@DeleteMapping("/delete/{id}")
 	public String deleteEmployee(@PathVariable Long id) {
-		employeeService.deleteEmployee(id);
 
+		employeeService.deleteEmployee(id);
+		LOG.info("Удален сотрудник {}", id);
 		return "redirect:/employees/";
 	}
 
@@ -133,6 +143,7 @@ public class EmployeeControllerImpl implements EmployeeController {
 			 BindingResult bindingResult,
 			 Model model) {
 
+		LOG.info("Обновление сотрудника {}", id);
 		if (bindingResult.hasErrors()) {
 			EditEmployeeViewModel viewModel = new EditEmployeeViewModel(
 					createBaseViewModel("Edit employee")
@@ -152,6 +163,7 @@ public class EmployeeControllerImpl implements EmployeeController {
 
 		employeeService.updateEmployee(employeeDto, id);
 
+		LOG.info("Обновлен работник {}", id);
 		return "redirect:/employees/";
 	}
 

@@ -2,17 +2,17 @@ package edu.rut.grocery.dto;
 
 import java.io.Serializable;
 
-public class OrderProductDto implements Serializable {
+public class ProductOrderDto implements Serializable {
 
 	private Long productId;
 	private String productName;
 	private int quantity;
 	private double price;
 
-	public OrderProductDto() {
+	public ProductOrderDto() {
 	}
 
-	public OrderProductDto(Long productId, String productName, int quantity, double price) {
+	public ProductOrderDto(Long productId, String productName, int quantity, double price) {
 		this.productId = productId;
 		this.productName = productName;
 		this.quantity = quantity;

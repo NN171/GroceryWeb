@@ -9,5 +9,5 @@ public interface OrderService {
 
 	OrderDto getActiveOrder(Long id);
 
-	String saveOrder(OrderDto orderDto);
+	void saveOrder(OrderDto orderDto);
 }

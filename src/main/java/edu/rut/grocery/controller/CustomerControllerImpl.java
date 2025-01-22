@@ -25,12 +25,16 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/customers")
 public class CustomerControllerImpl implements CustomerController {
 
 	private final CustomerService customerService;
+	private static final Logger LOG = LogManager.getLogManager().getLogger(CustomerControllerImpl.class.getName());
 
 	public CustomerControllerImpl(CustomerService customerService) {
 		this.customerService = customerService;
@@ -93,6 +97,7 @@ public class CustomerControllerImpl implements CustomerController {
 							   BindingResult bindingResult,
 							   Model model) {
 
+		LOG.log(Level.INFO, "Сохранение пользователя");
 		if (bindingResult.hasErrors()) {
 			CreateCustomerViewModel viewModel = new CreateCustomerViewModel(
 					createBaseViewModel("Create customer")
@@ -111,6 +116,7 @@ public class CustomerControllerImpl implements CustomerController {
 				null,
 				0);
 
+		LOG.log(Level.INFO, "Создан пользователь" + customerDto);
 		customerService.saveCustomer(customerDto);
 		return "redirect:/customers";
 	}
@@ -120,6 +126,8 @@ public class CustomerControllerImpl implements CustomerController {
 	public String deleteCustomer(@PathVariable Long id) {
 
 		customerService.deleteCustomer(id);
+		LOG.log(Level.INFO, "Пользователь " + id + " удален");
+
 		return "redirect:/customers/";
 	}
 
@@ -130,6 +138,7 @@ public class CustomerControllerImpl implements CustomerController {
 								 BindingResult bindingResult,
 								 Model model) {
 
+		LOG.log(Level.INFO, "Обновление пользователя");
 		if (bindingResult.hasErrors()) {
 			EditCustomerViewModel viewModel = new EditCustomerViewModel(
 					createBaseViewModel("Edit customer")
@@ -148,6 +157,7 @@ public class CustomerControllerImpl implements CustomerController {
 				customerService.calculateOrders(id),
 				customerService.calculateDiscount(id));
 
+		LOG.log(Level.INFO, "Пользователь " + customerDto + " обновлен");
 		customerService.updateCustomer(customerDto, id);
 		return "redirect:/customers/";
 	}

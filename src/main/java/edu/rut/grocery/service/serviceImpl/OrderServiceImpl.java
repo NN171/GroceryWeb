@@ -2,7 +2,7 @@ package edu.rut.grocery.service.serviceImpl;
 
 import edu.rut.grocery.domain.Order;
 import edu.rut.grocery.dto.OrderDto;
-import edu.rut.grocery.dto.OrderProductDto;
+import edu.rut.grocery.dto.ProductOrderDto;
 import edu.rut.grocery.repository.OrderRepository;
 import edu.rut.grocery.repository.ProductRepository;
 import edu.rut.grocery.service.OrderService;
@@ -60,11 +60,11 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	@CacheEvict(value = "getOrders", allEntries = true)
-	public String saveOrder(OrderDto orderDto) {
+	public void saveOrder(OrderDto orderDto) {
 
 		double orderCost = 0;
 
-		for (OrderProductDto product : orderDto.getProducts()) {
+		for (ProductOrderDto product : orderDto.getProductOrders()) {
 
 			orderCost += product.getPrice() * product.getQuantity();
 		}
@@ -75,7 +75,5 @@ public class OrderServiceImpl implements OrderService {
 		order.setPrice(orderCost * discount * 0.01);
 
 		orderRepository.save(order);
-
-		return "Order saved";
 	}
 }
